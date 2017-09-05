@@ -1,6 +1,15 @@
-#!/usr/bin/env python3
+'''
+@author: Hugo Araujo de Sousa [2013007463]
+@DCC191
+'''
 
-functions = ['+', '-', '/', '*']
+
+functions = {
+	'+': (lambda x, y: x + y),
+	'-': (lambda x, y: x + y),
+	'*': (lambda x, y: x * y),
+	'/': (lambda x, y: x / y)
+}
 
 
 class Node():
@@ -11,7 +20,11 @@ class Node():
 		self.rchild = rchild
 	
 	def eval(self):
-		
+		if (self.lchild == None or self.rchild == None):
+			return self.element
+		else:
+			return functions[self.element](self.lchild.eval(), self.rchild.eval())
+
 
 class Individual():
 	
@@ -21,4 +34,3 @@ class Individual():
 	def eval(self):
 		return self.root.eval()
 
-Node()
