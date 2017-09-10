@@ -1,3 +1,5 @@
+#!/usr/bin/env python3
+
 '''
 individual.py
 @author: Hugo Araujo de Sousa [2013007463]
@@ -19,9 +21,16 @@ MINUS = '-'
 MULT = '*'
 DIV = '/'
 
+FUNCTIONS_STR = [
+	PLUS,
+	MINUS,
+	MULT,
+	DIV
+]
+
 FUNCTIONS = {
 	PLUS: (lambda x, y: x + y),
-	MINUS: (lambda x, y: x + y),
+	MINUS: (lambda x, y: x - y),
 	MULT: (lambda x, y: x * y),
 	DIV: (lambda x, y: x / y if y !=0 else 1),
 }
@@ -58,10 +67,8 @@ class Node():
 		ntype = random.choice(ntypes)
 
 		if (ntype == FUN):
-			ftuple = random.choice(list(FUNCTIONS.items()))
-			ftype = ftuple[0]
-			function = ftuple[1]
-			element = (function, ftype)
+			operator = random.choice(FUNCTIONS_STR)
+			element = (operator, FUNCTIONS[operator])
 		elif (ntype == VAR):
 			element = random.randint(0, num_var-1)
 		else:
@@ -79,7 +86,7 @@ class Node():
 		if (etype == FUN): # Node is a function.
 			left = self.lchild.eval(x)
 			right = self.rchild.eval(x)
-			operator = self.element[0]
+			operator = self.element[1]
 			return operator(left, right)
 		elif (etype == VAR): # Node is a variable.
 			index = self.element
@@ -95,7 +102,7 @@ class Node():
 			return ''
 		else:
 			if self.etype == FUN:
-				return '(' + self.lchild.__str__() + self.element[1] + \
+				return '(' + self.lchild.__str__() + self.element[0] + \
 					self.rchild.__str__() + ')'
 			elif self.etype == VAR:
 				return '(x' + str(self.element) + ')'
