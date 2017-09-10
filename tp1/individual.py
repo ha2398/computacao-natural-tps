@@ -58,7 +58,10 @@ class Node():
 		ntype = random.choice(ntypes)
 
 		if (ntype == FUN):
-			element = random.choice(list(FUNCTIONS.items()))[1]
+			ftuple = random.choice(list(FUNCTIONS.items()))
+			ftype = ftuple[0]
+			function = ftuple[1]
+			element = (function, ftype)
 		elif (ntype == VAR):
 			element = random.randint(0, num_var-1)
 		else:
@@ -76,13 +79,28 @@ class Node():
 		if (etype == FUN): # Node is a function.
 			left = self.lchild.eval(x)
 			right = self.rchild.eval(x)
-			operator = self.element
+			operator = self.element[0]
 			return operator(left, right)
 		elif (etype == VAR): # Node is a variable.
 			index = self.element
 			return x[index]
 		else: # Node is a constant.
 			return self.element
+
+	def __str__(self):
+		''' Creates a string representation of the node.
+			@return: string that represents the node. '''
+
+		if self == None:
+			return ''
+		else:
+			if self.etype == FUN:
+				return '(' + self.lchild.__str__() + self.element[1] + \
+					self.rchild.__str__() + ')'
+			elif self.etype == VAR:
+				return '(x' + str(self.element) + ')'
+			else:
+				return str(self.element)
 
 
 class Individual():
@@ -149,6 +167,7 @@ class Individual():
 			@max_depth: Maximum depth of the Individual trees.
 			@num_var: Number of variables the individual tree may contain.
 			@return: A random Grow Individual. '''
+
 		root = Node.new_random(num_var, MIN_CONST, MAX_CONST, NTYPES)
 		# Pushes to stack the current node and its depth.
 		stack = [(root, 0)]
@@ -158,9 +177,6 @@ class Individual():
 			current = stack.pop(0)
 			node = current[0]
 			depth = current[1]
-
-			if (depth + 1) > max_depth: # Leaf nodes.
-				continue
 
 			# Only expands subtree if the node is of type FUN.
 			if node.etype == FUN:
@@ -189,9 +205,20 @@ class Individual():
 			@num_var: Number of variables the individual tree may contain.
 			@return: A random population. '''
 
-		population_full = [Individual.full(max_depth, num_var) \
-			for x in range(psize//2)]
-		population_grow = [Individual.grow(max_depth, num_var) \
-			for x in range(psize//2)]
+		amount_each = psize // (max_depth - 1)
+		population = []
 
-		return population_full + population_grow
+		for depth in range(2, max_depth+1):
+			population_full = [Individual.full(depth, num_var) \
+				for x in range(amount_each//2)]
+			population_grow = [Individual.grow(depth, num_var) \
+				for x in range(amount_each//2)]
+
+			population = population + population_full + population_grow
+
+		return population
+
+	def __str__(self):
+		''' Creates a string representation of the individual.
+			@return: string that represents the individual. '''
+		return self.root.__str__()
