@@ -125,21 +125,73 @@ class Individual():
 			depth += 1
 
 			for node in former_level:
-				left = Node.new_random(num_var, MIN_CONST, MAX_CONST, [FUN])
-				right = Node.new_random(num_var, MIN_CONST, MAX_CONST, [FUN])
-				node.lchild = left
-				node.rchild = right
-				level.append(left)
-				level.append(right)
+				node.lchild = \
+					Node.new_random(num_var, MIN_CONST, MAX_CONST, [FUN])
+				node.rchild = \
+					Node.new_random(num_var, MIN_CONST, MAX_CONST, [FUN])
+				level.append(node.lchild)
+				level.append(node.rchild)
 
 			former_level = level
 			level = []
 
 		# Creates leaf nodes.
 		for node in former_level:
-			left = Node.new_random(num_var, MIN_CONST, MAX_CONST, [VAR, CONST])
-			right = Node.new_random(num_var, MIN_CONST, MAX_CONST, [VAR, CONST])
-			node.lchild = left
-			node.rchild = right
+			node.lchild = \
+				Node.new_random(num_var, MIN_CONST, MAX_CONST, [VAR, CONST])
+			node.rchild = \
+				Node.new_random(num_var, MIN_CONST, MAX_CONST, [VAR, CONST])
 
 		return Individual(root)
+
+	def grow(max_depth, num_var):
+		''' Creates a new Individual, using the Grow method.
+			@max_depth: Maximum depth of the Individual trees.
+			@num_var: Number of variables the individual tree may contain.
+			@return: A random Grow Individual. '''
+		root = Node.new_random(num_var, MIN_CONST, MAX_CONST, NTYPES)
+		# Pushes to stack the current node and its depth.
+		stack = [(root, 0)]
+
+		# Fills tree with random nodes.
+		while len(stack) != 0:
+			current = stack.pop(0)
+			node = current[0]
+			depth = current[1]
+
+			if (depth + 1) > max_depth: # Leaf nodes.
+				continue
+
+			# Only expands subtree if the node is of type FUN.
+			if node.etype == FUN:
+				if (depth + 1) == max_depth: # Next level is leaves level.
+					node.lchild = \
+						Node.new_random(num_var, MIN_CONST, MAX_CONST, \
+						[VAR, CONST])
+					node.rchild = \
+						Node.new_random(num_var, MIN_CONST, MAX_CONST, \
+						[VAR, CONST])
+				else:
+					node.lchild = \
+						Node.new_random(num_var, MIN_CONST, MAX_CONST, NTYPES)
+					node.rchild = \
+						Node.new_random(num_var, MIN_CONST, MAX_CONST, NTYPES)
+
+				stack.append((node.lchild, depth+1))
+				stack.append((node.rchild, depth+1))
+
+		return Individual(root)
+
+	def ramped_half(psize, max_depth, num_var):
+		''' Creates a random population, using the Ramped Half and Half method.
+			@psize: Number of individuals in the population.
+			@max_depth: Maximum depth of the Individual trees.
+			@num_var: Number of variables the individual tree may contain.
+			@return: A random population. '''
+
+		population_full = [Individual.full(max_depth, num_var) \
+			for x in range(psize//2)]
+		population_grow = [Individual.grow(max_depth, num_var) \
+			for x in range(psize//2)]
+
+		return population_full + population_grow
