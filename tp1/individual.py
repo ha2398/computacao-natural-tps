@@ -113,6 +113,7 @@ class Node():
 class Individual():
 	
 	def __init__(self, root = None):
+		self.last_fitness = None
 		self.root = root
 	
 	def eval(self, x):
@@ -132,7 +133,9 @@ class Individual():
 		n = len(y)
 		evals = [self.eval(x) for x in x_list]
 		error = [(a - b)**2 for a,b in zip(evals, y)]
-		return ((1/float(n)) * sum(error)) ** 0.5
+		result = ((1/float(n)) * sum(error)) ** 0.5
+		self.last_fitness = result
+		return result
 
 	def full(max_depth, num_var):
 		''' Creates a new Individual, using the Full method.

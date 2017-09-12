@@ -23,6 +23,8 @@ parser.add_argument('-s', dest='RSEED', default=0, type=int,
 	help='Random number generation seed')
 parser.add_argument('-p', dest='POP_SIZE', default=0, type=int,
 	help='Population size')
+parser.add_argument('-k', dest='KTOUR', default=7, type=int,
+	help='Number of individuals to be selected using Tournament Selection')
 
 args = parser.parse_args()
 
@@ -31,6 +33,7 @@ import random
 random.seed(args.RSEED)
 
 import individual as ind
+import gp
 
 
 ################################################################################
@@ -41,7 +44,7 @@ def list_from_csv(filename):
 		@filename: CSV file name;
 		@return: List of lists with the file's content. '''
 	file = open(filename, 'r')
-	reader = csv.reader(file)
+	reader = csv.reader(file ,quoting=csv.QUOTE_NONNUMERIC)
 	csv_list = list(reader)
 	file.close()
 
@@ -53,15 +56,19 @@ def main():
 
 	# Obtains the input data.
 	train_data = list_from_csv(args.TRAIN_FILE)
-	test_data = list_from_csv(args.TEST_FILE)
+	train_xs = [x[:-1] for x in train_data]
+	train_y = [x[-1] for x in train_data]
 
-	num_var = len(train_data[0]) - 1
+	test_data = list_from_csv(args.TEST_FILE)
+	test_xs = [x[:-1] for x in test_data]
+	test_y = [x[-1] for x in test_data]
+
+	num_var = len(train_xs[0]) - 1
 
 	population = ind.Individual.ramped_half(args.POP_SIZE, args.MAX_DEPTH, \
 		num_var)
 
-	for individual in population:
-		print(individual)
+	best = gp.tournament_selection(population, args.KTOUR, train_xs, train_y)
 
 
 main()
