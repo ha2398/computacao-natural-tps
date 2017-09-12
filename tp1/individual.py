@@ -112,9 +112,10 @@ class Node():
 
 class Individual():
 	
-	def __init__(self, root = None):
+	def __init__(self, root = None, size = 0):
 		self.last_fitness = None
 		self.root = root
+		self.size = size
 	
 	def eval(self, x):
 		''' Evaluate the individual.
@@ -144,6 +145,7 @@ class Individual():
 			@return: A random Full Individual. '''
 
 		root = Node.new_random(num_var, MIN_CONST, MAX_CONST, [FUN])
+		size = 1
 		former_level = [root]
 		level = []
 		depth = 1
@@ -160,6 +162,8 @@ class Individual():
 				level.append(node.lchild)
 				level.append(node.rchild)
 
+				size += 2
+
 			former_level = level
 			level = []
 
@@ -170,7 +174,9 @@ class Individual():
 			node.rchild = \
 				Node.new_random(num_var, MIN_CONST, MAX_CONST, [VAR, CONST])
 
-		return Individual(root)
+			size += 2
+
+		return Individual(root, size)
 
 	def grow(max_depth, num_var):
 		''' Creates a new Individual, using the Grow method.
@@ -179,6 +185,8 @@ class Individual():
 			@return: A random Grow Individual. '''
 
 		root = Node.new_random(num_var, MIN_CONST, MAX_CONST, NTYPES)
+		size = 1
+
 		# Pushes to stack the current node and its depth.
 		stack = [(root, 0)]
 
@@ -197,16 +205,20 @@ class Individual():
 					node.rchild = \
 						Node.new_random(num_var, MIN_CONST, MAX_CONST, \
 						[VAR, CONST])
+
+					size += 2
 				else:
 					node.lchild = \
 						Node.new_random(num_var, MIN_CONST, MAX_CONST, NTYPES)
 					node.rchild = \
 						Node.new_random(num_var, MIN_CONST, MAX_CONST, NTYPES)
 
+					size += 2
+
 				stack.append((node.lchild, depth+1))
 				stack.append((node.rchild, depth+1))
 
-		return Individual(root)
+		return Individual(root, size)
 
 	def ramped_half(psize, max_depth, num_var):
 		''' Creates a random population, using the Ramped Half and Half method.

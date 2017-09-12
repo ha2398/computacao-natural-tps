@@ -12,19 +12,21 @@ import csv
 # Adds optional command line arguments to the program.
 parser = argparse.ArgumentParser()
 
-parser.add_argument('TRAIN_FILE', metavar='train', type=str,
+parser.add_argument('TRAIN_FILE', metavar='train_file', type=str,
 	help='Name of training data file')
-parser.add_argument('TEST_FILE', metavar='test', type=str,
+parser.add_argument('TEST_FILE', metavar='test_file', type=str,
 	help='Name of test data file')
 
 parser.add_argument('-d', dest='MAX_DEPTH', default=7, type=int,
 	help='Maximum depth of the individual trees')
 parser.add_argument('-s', dest='RSEED', default=0, type=int,
 	help='Random number generation seed')
-parser.add_argument('-p', dest='POP_SIZE', default=0, type=int,
+parser.add_argument('-p', dest='POP_SIZE', default=54, type=int,
 	help='Population size')
 parser.add_argument('-k', dest='KTOUR', default=7, type=int,
 	help='Number of individuals to be selected using Tournament Selection')
+parser.add_argument('-g', dest='NGEN', default=10, type=int,
+	help='Number of generations to run the program for')
 
 args = parser.parse_args()
 
@@ -68,7 +70,19 @@ def main():
 	population = ind.Individual.ramped_half(args.POP_SIZE, args.MAX_DEPTH, \
 		num_var)
 
-	best = gp.tournament_selection(population, args.KTOUR, train_xs, train_y)
+	# Main GP loop.
+	for generation in range(args.NGEN):
+		# Selects individuals to be parents of the next generation.
+		parent1 = \
+			gp.tournament_selection(population, args.KTOUR, train_xs, train_y)
+
+		parent2 = \
+			gp.tournament_selection(population, args.KTOUR, train_xs, train_y)
+
+		# Elitism.
+		#population = [parent1, parent2]
+
+
 
 
 main()

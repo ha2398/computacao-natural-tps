@@ -6,6 +6,7 @@ gp.py
 @DCC191
 '''
 
+import copy as cp
 import individual as ind
 import operator as op
 import random
@@ -24,6 +25,22 @@ def tournament_selection(population, k, xs, y):
 	for candidate in selected:
 		candidate.fitness(xs, y)
 
-	best = max(selected, key=op.attrgetter('last_fitness'))
+	best = min(selected, key=op.attrgetter('last_fitness'))
 
 	return best
+
+def pick_crossover_subtree(individual):
+	''' Selects a random individual subtree to perform subtree crossover.
+		@individual: Individual to crossover.
+		@return: A random Node to crossover. '''
+	
+
+def subtree_crossover(parent1, parent2):
+	''' Given two parents, produces two new individuals using the subtree
+		crossover method.
+		@parent1: First parent.
+		@parent2: Second parent.
+		@return: A list with the parent's offspring. '''
+	child1 = cp.deepcopy(parent1)
+	child2 = cp.deepcopy(parent2)
+
