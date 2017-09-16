@@ -6,7 +6,7 @@ individual.py
 @DCC191
 '''
 
-import random
+import numpy as np
 
 # Types of nodes in the individual tree.
 FUN = 'Function'
@@ -14,6 +14,8 @@ VAR = 'Variable'
 CONST = 'Constant'
 
 NTYPES = [FUN, VAR, CONST]
+NUM_TYPES = len(NTYPES)
+PROB = [1/(NUM_TYPES) for i in range(NUM_TYPES)]
 
 # Available functions.
 PLUS = '+'
@@ -55,24 +57,25 @@ class Node():
 		self.lchild = lchild
 		self.rchild = rchild
 
-	def new_random(num_var, min_const, max_const, ntypes = NTYPES):
+	def new_random(num_var, min_const, max_const, prob = PROB, ntypes = NTYPES):
 		''' Generates a new random Node.
 			@num_var: Number of variables the individual tree may contain.
 			@min_const: Smallest possible constant value for constant type
 			nodes.
 			@max_const: Largest possible constant value for constant type nodes.
+			@prob: probabilities of choosing each type.
 			@ntypes: List with possible node types for the node to be generated.
 			@return: A random Node.'''
 
-		ntype = random.choice(ntypes)
+		ntype = np.random.choice(ntypes, p=prob)
 
 		if (ntype == FUN):
-			operator = random.choice(FUNCTIONS_STR)
+			operator = np.random.choice(FUNCTIONS_STR)
 			element = (operator, FUNCTIONS[operator])
 		elif (ntype == VAR):
-			element = random.randint(0, num_var-1)
+			element = np.random.randint(0, num_var)
 		else:
-			element = random.uniform(min_const, max_const)
+			element = np.random.uniform(min_const, max_const)
 
 		return Node(ntype, element)
 	
@@ -113,7 +116,7 @@ class Node():
 class Individual():
 	
 	def __init__(self, root = None, size = 0):
-		self.last_fitness = None
+		self.fitness = None
 		self.root = root
 		self.size = size
 	
@@ -124,7 +127,7 @@ class Individual():
 
 		return self.root.eval(x)
 
-	def fitness(self, x_list, y):
+	def calculate_fitness(self, x_list, y):
 		''' Calculate the individual's fitness.
 			@x_list: 2-dimensional list with the variable values for each
 			function point. 
@@ -134,9 +137,8 @@ class Individual():
 		n = len(y)
 		evals = [self.eval(x) for x in x_list]
 		error = [(a - b)**2 for a,b in zip(evals, y)]
-		result = ((1/float(n)) * sum(error)) ** 0.5
-		self.last_fitness = result
-		return result
+		result = ((1/n) * sum(error)) ** 0.5
+		self.fitness = result
 
 	def full(max_depth, num_var):
 		''' Creates a new Individual, using the Full method.
@@ -144,7 +146,7 @@ class Individual():
 			@num_var: Number of variables the individual tree may contain.
 			@return: A random Full Individual. '''
 
-		root = Node.new_random(num_var, MIN_CONST, MAX_CONST, [FUN])
+		root = Node.new_random(num_var, MIN_CONST, MAX_CONST, [1], [FUN])
 		size = 1
 		former_level = [root]
 		level = []
@@ -156,9 +158,9 @@ class Individual():
 
 			for node in former_level:
 				node.lchild = \
-					Node.new_random(num_var, MIN_CONST, MAX_CONST, [FUN])
+					Node.new_random(num_var, MIN_CONST, MAX_CONST, [1], [FUN])
 				node.rchild = \
-					Node.new_random(num_var, MIN_CONST, MAX_CONST, [FUN])
+					Node.new_random(num_var, MIN_CONST, MAX_CONST, [1], [FUN])
 				level.append(node.lchild)
 				level.append(node.rchild)
 
@@ -170,9 +172,11 @@ class Individual():
 		# Creates leaf nodes.
 		for node in former_level:
 			node.lchild = \
-				Node.new_random(num_var, MIN_CONST, MAX_CONST, [VAR, CONST])
+				Node.new_random(num_var, MIN_CONST, MAX_CONST, [0.5, 0.5],
+				[VAR, CONST])
 			node.rchild = \
-				Node.new_random(num_var, MIN_CONST, MAX_CONST, [VAR, CONST])
+				Node.new_random(num_var, MIN_CONST, MAX_CONST, [0.5, 0.5],
+				[VAR, CONST])
 
 			size += 2
 
@@ -184,7 +188,10 @@ class Individual():
 			@num_var: Number of variables the individual tree may contain.
 			@return: A random Grow Individual. '''
 
-		root = Node.new_random(num_var, MIN_CONST, MAX_CONST, NTYPES)
+		grow_probs = [0.8, 0.1, 0.1]
+
+		root = Node.new_random(num_var, MIN_CONST, MAX_CONST, grow_probs,
+			NTYPES)
 		size = 1
 
 		# Pushes to stack the current node and its depth.
@@ -200,18 +207,20 @@ class Individual():
 			if node.etype == FUN:
 				if (depth + 1) == max_depth: # Next level is leaves level.
 					node.lchild = \
-						Node.new_random(num_var, MIN_CONST, MAX_CONST, \
-						[VAR, CONST])
+						Node.new_random(num_var, MIN_CONST, MAX_CONST,
+						[0.5, 0.5], [VAR, CONST])
 					node.rchild = \
-						Node.new_random(num_var, MIN_CONST, MAX_CONST, \
-						[VAR, CONST])
+						Node.new_random(num_var, MIN_CONST, MAX_CONST,
+						[0.5, 0.5], [VAR, CONST])
 
 					size += 2
 				else:
 					node.lchild = \
-						Node.new_random(num_var, MIN_CONST, MAX_CONST, NTYPES)
+						Node.new_random(num_var, MIN_CONST, MAX_CONST,
+							grow_probs, NTYPES)
 					node.rchild = \
-						Node.new_random(num_var, MIN_CONST, MAX_CONST, NTYPES)
+						Node.new_random(num_var, MIN_CONST, MAX_CONST,
+							grow_probs, NTYPES)
 
 					size += 2
 
@@ -231,9 +240,9 @@ class Individual():
 		population = []
 
 		for depth in range(2, max_depth+1):
-			population_full = [Individual.full(depth, num_var) \
+			population_full = [Individual.full(depth, num_var)
 				for x in range(amount_each//2)]
-			population_grow = [Individual.grow(depth, num_var) \
+			population_grow = [Individual.grow(depth, num_var)
 				for x in range(amount_each//2)]
 
 			population = population + population_full + population_grow
