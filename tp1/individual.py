@@ -46,7 +46,8 @@ MIN_CONST = -100
 
 class Node():
 
-	def __init__(self, etype, element, lchild = None, rchild = None):
+	def __init__(self, etype, element, parent = None, lchild = None,
+			rchild = None):
 		''' @etype: Type of the node.
 			@dlement: Actual element the node holds.
 			@lchild: Left child.
@@ -54,10 +55,12 @@ class Node():
 
 		self.etype = etype
 		self.element = element
+		self.parent = parent
 		self.lchild = lchild
 		self.rchild = rchild
 
-	def new_random(num_var, min_const, max_const, prob = PROB, ntypes = NTYPES):
+	def new_random(parent, num_var, min_const, max_const, prob = PROB,
+		ntypes = NTYPES):
 		''' Generates a new random Node.
 			@num_var: Number of variables the individual tree may contain.
 			@min_const: Smallest possible constant value for constant type
@@ -77,7 +80,7 @@ class Node():
 		else:
 			element = np.random.uniform(min_const, max_const)
 
-		return Node(ntype, element)
+		return Node(ntype, element, parent)
 	
 	def eval(self, x):
 		''' Evaluate the node.
@@ -119,7 +122,22 @@ class Individual():
 		self.fitness = None
 		self.root = root
 		self.size = size
-	
+
+	def get_node(self, index):
+		''' Gets a node by index. 
+			@index: Index of node to retrieve. 
+			@return: Node at given index in the individual. '''
+		stack = [self.root]
+		current = 0
+
+		while current < index:
+			node = stack.pop(0)
+			stack.append(node.lchild)
+			stack.append(node.rchild)
+			current += 1
+
+		return stack.pop(0)
+
 	def eval(self, x):
 		''' Evaluate the individual.
 			@x: List of values for each variable in the tree.
@@ -146,7 +164,7 @@ class Individual():
 			@num_var: Number of variables the individual tree may contain.
 			@return: A random Full Individual. '''
 
-		root = Node.new_random(num_var, MIN_CONST, MAX_CONST, [1], [FUN])
+		root = Node.new_random(None, num_var, MIN_CONST, MAX_CONST, [1], [FUN])
 		size = 1
 		former_level = [root]
 		level = []
@@ -158,9 +176,11 @@ class Individual():
 
 			for node in former_level:
 				node.lchild = \
-					Node.new_random(num_var, MIN_CONST, MAX_CONST, [1], [FUN])
+					Node.new_random(node, num_var, MIN_CONST, MAX_CONST, [1],
+					[FUN])
 				node.rchild = \
-					Node.new_random(num_var, MIN_CONST, MAX_CONST, [1], [FUN])
+					Node.new_random(node, num_var, MIN_CONST, MAX_CONST, [1],
+					[FUN])
 				level.append(node.lchild)
 				level.append(node.rchild)
 
@@ -172,10 +192,10 @@ class Individual():
 		# Creates leaf nodes.
 		for node in former_level:
 			node.lchild = \
-				Node.new_random(num_var, MIN_CONST, MAX_CONST, [0.5, 0.5],
+				Node.new_random(node, num_var, MIN_CONST, MAX_CONST, [0.5, 0.5],
 				[VAR, CONST])
 			node.rchild = \
-				Node.new_random(num_var, MIN_CONST, MAX_CONST, [0.5, 0.5],
+				Node.new_random(node, num_var, MIN_CONST, MAX_CONST, [0.5, 0.5],
 				[VAR, CONST])
 
 			size += 2
@@ -190,7 +210,7 @@ class Individual():
 
 		grow_probs = [0.8, 0.1, 0.1]
 
-		root = Node.new_random(num_var, MIN_CONST, MAX_CONST, grow_probs,
+		root = Node.new_random(None, num_var, MIN_CONST, MAX_CONST, grow_probs,
 			NTYPES)
 		size = 1
 
@@ -207,19 +227,19 @@ class Individual():
 			if node.etype == FUN:
 				if (depth + 1) == max_depth: # Next level is leaves level.
 					node.lchild = \
-						Node.new_random(num_var, MIN_CONST, MAX_CONST,
+						Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
 						[0.5, 0.5], [VAR, CONST])
 					node.rchild = \
-						Node.new_random(num_var, MIN_CONST, MAX_CONST,
+						Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
 						[0.5, 0.5], [VAR, CONST])
 
 					size += 2
 				else:
 					node.lchild = \
-						Node.new_random(num_var, MIN_CONST, MAX_CONST,
+						Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
 							grow_probs, NTYPES)
 					node.rchild = \
-						Node.new_random(num_var, MIN_CONST, MAX_CONST,
+						Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
 							grow_probs, NTYPES)
 
 					size += 2

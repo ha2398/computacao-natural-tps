@@ -58,7 +58,7 @@ def tournament_selection(population, k):
 	return get_best(selected)
 
 
-def subtree_crossover(parent1, parent2):
+def subtree_crossover(parent1, parent2): # TODO
 	''' Given two parents, produces two new individuals using the subtree
 		crossover method.
 		@parent1: First parent.
@@ -67,3 +67,41 @@ def subtree_crossover(parent1, parent2):
 
 	child1 = cp.deepcopy(parent1)
 	child2 = cp.deepcopy(parent2)
+
+	crossover_point1 = np.random.choice(list(range(child1.size)))
+	crossover_point2 = np.random.choice(list(range(child2.size)))
+
+	node1 = child1.get_node(crossover_point1)
+	node2 = child2.get_node(crossover_point2)
+
+	# Swap subtrees
+	# Moves Node 1 to Child 2.
+	if (node2.parent == None): # Node 2 is root.
+		child2.root = node1
+	else: # Node 2 isn't root.
+		if (node2.parent.lchild == node2): # Node 2 is left child.
+			node2.parent.lchild = node1
+		else: # Node 2 is right child.
+			node2.parent.rchild = node1
+
+	# Moves Node 2 to Child 1.
+	if (node1.parent == None): # Node 1 is root.
+		child1.root = node2
+	else: # Node 1 isn't root.
+		if (node1.parent.lchild == node1): # Node 1 is left child.
+			node1.parent.lchild = node2
+		else:
+			 # Node 1 is right child.
+			 node1.parent.rchild = node2
+
+	return [child1, child2]
+
+
+def reproduction(population):
+	''' Reproduces the best individual to the next generation.
+		@population: Population that contains the individual.
+		@return: The best individual from the given population. '''
+
+	best = get_best(population)
+	population.remove(best)
+	return best

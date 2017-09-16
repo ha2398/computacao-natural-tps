@@ -26,7 +26,7 @@ parser.add_argument('-s', dest='RSEED', default=0, type=int,
 parser.add_argument('-p', dest='POP_SIZE', default=54, type=int,
 	help='Population size')
 parser.add_argument('-k', dest='KTOUR', default=7, type=int,
-	help='Number of individuals to be selected using Tournament Selection')
+	help='Number of individuals to participate in tournaments')
 parser.add_argument('-g', dest='NGEN', default=10, type=int,
 	help='Number of generations to run the program for')
 parser.add_argument('-o', dest='OUTFILE', default='stdout', type=str,
@@ -118,17 +118,20 @@ def main():
 			operator = gp.select_genetic_operator(GEN_OP_PROB)
 
 			if (operator == gp.CROSS): # Crossover
-				pass
+				parent1 = gp.tournament_selection(population, args.KTOUR)
+				parent2 = gp.tournament_selection(population, args.KTOUR)
+				children = children + gp.subtree_crossover(parent1. parent2)
 			elif (operator == gp.MUTAT): # Mutation
 				pass
 			else: # Reproduction
-				pass
+				children.append(gp.reproduction(population))
 
 		gp.evaluate_population(children)
 		best = gp.get_best(children)
 		population = children
 
-	return best
+	print(best.fitness)
+	outfile.close()
 
 
 ################################################################################
