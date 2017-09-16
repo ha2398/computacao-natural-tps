@@ -101,11 +101,8 @@ def main():
 		num_var)
 	outfile.write('\tDone.\n')
 
-	start = time.time()
 	# Evaluate the individuals.
 	gp.evaluate_population(population, train_xs, train_y)
-	end = time.time()
-	print('Time to evaluate population: ' + str(end - start))
 
 	best = gp.get_best(population)
 
@@ -130,7 +127,11 @@ def main():
 		best = gp.get_best(children)
 		population = children
 
-	print(best.fitness)
+	p1 = gp.reproduction(population)
+	p2 = gp.reproduction(population)
+	
+	a = gp.subtree_crossover(p1, p2)
+
 	outfile.close()
 
 

@@ -132,9 +132,13 @@ class Individual():
 
 		while current < index:
 			node = stack.pop(0)
-			stack.append(node.lchild)
-			stack.append(node.rchild)
 			current += 1
+
+			if (node.lchild != None):
+				stack.append(node.lchild)
+
+			if (node.rchild != None):
+				stack.append(node.rchild)
 
 		return stack.pop(0)
 
