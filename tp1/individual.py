@@ -82,6 +82,23 @@ class Node():
 
 		return Node(ntype, element, parent)
 	
+	def count_subtree(self):
+		''' Counts the amount of nodes in this subtree.
+			@return: Amount of nodes in this node's subtree (inclusive). '''
+		stack = [self]
+		count = 0
+
+		while len(stack) != 0:
+			count += 1
+			node = stack.pop(0)
+
+			if (node.lchild != None):
+				stack.append(node.lchild)
+			if (node.rchild != None):
+				stack.append(node.rchild)
+
+		return count
+
 	def eval(self, x):
 		''' Evaluate the node.
 			@x: List of values for each variable in the tree.
@@ -127,6 +144,7 @@ class Individual():
 		''' Gets a node by index. 
 			@index: Index of node to retrieve. 
 			@return: Node at given index in the individual. '''
+
 		stack = [self.root]
 		current = 0
 

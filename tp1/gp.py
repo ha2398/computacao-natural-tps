@@ -94,6 +94,10 @@ def subtree_crossover(parent1, parent2): # TODO
 			 # Node 1 is right child.
 			 node1.parent.rchild = node2
 
+	# Updates sizes
+	child1.size = child1.root.count_subtree()
+	child2.size = child2.root.count_subtree()
+
 	return [child1, child2]
 
 

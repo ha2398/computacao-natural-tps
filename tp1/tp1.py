@@ -82,24 +82,15 @@ def main():
 
 	GEN_OP_PROB = [args.CROSSR, args.MUTR, args.REPR]
 
-	if (args.OUTFILE == 'stdout'):
-		outfile = sys.stdout
-	else:
-		outfile = open(args.OUTFILE, 'w')
-
 	# Obtains the input data.
-	outfile.write('[+] Reading from input data files.\n')
 	train_xs, train_y = get_data(args.TRAIN_FILE)
 	test_xs, test_y = get_data(args.TEST_FILE)
-	outfile.write('\tDone.\n')
 
 	num_var = len(train_xs[0])
 
 	# Generates initial population.
-	outfile.write('[+] Generating initial population.\n')
 	population = ind.Individual.ramped_half(args.POP_SIZE, args.MAX_DEPTH,
 		num_var)
-	outfile.write('\tDone.\n')
 
 	# Evaluate the individuals.
 	gp.evaluate_population(population, train_xs, train_y)
@@ -107,8 +98,12 @@ def main():
 	best = gp.get_best(population)
 
 	# Main loop
-	while (False):
-		children = []
+	generation = 1
+	for x in range(args.NGEN):
+		start = time.time()
+		print(best.fitness)
+		# Elitism
+		children = [gp.reproduction(population)]
 
 		# Generates new population.
 		while len(children) < args.POP_SIZE:
@@ -117,22 +112,20 @@ def main():
 			if (operator == gp.CROSS): # Crossover
 				parent1 = gp.tournament_selection(population, args.KTOUR)
 				parent2 = gp.tournament_selection(population, args.KTOUR)
-				children = children + gp.subtree_crossover(parent1. parent2)
+				children = children + gp.subtree_crossover(parent1, parent2)
 			elif (operator == gp.MUTAT): # Mutation
 				pass
 			else: # Reproduction
 				children.append(gp.reproduction(population))
 
-		gp.evaluate_population(children)
-		best = gp.get_best(children)
+		gp.evaluate_population(children, train_xs, train_y)
 		population = children
+		generation += 1
+		end = time.time()
+		print(end-start)
+		print()
 
-	p1 = gp.reproduction(population)
-	p2 = gp.reproduction(population)
-	
-	a = gp.subtree_crossover(p1, p2)
-
-	outfile.close()
+	print(best, best.fitness)
 
 
 ################################################################################
