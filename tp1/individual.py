@@ -95,6 +95,7 @@ class Node():
 	def count_subtree(self):
 		''' Counts the amount of nodes in this subtree.
 			@return: Amount of nodes in this node's subtree (inclusive). '''
+			
 		stack = [self]
 		count = 0
 
@@ -357,4 +358,5 @@ class Individual():
 	def __str__(self):
 		''' Creates a string representation of the individual.
 			@return: string that represents the individual. '''
+
 		return self.root.__str__()

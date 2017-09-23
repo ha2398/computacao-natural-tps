@@ -115,3 +115,18 @@ def reproduction(population):
 	best = get_best(population)
 	population.remove(best)
 	return best
+
+def mutation(individual, num_var):
+	''' Mutates an individual.
+		@individual: Individual to suffer mutation.
+		@num_var: Number of possible variables for @individual.
+		@return: The mutation result. '''
+
+	use_grow = np.random.choice([True, False])
+
+	if use_grow:
+		random = ind.Individual.grow(4, num_var)
+	else:
+		random = ind.Individual.full(4, num_var)
+
+	return subtree_crossover(individual, random)

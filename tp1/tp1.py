@@ -116,7 +116,8 @@ def main():
 				parent2 = gp.tournament_selection(population, args.KTOUR)
 				children = children + gp.subtree_crossover(parent1, parent2)
 			elif (operator == gp.MUTAT): # Mutation
-				pass
+				to_mutate = gp.tournament_selection(population, args.KTOUR)
+				children = children + gp.mutation(to_mutate, num_var)
 			else: # Reproduction
 				children.append(gp.reproduction(population))
 
@@ -132,5 +133,6 @@ def main():
 
 
 ################################################################################
+
 
 main()
