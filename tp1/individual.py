@@ -6,7 +6,9 @@ individual.py
 @DCC191
 '''
 
+import math
 import numpy as np
+import sys
 
 # Types of nodes in the individual tree.
 FUN = 'Function'
@@ -22,26 +24,34 @@ PLUS = '+'
 MINUS = '-'
 MULT = '*'
 DIV = '/'
+LOG = 'log'
+SIN = 'sin'
+COS = 'cos'
+SQRT = 'sqrt'
+POW = '^'
 
-FUNCTIONS_STR = [
-	PLUS,
-	MINUS,
-	MULT,
-	DIV
-]
+BINARY = [PLUS, MINUS, MULT, DIV, POW]
+UNARY = [LOG, SIN, COS, SQRT]
+
+FUNCTIONS_STR = BINARY + UNARY
 
 FUNCTIONS = {
 	PLUS: (lambda x, y: x + y),
 	MINUS: (lambda x, y: x - y),
 	MULT: (lambda x, y: x * y),
 	DIV: (lambda x, y: x / y if y !=0 else 1),
+	POW: (lambda x, y: (x ** y).real if x != 0 else 0),
+	LOG: (lambda x: np.log(x) if x > 0 else 1),
+	SIN: (lambda x: np.sin(x)),
+	COS: (lambda x: np.cos(x)),
+	SQRT: (lambda x: (x ** 0.5).real)
 }
 
 # Global parameters
 
 # Maximum and minimum constant values for nodes.
-MAX_CONST = 100
-MIN_CONST = -100
+MAX_CONST = 10
+MIN_CONST = -10
 
 
 class Node():
@@ -108,9 +118,25 @@ class Node():
 
 		if (etype == FUN): # Node is a function.
 			left = self.lchild.eval(x)
-			right = self.rchild.eval(x)
+
+			if left == float('inf'):
+				left = sys.maxsize
+
 			operator = self.element[1]
-			return operator(left, right)
+			op_str = self.element[0]
+
+			try:
+				if (op_str in UNARY):
+					return operator(left)
+				else:
+					right = self.rchild.eval(x)
+
+					if right == float('inf'):
+						right = sys.maxsize
+
+					return operator(left, right)
+			except OverflowError:
+				return sys.maxsize
 		elif (etype == VAR): # Node is a variable.
 			index = self.element
 			return x[index]
@@ -150,9 +176,6 @@ class Individual():
 
 		copy = Individual(Node(original.etype, original.element, None, None,
 			None), self.size)
-
-		if copy.root == None:
-			print("bem errado isso hein??")
 		
 		clone = copy.root
 
@@ -209,7 +232,14 @@ class Individual():
 
 		n = len(y)
 		evals = [self.eval(x) for x in x_list]
-		error = [(a - b)**2 for a,b in zip(evals, y)]
+
+		error = []
+		for a, b in zip(evals, y):
+			try:
+				error.append(((a-b)**2))
+			except:
+				error.append(sys.maxsize)
+
 		result = ((1/n) * sum(error)) ** 0.5
 		self.fitness = result
 

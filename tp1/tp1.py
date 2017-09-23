@@ -8,6 +8,7 @@ tp1.py
 
 import argparse
 import csv
+import numpy as np
 import sys
 import time
 
@@ -79,6 +80,7 @@ def get_data(filename):
 
 def main():
 	''' Main function. '''
+	np.seterr(all='ignore')
 
 	GEN_OP_PROB = [args.CROSSR, args.MUTR, args.REPR]
 
