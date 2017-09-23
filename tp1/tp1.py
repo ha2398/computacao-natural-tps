@@ -121,11 +121,12 @@ def main():
 		gp.evaluate_population(children, train_xs, train_y)
 		population = children
 		generation += 1
+		best = gp.get_best(population)
 		end = time.time()
 		print(end-start)
 		print()
 
-	print(best, best.fitness)
+	print(best)
 
 
 ################################################################################

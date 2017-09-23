@@ -140,6 +140,39 @@ class Individual():
 		self.root = root
 		self.size = size
 
+	def copy(self):
+		''' Returns a copy of itself.
+			@return: A new individual which is a copy of self. '''
+
+		original = self.root
+		if original == None:
+			return None
+
+		copy = Individual(Node(original.etype, original.element, None, None,
+			None), self.size)
+
+		if copy.root == None:
+			print("bem errado isso hein??")
+		
+		clone = copy.root
+
+		while original != None:
+			if original.lchild != None and clone.lchild == None:
+				l = original.lchild
+				clone.lchild = Node(l.etype, l.element, clone, None, None)
+				original = original.lchild
+				clone = clone.lchild
+			elif original.rchild != None and clone.rchild == None:
+				r = original.rchild
+				clone.rchild = Node(r.etype, r.element, clone, None, None)
+				original = original.rchild
+				clone = clone.rchild
+			else:
+				original = original.parent
+				clone = clone.parent
+
+		return copy
+
 	def get_node(self, index):
 		''' Gets a node by index. 
 			@index: Index of node to retrieve. 

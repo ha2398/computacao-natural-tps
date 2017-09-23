@@ -65,14 +65,17 @@ def subtree_crossover(parent1, parent2): # TODO
 		@parent2: Second parent.
 		@return: A list with the parent's offspring. '''
 
-	child1 = cp.deepcopy(parent1)
-	child2 = cp.deepcopy(parent2)
+	child1 = parent1.copy()
+	child2 = parent2.copy()
 
 	crossover_point1 = np.random.choice(list(range(child1.size)))
 	crossover_point2 = np.random.choice(list(range(child2.size)))
 
 	node1 = child1.get_node(crossover_point1)
 	node2 = child2.get_node(crossover_point2)
+
+	parent1 = node1.parent
+	parent2 = node2.parent
 
 	# Swap subtrees
 	# Moves Node 1 to Child 2.
@@ -93,6 +96,9 @@ def subtree_crossover(parent1, parent2): # TODO
 		else:
 			 # Node 1 is right child.
 			 node1.parent.rchild = node2
+
+	node1.parent = parent2
+	node2.parent = parent1
 
 	# Updates sizes
 	child1.size = child1.root.count_subtree()
