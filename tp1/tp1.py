@@ -12,9 +12,6 @@ import numpy as np
 import sys
 import time
 
-MAX_DEPTH = 7
-ELIT_SIZE = 2
-
 # Adds optional command line arguments to the program.
 parser = argparse.ArgumentParser()
 
@@ -46,6 +43,11 @@ np.random.seed(args.RSEED)
 
 import individual as ind
 import gp
+
+# Constants
+MAX_DEPTH = 7
+ELIT_SIZE = 2
+REPR = 1 - (args.CROSSR + args.MUTR)
 
 
 ################################################################################
@@ -136,7 +138,7 @@ def main():
 				gp.evaluate_population(offspring, train_xs, train_y)
 				for child in offspring:
 					fit = child.fitness
-					if 	fit > parent1.fitness or fit > parent2.fitness:
+					if 	fit < parent1.fitness or fit < parent2.fitness:
 						crossover_improved += 1
 
 				children = children + offspring
@@ -148,7 +150,7 @@ def main():
 				mutation_offspring += 2
 				gp.evaluate_population(mutants, train_xs, train_y)
 				for mutant in mutants:
-					if mutant.fitness > parent.fitness:
+					if mutant.fitness < parent.fitness:
 						mutation_improved += 1
 
 				children = children + mutants
