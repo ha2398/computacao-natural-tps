@@ -10,6 +10,7 @@ import copy as cp
 import individual as ind
 import operator as op
 import numpy as np
+import sys
 
 # Genetic operators
 CROSS = 'Crossover'
@@ -44,6 +45,32 @@ def get_best(population):
 	best = min(population, key=op.attrgetter('fitness'))
 	return best
 
+
+def get_worst(population):
+	''' Returns the worst individual in a given population. 
+		@population: Population to search in.
+		@return: The worst individual found. '''
+
+	worst = max(population, key=op.attrgetter('fitness'))
+	return worst
+
+
+def get_average_fitness(population):
+	''' Gets the average fitness of a population.
+		@population: Population to calculate average fitness of.
+		@return: Average fitness of @population. '''
+
+	mean = 0
+	for individual in population:
+		fitness = individual.fitness
+		if individual.fitness == float('inf'):
+			fitness = sys.maxsize
+
+		mean += fitness
+
+	mean = mean / len(population)
+
+	return mean
 
 def tournament_selection(population, k):
 	''' Randomly selects k individuals out of a population and returns the one

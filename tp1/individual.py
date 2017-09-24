@@ -36,15 +36,15 @@ UNARY = [LOG, SIN, COS, SQRT]
 FUNCTIONS_STR = BINARY + UNARY
 
 FUNCTIONS = {
-	PLUS: (lambda x, y: x + y),
-	MINUS: (lambda x, y: x - y),
-	MULT: (lambda x, y: x * y),
-	DIV: (lambda x, y: x / y if y !=0 else 1),
-	POW: (lambda x, y: (x ** y).real if x != 0 else 0),
+	PLUS: (lambda x, y: np.add(x, y)),
+	MINUS: (lambda x, y: np.subtract(x, y)),
+	MULT: (lambda x, y: np.multiply(x, y)),
+	DIV: (lambda x, y: np.divide(x, y) if y !=0 else 1),
+	POW: (lambda x, y: np.power(x, y).real),
 	LOG: (lambda x: np.log(x) if x > 0 else 1),
 	SIN: (lambda x: np.sin(x)),
 	COS: (lambda x: np.cos(x)),
-	SQRT: (lambda x: (x ** 0.5).real)
+	SQRT: (lambda x: np.sqrt(x ** 0.5).real if x >= 0 else 0)
 }
 
 # Global parameters
@@ -95,7 +95,7 @@ class Node():
 	def count_subtree(self):
 		''' Counts the amount of nodes in this subtree.
 			@return: Amount of nodes in this node's subtree (inclusive). '''
-			
+
 		stack = [self]
 		count = 0
 
@@ -118,24 +118,40 @@ class Node():
 		etype = self.etype
 
 		if (etype == FUN): # Node is a function.
-			left = self.lchild.eval(x)
+			right = self.rchild.eval(x)
 
-			if left == float('inf'):
-				left = sys.maxsize
+			if np.isnan(right):
+				right = 0
+			if right == float('inf'):
+				right = sys.maxsize
+			if right == float('-inf'):
+				right = -1 * sys.maxsize
 
 			operator = self.element[1]
 			op_str = self.element[0]
 
 			try:
 				if (op_str in UNARY):
-					return operator(left)
+					result = operator(right)
+					if np.isnan(result):
+						return 0
+					else:
+						return result
 				else:
-					right = self.rchild.eval(x)
+					left = self.lchild.eval(x)
 
-					if right == float('inf'):
-						right = sys.maxsize
+					if np.isnan(left):
+						left = 0
+					if left == float('inf'):
+						left = sys.maxsize
+					if left == float('-inf'):
+						left = -1 * sys.maxsize
 
-					return operator(left, right)
+					result = operator(left, right)
+					if np.isnan(result):
+						return 0
+					else:
+						return operator(left, right)
 			except OverflowError:
 				return sys.maxsize
 		elif (etype == VAR): # Node is a variable.
@@ -152,8 +168,11 @@ class Node():
 			return ''
 		else:
 			if self.etype == FUN:
-				return '(' + self.lchild.__str__() + self.element[0] + \
-					self.rchild.__str__() + ')'
+				left = self.lchild.__str__()
+				if left == 'None':
+					left = ''
+				right = self.rchild.__str__()
+				return '(' + left + self.element[0] + right + ')'
 			elif self.etype == VAR:
 				return '(x' + str(self.element) + ')'
 			else:
@@ -237,11 +256,11 @@ class Individual():
 		error = []
 		for a, b in zip(evals, y):
 			try:
-				error.append(((a-b)**2))
+				error.append(np.power(a-b, 2))
 			except:
 				error.append(sys.maxsize)
 
-		result = ((1/n) * sum(error)) ** 0.5
+		result = np.power(((1/n) * sum(error)), 0.5)
 		self.fitness = result
 
 	def full(max_depth, num_var):
@@ -261,30 +280,35 @@ class Individual():
 			depth += 1
 
 			for node in former_level:
-				node.lchild = \
-					Node.new_random(node, num_var, MIN_CONST, MAX_CONST, [1],
-					[FUN])
 				node.rchild = \
-					Node.new_random(node, num_var, MIN_CONST, MAX_CONST, [1],
-					[FUN])
-				level.append(node.lchild)
+						Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
+						[1], [FUN])
+				size += 1
 				level.append(node.rchild)
 
-				size += 2
+				if node.element[0] in BINARY:
+					node.lchild = \
+						Node.new_random(node, num_var, MIN_CONST, MAX_CONST, [1],
+						[FUN])
+					size += 1
+					level.append(node.lchild)
 
 			former_level = level
 			level = []
 
 		# Creates leaf nodes.
 		for node in former_level:
-			node.lchild = \
-				Node.new_random(node, num_var, MIN_CONST, MAX_CONST, [0.5, 0.5],
-				[VAR, CONST])
 			node.rchild = \
-				Node.new_random(node, num_var, MIN_CONST, MAX_CONST, [0.5, 0.5],
-				[VAR, CONST])
+				Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
+				[0.5, 0.5], [VAR, CONST])
 
-			size += 2
+			size += 1
+
+			if node.element[0] in BINARY:
+				node.lchild = \
+					Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
+						[0.5, 0.5], [VAR, CONST])
+				size += 1
 
 		return Individual(root, size)
 
@@ -312,26 +336,33 @@ class Individual():
 			# Only expands subtree if the node is of type FUN.
 			if node.etype == FUN:
 				if (depth + 1) == max_depth: # Next level is leaves level.
-					node.lchild = \
-						Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
-						[0.5, 0.5], [VAR, CONST])
 					node.rchild = \
 						Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
 						[0.5, 0.5], [VAR, CONST])
+					size += 1
+					
+					if node.element[0] in BINARY:
+						node.lchild = \
+							Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
+							[0.5, 0.5], [VAR, CONST])
 
-					size += 2
+						size += 1
 				else:
-					node.lchild = \
-						Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
-							grow_probs, NTYPES)
 					node.rchild = \
 						Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
 							grow_probs, NTYPES)
+					size += 1
 
-					size += 2
+					if node.element[0] in BINARY:
+						node.lchild = \
+							Node.new_random(node, num_var, MIN_CONST, MAX_CONST,
+								grow_probs, NTYPES)
 
-				stack.append((node.lchild, depth+1))
+						size += 1
+
 				stack.append((node.rchild, depth+1))
+				if node.element[0] in BINARY:
+					stack.append((node.lchild, depth+1))
 
 		return Individual(root, size)
 

@@ -82,6 +82,8 @@ def main():
 	''' Main function. '''
 	np.seterr(all='ignore')
 
+	p_start = time.time()
+
 	GEN_OP_PROB = [args.CROSSR, args.MUTR, args.REPR]
 
 	# Obtains the input data.
@@ -96,16 +98,20 @@ def main():
 
 	# Evaluate the individuals.
 	gp.evaluate_population(population, train_xs, train_y)
-
 	best = gp.get_best(population)
+	pop_str = [x.__str__() for x in population]
+
+	print("Generation", 1)
+	print("Best fitness:", best.fitness)
+	print("Worst fitness:", gp.get_worst(population).fitness)
+	print("Average fitness:", gp.get_average_fitness(population))
+	print("Number of repeated individuals:", len(pop_str)-len(set(pop_str)))
+	print()
 
 	# Main loop
-	generation = 1
-	for x in range(args.NGEN):
-		start = time.time()
-		print(best.fitness)
+	for x in range(args.NGEN - 1):
 		# Elitism
-		children = [gp.reproduction(population)]
+		children = [gp.reproduction(population), gp.reproduction(population)]
 
 		# Generates new population.
 		while len(children) < args.POP_SIZE:
@@ -123,13 +129,17 @@ def main():
 
 		gp.evaluate_population(children, train_xs, train_y)
 		population = children
-		generation += 1
+		pop_str = [x.__str__() for x in population]
 		best = gp.get_best(population)
-		end = time.time()
-		print(end-start)
+
+		print("Generation", x+2)
+		print("Best fitness:", best.fitness)
+		print("Worst fitness:", gp.get_worst(population).fitness)
+		print("Average fitness:", gp.get_average_fitness(population))
+		print("Number of repeated individuals:", len(pop_str)-len(set(pop_str)))
 		print()
 
-	print(best)
+	print("Best individual:", best)
 
 
 ################################################################################
