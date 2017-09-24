@@ -176,7 +176,7 @@ class Node():
 			elif self.etype == VAR:
 				return '(x' + str(self.element) + ')'
 			else:
-				return str(self.element)
+				return '(' + str(self.element) + ')'
 
 
 class Individual():
