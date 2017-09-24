@@ -32,8 +32,6 @@ parser.add_argument('-c', dest='CROSSR', default=0.9, type=float,
 	help='Crossover rate')
 parser.add_argument('-m', dest='MUTR', default=0.05, type=float,
 	help='Mutation rate')
-parser.add_argument('-r', dest='REPR', default=0.05, type=float,
-	help='Reproduction rate')
 
 args = parser.parse_args()
 
