@@ -96,7 +96,7 @@ def main():
 
 	p_start = time.time()
 
-	GEN_OP_PROB = [args.CROSSR, args.MUTR, args.REPR]
+	GEN_OP_PROB = [args.CROSSR, args.MUTR, REPR]
 
 	# Obtains the input data.
 	train_xs, train_y = get_data(args.TRAIN_FILE)
