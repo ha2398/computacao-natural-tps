@@ -37,6 +37,15 @@ def evaluate_population(population, xs, y):
 		individual.calculate_fitness(xs, y)
 
 
+def penalize_large_ind(population, max_size):
+	''' Sets a very high fitness values for individuals in @population whose
+		size is larger than @max_size. '''
+
+	for individual in population:
+		if individual.size > max_size:
+			individual.fitness = float('inf')
+
+
 def get_best(population):
 	''' Returns the best individual in a given population. 
 		@population: Population to search in.
@@ -90,7 +99,7 @@ def subtree_crossover(parent1, parent2): # TODO
 		crossover method.
 		@parent1: First parent.
 		@parent2: Second parent.
-		@return: A list with the parent's offspring. '''
+		@return: Parent's offspring. '''
 
 	child1 = parent1.copy()
 	child2 = parent2.copy()

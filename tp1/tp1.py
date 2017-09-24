@@ -12,6 +12,9 @@ import numpy as np
 import sys
 import time
 
+MAX_DEPTH = 7
+ELIT_SIZE = 2
+
 # Adds optional command line arguments to the program.
 parser = argparse.ArgumentParser()
 
@@ -20,8 +23,6 @@ parser.add_argument('TRAIN_FILE', metavar='train_file', type=str,
 parser.add_argument('TEST_FILE', metavar='test_file', type=str,
 	help='Name of test data file')
 
-parser.add_argument('-d', dest='MAX_DEPTH', default=7, type=int,
-	help='Maximum depth of the individual trees')
 parser.add_argument('-s', dest='RSEED', default=0, type=int,
 	help='Random number generation seed')
 parser.add_argument('-p', dest='POP_SIZE', default=54, type=int,
@@ -30,8 +31,6 @@ parser.add_argument('-k', dest='KTOUR', default=7, type=int,
 	help='Number of individuals to participate in tournaments')
 parser.add_argument('-g', dest='NGEN', default=10, type=int,
 	help='Number of generations to run the program for')
-parser.add_argument('-o', dest='OUTFILE', default='stdout', type=str,
-	help='Output file name')
 parser.add_argument('-c', dest='CROSSR', default=0.9, type=float,
 	help='Crossover rate')
 parser.add_argument('-m', dest='MUTR', default=0.05, type=float,
@@ -78,6 +77,19 @@ def get_data(filename):
 	return data_xs, data_y
 
 
+def evaluate_test_data(population, n, test_xs, test_y):
+	''' Evaluates the top n individuals in a population using the test dataset.
+		@population: List of individuals from which to get the top n.
+		@n: Number of individuals to evaluate.
+		@test_xs: the list of x test inputs.
+		@test_y: The list of y outputs for each test_xs entry.
+		@return: The top n individuals, sorted from best to worst. '''
+
+	gp.evaluate_population(population, test_xs, test_y)
+	topn = sorted(population, key=lambda x: (x.fitness, x.size))[0:n]
+	return topn
+
+
 def main():
 	''' Main function. '''
 	np.seterr(all='ignore')
@@ -93,53 +105,99 @@ def main():
 	num_var = len(train_xs[0])
 
 	# Generates initial population.
-	population = ind.Individual.ramped_half(args.POP_SIZE, args.MAX_DEPTH,
+	population = ind.Individual.ramped_half(args.POP_SIZE, MAX_DEPTH,
 		num_var)
 
 	# Evaluate the individuals.
 	gp.evaluate_population(population, train_xs, train_y)
+	gp.penalize_large_ind(population, (2**MAX_DEPTH)-1)
 	best = gp.get_best(population)
 	pop_str = [x.__str__() for x in population]
 
-	print("Generation", 1)
-	print("Best fitness:", best.fitness)
-	print("Worst fitness:", gp.get_worst(population).fitness)
-	print("Average fitness:", gp.get_average_fitness(population))
-	print("Number of repeated individuals:", len(pop_str)-len(set(pop_str)))
-	print()
-
 	# Main loop
-	for x in range(args.NGEN - 1):
-		# Elitism
-		children = [gp.reproduction(population), gp.reproduction(population)]
+	for x in range(args.NGEN):
+		crossover_offspring = 0
+		crossover_improved = 0
+		mutation_offspring = 0
+		mutation_improved = 0
 
 		# Generates new population.
-		while len(children) < args.POP_SIZE:
+		children = []
+		while len(children) < (args.POP_SIZE - ELIT_SIZE):
 			operator = gp.select_genetic_operator(GEN_OP_PROB)
 
 			if (operator == gp.CROSS): # Crossover
 				parent1 = gp.tournament_selection(population, args.KTOUR)
 				parent2 = gp.tournament_selection(population, args.KTOUR)
-				children = children + gp.subtree_crossover(parent1, parent2)
+				offspring = gp.subtree_crossover(parent1, parent2)
+
+				# Gets statistics.
+				crossover_offspring += 2
+				gp.evaluate_population(offspring, train_xs, train_y)
+				for child in offspring:
+					fit = child.fitness
+					if 	fit > parent1.fitness or fit > parent2.fitness:
+						crossover_improved += 1
+
+				children = children + offspring
 			elif (operator == gp.MUTAT): # Mutation
-				to_mutate = gp.tournament_selection(population, args.KTOUR)
-				children = children + gp.mutation(to_mutate, num_var)
+				parent = gp.tournament_selection(population, args.KTOUR)
+				mutants = gp.mutation(parent, num_var)
+
+				# Gets statistics.
+				mutation_offspring += 2
+				gp.evaluate_population(mutants, train_xs, train_y)
+				for mutant in mutants:
+					if mutant.fitness > parent.fitness:
+						mutation_improved += 1
+
+				children = children + mutants
 			else: # Reproduction
 				children.append(gp.reproduction(population))
 
+		# Elitism
+		for i in range(ELIT_SIZE):
+			children.append(gp.reproduction(population))
+
 		gp.evaluate_population(children, train_xs, train_y)
+		gp.penalize_large_ind(population, (2**MAX_DEPTH)-1)
 		population = children
 		pop_str = [x.__str__() for x in population]
 		best = gp.get_best(population)
 
-		print("Generation", x+2)
-		print("Best fitness:", best.fitness)
-		print("Worst fitness:", gp.get_worst(population).fitness)
-		print("Average fitness:", gp.get_average_fitness(population))
-		print("Number of repeated individuals:", len(pop_str)-len(set(pop_str)))
+		if mutation_offspring != 0:
+			mutation_improvement_rate = \
+				str(round((mutation_improved/mutation_offspring)*100, 2)) + '%'
+		else:
+			mutation_improvement_rate = '0.0%'
+
+		if crossover_offspring != 0:
+			crossover_improvement_rate = \
+				str(round((crossover_improved/crossover_offspring)*100,2)) + '%'
+		else:
+			crossover_improvement_rate = '0.0%'
+
+		print('Generation', x+1)
+		print('Best fitness:', best.fitness)
+		print('Worst fitness:', gp.get_worst(population).fitness)
+		print('Average fitness:', gp.get_average_fitness(population))
+		print('Number of repeated individuals:', len(pop_str)-len(set(pop_str)))
+		print('Mutation improvement rate:', mutation_improvement_rate)
+		print('Crossover improvement rate:', crossover_improvement_rate)
 		print()
 
-	print("Best individual:", best)
+	# Results
+	n = 5
+	print('Top', n, 'individuals for training dataset:\n')
+	population.sort(key=lambda x: (x.fitness, x.size))
+	for individual in population[0:n]:
+		print('\t', individual, '\tFitness:', individual.fitness)
+
+	# Tests best individuals with test dataset.
+	topn = evaluate_test_data(population, n, test_xs, test_y)
+	print('\nTop', n, 'individuals for test dataset:\n')
+	for individual in topn:
+		print('\t', individual, '\tFitness:', individual.fitness)
 
 
 ################################################################################

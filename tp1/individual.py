@@ -40,7 +40,7 @@ FUNCTIONS = {
 	MINUS: (lambda x, y: np.subtract(x, y)),
 	MULT: (lambda x, y: np.multiply(x, y)),
 	DIV: (lambda x, y: np.divide(x, y) if y !=0 else 1),
-	POW: (lambda x, y: np.power(x, y).real),
+	POW: (lambda x, y: np.power(float(x), float(y)).real),
 	LOG: (lambda x: np.log(x) if x > 0 else 1),
 	SIN: (lambda x: np.sin(x)),
 	COS: (lambda x: np.cos(x)),
@@ -250,6 +250,9 @@ class Individual():
 			@y: List with the function value for each point.
 			@return: Individual's fitness according to its RMSE. '''
 
+		if self.fitness != None:
+			return
+
 		n = len(y)
 		evals = [self.eval(x) for x in x_list]
 
@@ -262,6 +265,7 @@ class Individual():
 
 		result = np.power(((1/n) * sum(error)), 0.5)
 		self.fitness = result
+		return
 
 	def full(max_depth, num_var):
 		''' Creates a new Individual, using the Full method.
