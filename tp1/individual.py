@@ -44,7 +44,7 @@ FUNCTIONS = {
 	LOG: (lambda x: np.log(x) if x > 0 else 1),
 	SIN: (lambda x: np.sin(x)),
 	COS: (lambda x: np.cos(x)),
-	SQRT: (lambda x: np.sqrt(x ** 0.5).real if x >= 0 else 0)
+	SQRT: (lambda x: np.sqrt(x).real if x >= 0 else 0)
 }
 
 # Global parameters
