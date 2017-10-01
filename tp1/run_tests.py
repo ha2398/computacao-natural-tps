@@ -13,7 +13,7 @@ import subprocess as sp
 
 # Constants
 TEST_FOLDER = 'test_output'
-INPUT_FOLDER = 'datasets'
+INPUT_FOLDER = 'datasets/keijzer'
 
 POP_SIZES = [50, 100, 500] # population sizes
 GENS = [50, 100, 500] # number of generations
@@ -23,8 +23,8 @@ MUTR = [0.3, 0.05] # mutation rates
 
 params_list = ['-p ' + str(p) + ' -k ' + str(k) + \
 	' -g ' + str(g) + ' -c ' + str(c) + ' -m ' + str(m) \
-	for p in POP_SIZES for g in GENS for k in KTOUR for c in CROSSR \
-	for m in MUTR]
+	for p in POP_SIZES for g in GENS for k in KTOUR for (c,m) in \
+	zip(CROSSR,MUTR)]
 
 sp.call(['rm', '-rf', TEST_FOLDER])
 sp.call(['mkdir', TEST_FOLDER])

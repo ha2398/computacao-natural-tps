@@ -32,6 +32,8 @@ parser.add_argument('-c', dest='CROSSR', default=0.9, type=float,
 	help='Crossover rate')
 parser.add_argument('-m', dest='MUTR', default=0.05, type=float,
 	help='Mutation rate')
+parser.add_argument('-e', dest='ELIT', default=2, type=int,
+	help='Elit size')
 
 args = parser.parse_args()
 
@@ -44,7 +46,6 @@ import gp
 
 # Constants
 MAX_DEPTH = 7
-ELIT_SIZE = 2
 REPR = 1 - (args.CROSSR + args.MUTR)
 
 
@@ -123,7 +124,7 @@ def main():
 
 		# Generates new population.
 		children = []
-		while len(children) < (args.POP_SIZE - ELIT_SIZE):
+		while len(children) < (args.POP_SIZE - args.ELIT):
 			operator = gp.select_genetic_operator(GEN_OP_PROB)
 
 			if (operator == gp.CROSS): # Crossover
@@ -156,7 +157,7 @@ def main():
 				children.append(gp.reproduction(population))
 
 		# Elitism
-		for i in range(ELIT_SIZE):
+		for i in range(args.ELIT):
 			children.append(gp.reproduction(population))
 
 		gp.evaluate_population(children, train_xs, train_y)
