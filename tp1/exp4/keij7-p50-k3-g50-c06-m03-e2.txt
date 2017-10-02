@@ -1,0 +1,415 @@
+Generation 1
+Best fitness: 0.361071536228
+Worst fitness: 9.78996305335e+98
+Average fitness: 1.95799261067e+97
+Number of repeated individuals: 1
+Mutation improvement rate: 30.0%
+Crossover improvement rate: 37.5%
+
+Generation 2
+Best fitness: 0.200514437063
+Worst fitness: inf
+Average fitness: 1.80850432095e+17
+Number of repeated individuals: 2
+Mutation improvement rate: 5.56%
+Crossover improvement rate: 30.0%
+
+Generation 3
+Best fitness: 0.200514437063
+Worst fitness: 1.17755030055e+46
+Average fitness: 2.30892215794e+44
+Number of repeated individuals: 6
+Mutation improvement rate: 21.43%
+Crossover improvement rate: 38.24%
+
+Generation 4
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467440737e+17
+Number of repeated individuals: 3
+Mutation improvement rate: 21.43%
+Crossover improvement rate: 37.5%
+
+Generation 5
+Best fitness: 2.77477679664e-09
+Worst fitness: 99.3680336746
+Average fitness: 7.27294222728
+Number of repeated individuals: 6
+Mutation improvement rate: 16.67%
+Crossover improvement rate: 38.89%
+
+Generation 6
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.80850432095e+17
+Number of repeated individuals: 7
+Mutation improvement rate: 6.25%
+Crossover improvement rate: 46.88%
+
+Generation 7
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 6.71841443552
+Number of repeated individuals: 5
+Mutation improvement rate: 5.56%
+Crossover improvement rate: 28.57%
+
+Generation 8
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.31264867624e+75
+Number of repeated individuals: 6
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 47.22%
+
+Generation 9
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 7.66418061177
+Number of repeated individuals: 5
+Mutation improvement rate: 14.29%
+Crossover improvement rate: 29.41%
+
+Generation 10
+Best fitness: 2.77477679664e-09
+Worst fitness: 10284.3551081
+Average fitness: 223.06658636
+Number of repeated individuals: 6
+Mutation improvement rate: 18.75%
+Crossover improvement rate: 30.0%
+
+Generation 11
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467440737e+17
+Number of repeated individuals: 2
+Mutation improvement rate: 10.0%
+Crossover improvement rate: 19.23%
+
+Generation 12
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 2.04599798021
+Number of repeated individuals: 2
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 30.0%
+
+Generation 13
+Best fitness: 2.77477679664e-09
+Worst fitness: 5.62115198033e+97
+Average fitness: 1.10218666281e+96
+Number of repeated individuals: 2
+Mutation improvement rate: 6.25%
+Crossover improvement rate: 25.0%
+
+Generation 14
+Best fitness: 2.77477679664e-09
+Worst fitness: 246.061522599
+Average fitness: 10.9223047191
+Number of repeated individuals: 3
+Mutation improvement rate: 5.56%
+Crossover improvement rate: 0.0%
+
+Generation 15
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 2.00370772066e+97
+Number of repeated individuals: 0
+Mutation improvement rate: 10.0%
+Crossover improvement rate: 17.86%
+
+Generation 16
+Best fitness: 2.77477679664e-09
+Worst fitness: 7.94703620737e+28
+Average fitness: 1.5582423936e+27
+Number of repeated individuals: 2
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 31.25%
+
+Generation 17
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.77689302003e+141
+Number of repeated individuals: 3
+Mutation improvement rate: 12.5%
+Crossover improvement rate: 17.86%
+
+Generation 18
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.80850432095e+17
+Number of repeated individuals: 0
+Mutation improvement rate: 4.55%
+Crossover improvement rate: 15.38%
+
+Generation 19
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 4.01376662521e+150
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 20
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.80850432095e+17
+Number of repeated individuals: 1
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 3.12%
+
+Generation 21
+Best fitness: 2.77477679664e-09
+Worst fitness: 496.10659773
+Average fitness: 13.8685343236
+Number of repeated individuals: 1
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 22
+Best fitness: 2.77477679664e-09
+Worst fitness: 11.3245905126
+Average fitness: 0.879371027944
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 23
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.80850432095e+17
+Number of repeated individuals: 1
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 24
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 2.50644289037
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 25
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 2.59385774908
+Number of repeated individuals: 1
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 5.56%
+
+Generation 26
+Best fitness: 2.77477679664e-09
+Worst fitness: 61.1396486057
+Average fitness: 2.16362356889
+Number of repeated individuals: 1
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 27
+Best fitness: 2.77477679664e-09
+Worst fitness: 3.84748180426e+142
+Average fitness: 7.54408196914e+140
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 28
+Best fitness: 2.77477679664e-09
+Worst fitness: 9.20096135817e+30
+Average fitness: 1.80411007023e+29
+Number of repeated individuals: 1
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 15.38%
+
+Generation 29
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467440737e+17
+Number of repeated individuals: 1
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 30
+Best fitness: 2.77477679664e-09
+Worst fitness: 3.93590810964
+Average fitness: 0.417441928959
+Number of repeated individuals: 5
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 31
+Best fitness: 2.77477679664e-09
+Worst fitness: 1.27902260108e+18
+Average fitness: 2.50788745311e+16
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 32
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.80850432095e+17
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 7.14%
+
+Generation 33
+Best fitness: 2.77477679664e-09
+Worst fitness: 3.19298468667e+20
+Average fitness: 6.38596937333e+18
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 34
+Best fitness: 2.77477679664e-09
+Worst fitness: 2.15921525133e+32
+Average fitness: 4.31843050265e+30
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 35
+Best fitness: 2.77477679664e-09
+Worst fitness: 176.562937593
+Average fitness: 5.1964910405
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 36
+Best fitness: 2.77477679664e-09
+Worst fitness: 3.75355511448
+Average fitness: 0.213626155663
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 37
+Best fitness: 2.77477679664e-09
+Worst fitness: 170.939108415
+Average fitness: 4.16552137938
+Number of repeated individuals: 2
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 38
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.3254771437
+Average fitness: 1.79111722683
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 6.25%
+
+Generation 39
+Best fitness: 2.77477679664e-09
+Worst fitness: 28.4436617534
+Average fitness: 1.3082462381
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 40
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467440737e+17
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 41
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6158799595
+Average fitness: 1.59240627015
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 42
+Best fitness: 2.77477679664e-09
+Worst fitness: 1.17449333957e+19
+Average fitness: 2.34898667913e+17
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 43
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467440737e+17
+Number of repeated individuals: 2
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 44
+Best fitness: 2.77477679664e-09
+Worst fitness: 399.748514423
+Average fitness: 8.68052516274
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 45
+Best fitness: 2.77477679664e-09
+Worst fitness: 60.7674800847
+Average fitness: 2.56688379409
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 46
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.80850432095e+17
+Number of repeated individuals: 1
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 3.12%
+
+Generation 47
+Best fitness: 2.77477679664e-09
+Worst fitness: 5.55168215398
+Average fitness: 0.606874376285
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 3.12%
+
+Generation 48
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 3.6170086419e+17
+Number of repeated individuals: 1
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 49
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 5.84996760088e+17
+Number of repeated individuals: 0
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 50
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 1.21852250863
+Number of repeated individuals: 1
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Top 5 individuals for training dataset:
+
+	 (log((x0)-(sin(sqrt(((((8.651224077146807)*(cos(-4.2037337876809255)))-(log((log(x0))-(-6.252781971473544))))^((((log(x0))^(cos(x0)))+(x0))*(x0)))^(((((8.651224077146807)*(x0))-(x0))-(x0))^(x0))))))) 	Fitness: 2.77477679664e-09
+	 (log((x0)-(sin(sqrt((((sqrt(log(x0)))*(-7.649487141927247))-(sqrt(x0)))^(log((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-((((sin(-2.89074058113715))/((-1.366535440250857)*(6.349737837534278)))^((((x0)*(cos(-4.2037337876809255)))-(log((log(x0))-(-6.252781971473544))))^(((((8.651224077146807)*(x0))-(log(x0)))-(x0))^(x0))))-(-7.649487141927247)))-(8.651224077146807)))))))^(log(cos(7.396817738338861))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log(-3.591158153882878))))))))) 	Fitness: 2.77477679664e-09
+	 (log((x0)-(sin(sqrt((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-((((log((x0)-(sin(x0))))/((-1.366535440250857)*(6.349737837534278)))^((((cos(cos(x0)))*(-7.649487141927247))-(sin(-5.068861203776878)))^(log(((x0)-(-3.056532886475212))-(log((log(sin(-1.860024911114671)))/(sin(x0))))))))-(-7.649487141927247)))-(8.651224077146807)))))))^(log(cos((sin(x0))*(((sqrt(x0))+(x0))*(log((x0)-(sin(sqrt((8.651224077146807)*((sin((x0)*(log(x0))))/(-3.7547725165696377))))))))))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log(((cos(sin((x0)/(sin(5.639057357467124)))))-(sqrt(x0)))^(log(-3.591158153882878))))))))) 	Fitness: 2.77477679664e-09
+	 (log((x0)-(sin(sqrt((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-((((log((x0)-(sin(x0))))/((-1.366535440250857)*(6.349737837534278)))^((((((x0)-(sin(sqrt((((8.651224077146807)*(cos(-4.2037337876809255)))-(log(-7.649487141927247)))^(((cos(x0))+(x0))*(x0))))))*(cos(-4.2037337876809255)))-(log((log(x0))-(-6.252781971473544))))^((((log(x0))^(cos(x0)))+(x0))*(x0)))^(((((8.651224077146807)*(x0))-(x0))-(x0))^(x0))))-(-7.649487141927247)))-(8.651224077146807)))))))^(log(cos((sin(x0))*(((sqrt(x0))+(x0))*(log((x0)-(sin(sqrt((8.651224077146807)*((sin((x0)*(log(x0))))/(-3.7547725165696377))))))))))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-(-4.449554318598055))-(8.651224077146807)))))))^(log(cos(7.396817738338861))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log(-3.591158153882878))))))))) 	Fitness: 2.77477679664e-09
+	 (log((x0)-(sin(sqrt((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-((((log((x0)-(sin(x0))))/((-5.068861203776878)*(6.349737837534278)))^(((((8.651224077146807)*(cos(-4.2037337876809255)))-(log((log(x0))-(-6.252781971473544))))^((((log(x0))^(cos(x0)))+(x0))*(x0)))^(((((8.651224077146807)*(x0))-(x0))-(x0))^(x0))))-(-7.649487141927247)))-(8.651224077146807)))))))^(log(cos((sin(x0))*(((sqrt(x0))+(x0))*(log((x0)-(sin(sqrt((8.651224077146807)*((sin((x0)*(log(x0))))/(-3.7547725165696377))))))))))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-((((sin(-2.89074058113715))/((-1.366535440250857)*(6.349737837534278)))^((((x0)*(cos(-4.2037337876809255)))-(log((log(x0))-(-6.252781971473544))))^(((((8.651224077146807)*(x0))-(log(x0)))-(x0))^(x0))))-(-7.649487141927247)))-(8.651224077146807)))))))^(log(cos(7.396817738338861))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log(-3.591158153882878))))))))) 	Fitness: 2.77477679664e-09
+
+Top 5 individuals for test dataset:
+
+	 (log((x0)-(sin(sqrt(((((8.651224077146807)*(cos(-4.2037337876809255)))-(log((log(x0))-(-6.252781971473544))))^((((log(x0))^(cos(x0)))+(x0))*(x0)))^(((((8.651224077146807)*(x0))-(x0))-(x0))^(x0))))))) 	Fitness: 2.77477679664e-09
+	 (log((x0)-(sin(sqrt((((sqrt(log(x0)))*(-7.649487141927247))-(sqrt(x0)))^(log((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-((((sin(-2.89074058113715))/((-1.366535440250857)*(6.349737837534278)))^((((x0)*(cos(-4.2037337876809255)))-(log((log(x0))-(-6.252781971473544))))^(((((8.651224077146807)*(x0))-(log(x0)))-(x0))^(x0))))-(-7.649487141927247)))-(8.651224077146807)))))))^(log(cos(7.396817738338861))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log(-3.591158153882878))))))))) 	Fitness: 2.77477679664e-09
+	 (log((x0)-(sin(sqrt((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-((((log((x0)-(sin(x0))))/((-1.366535440250857)*(6.349737837534278)))^((((cos(cos(x0)))*(-7.649487141927247))-(sin(-5.068861203776878)))^(log(((x0)-(-3.056532886475212))-(log((log(sin(-1.860024911114671)))/(sin(x0))))))))-(-7.649487141927247)))-(8.651224077146807)))))))^(log(cos((sin(x0))*(((sqrt(x0))+(x0))*(log((x0)-(sin(sqrt((8.651224077146807)*((sin((x0)*(log(x0))))/(-3.7547725165696377))))))))))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log(((cos(sin((x0)/(sin(5.639057357467124)))))-(sqrt(x0)))^(log(-3.591158153882878))))))))) 	Fitness: 2.77477679664e-09
+	 (log((x0)-(sin(sqrt((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-((((log((x0)-(sin(x0))))/((-1.366535440250857)*(6.349737837534278)))^((((((x0)-(sin(sqrt((((8.651224077146807)*(cos(-4.2037337876809255)))-(log(-7.649487141927247)))^(((cos(x0))+(x0))*(x0))))))*(cos(-4.2037337876809255)))-(log((log(x0))-(-6.252781971473544))))^((((log(x0))^(cos(x0)))+(x0))*(x0)))^(((((8.651224077146807)*(x0))-(x0))-(x0))^(x0))))-(-7.649487141927247)))-(8.651224077146807)))))))^(log(cos((sin(x0))*(((sqrt(x0))+(x0))*(log((x0)-(sin(sqrt((8.651224077146807)*((sin((x0)*(log(x0))))/(-3.7547725165696377))))))))))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-(-4.449554318598055))-(8.651224077146807)))))))^(log(cos(7.396817738338861))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log(-3.591158153882878))))))))) 	Fitness: 2.77477679664e-09
+	 (log((x0)-(sin(sqrt((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-((((log((x0)-(sin(x0))))/((-5.068861203776878)*(6.349737837534278)))^(((((8.651224077146807)*(cos(-4.2037337876809255)))-(log((log(x0))-(-6.252781971473544))))^((((log(x0))^(cos(x0)))+(x0))*(x0)))^(((((8.651224077146807)*(x0))-(x0))-(x0))^(x0))))-(-7.649487141927247)))-(8.651224077146807)))))))^(log(cos((sin(x0))*(((sqrt(x0))+(x0))*(log((x0)-(sin(sqrt((8.651224077146807)*((sin((x0)*(log(x0))))/(-3.7547725165696377))))))))))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log((((sqrt(((log((x0)-(log((-7.649487141927247)-(sin(((-7.649487141927247)-((((sin(-2.89074058113715))/((-1.366535440250857)*(6.349737837534278)))^((((x0)*(cos(-4.2037337876809255)))-(log((log(x0))-(-6.252781971473544))))^(((((8.651224077146807)*(x0))-(log(x0)))-(x0))^(x0))))-(-7.649487141927247)))-(8.651224077146807)))))))^(log(cos(7.396817738338861))))+(-3.591158153882878)))*(-7.649487141927247))-(sqrt(x0)))^(log(-3.591158153882878))))))))) 	Fitness: 2.77477679664e-09

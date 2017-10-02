@@ -15,6 +15,7 @@ except OSError:
     pass
 
 files = [f for f in os.listdir('./') if os.path.isfile(f) and f != 'get_data.py']
+print(files)
 
 plot_cmds = open('plot_commands.gp', 'w')
 plot_cmds.write('set terminal png ')
@@ -24,7 +25,7 @@ plot_cmds.write('set title \'{}\'\n'.format(TITLE))
 plot_cmds.write('set xlabel \'{}\'\n'.format(X))
 plot_cmds.write('set ylabel \'{}\'\n'.format(Y))
 
-values = [0] * 100
+values = [0] * 50
 
 data = open('values.dat', 'w')
 for file in files:

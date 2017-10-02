@@ -23,6 +23,7 @@ plot_cmds.write('set output \'graph.png\'\n')
 plot_cmds.write('set title \'{}\'\n'.format(TITLE))
 plot_cmds.write('set xlabel \'{}\'\n'.format(X))
 plot_cmds.write('set ylabel \'{}\'\n'.format(Y))
+plot_cmds.write('set xrange [0:10]\n')
 
 values = [0] * 100
 
@@ -36,6 +37,9 @@ for file in files:
 			v = float(line.split()[2])
 			values[counter] += v
 			counter += 1
+
+			if counter == 100:
+				break
 
 	cur_file.close()
 

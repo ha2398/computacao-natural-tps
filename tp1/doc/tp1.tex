@@ -378,27 +378,77 @@ A metodologia para execução dos testes seguiu muitas das orientações present
 \subsection{Experimentos}
 
 Abaixo são mostrados os principais experimentos realizados. Os resultados são apresentados
-na Seção \ref{sec:result}.
+na Seção \ref{sec:result}. Os valores apresentados foram obtidos da média de 30 execuções.
 
 \begin{itemize}
  \item \textbf{Experimento 1:} No primeiro experimento, objetivou-se simplesmente a verificação
- de convergência da melhor indivíduo em relação ao número de gerações. Para isso, foi usada
- a base de teste \textbf{keijzer-10}. Os parâmetros utilizados estão listados abaixo e o
- gráfico que representa o experimento pode ser visto na Figura \ref{fig:exp1}.\\
+ de convergência da melhor indivíduo em relação ao número de gerações.Os parâmetros utilizados
+ estão listados abaixo. \\
  
- Tamanho da população: 100\\
- Competidores em torneios: 2\\
- Número de gerações: 100\\
- Taxa de cruzamento: 0.8\\
- Taxa de mutação: 0.1\\
- Tamanho da elite: 2\\
+ \begin{itemize}
+  \item Base keijzer-7:
+  
+  Tamanho da população: \\
+  Competidores em torneios: \\
+  Número de gerações: \\
+  Taxa de cruzamento: \\
+  Taxa de mutação: \\
+  Tamanho da elite: \\
  
- \item \textbf{Experimento 2:} Figura 7 doc auxiliar house
+  \item Base keijzer-10:
+  
+  Tamanho da população: 100\\
+  Competidores em torneios: 2\\
+  Número de gerações: 100\\
+  Taxa de cruzamento: 0.8\\
+  Taxa de mutação: 0.1\\
+  Tamanho da elite: 2\\
+  
+  \item Base house:
+  
+  Tamanho da população: 100\\
+  Competidores em torneios: 7\\
+  Número de gerações: 50\\
+  Taxa de cruzamento: 0.9\\
+  Taxa de mutação: 0.05\\
+  Tamanho da elite: 2\\
+  
+ \end{itemize}
  
- for i in 50 100 500; do ./tp1.py datasets/house/train.csv datasets/house/test.csv -p \${i} -k 7 -g 50 -c 0.8 -m 0.1 -e 2 -s 0 > exp2/\${i}.out \& done
+ \item \textbf{Experimento 2:} Com o experimento 2, procurava-se determinar a melhor configuração,
+ dos parâmetros de número de gerações e tamanho de população inicial. Para isso, a base house foi
+ utilizada. Os parâmetros são mostrados abaixo.
  
+ Tamanho da População: \{5, 100, 500\} \\
+ Competidores em torneios: 7 \\
+ Número de gerações: 50 \\
+ Taxa de cruzamento: 0.8 \\
+ Taxa de mutação: 0.1 \\
+ Tamanho da elite: 2 \\
  
-
+ \item \textbf{Experimento 3:} Já com valores de tamanho de população e número de gerações fixados,
+ o próximo passo foi determinar os parâmetros de probabilidade de aplicação dos operadores genéticos.
+ 
+ Foram testadas duas configurações:
+ 
+ Tamanho da População: 50 \\
+ Competidores em torneios: 7 \\
+ Número de gerações: 50 \\
+ Cruzamento, mutação: \{0.9, 0.05\} e \{0.6, 0.3\} \\
+ Tamanho da elite: 2 \\
+ 
+ \item \textbf{Experimento 4:} Uma vez estabelecidas as taxas de cruzamento e mutação que promovem
+ um melhor resultado do programa, é necessário testar os valores de tamanho de torneio. Esse valor
+ refere-se ao número de competidores que competem a cada seleção de indivíduos por torneio.
+ 
+ \item \textbf{Experimento 5:} Em seguida, vemos como é o comportamento do melhor indivíduo de
+ cada geração, e, consequentemente, da melhor fitness, utilizando ou não de elitismo.
+ 
+ \item \textbf{Experimento 6:} Uma vez que a diversidade dos indivíduos presentes em uma população
+ cai muito, a melhor fitness de cada geração tende a permanecer sem grandes modificações. Para este
+ trabalho, a única medida, ainda que não muito eficaz, de diversidade, é o número de indivíduos
+ repetidos. Um indivíduo é considerado repetido aqui quando já existe na mesma geração um indivíduo
+ que apresenta a mesma estrutura (mesma expressão simbólica - genótipo do indivíduo).
  
 \end{itemize}
 
@@ -409,21 +459,72 @@ na Seção \ref{sec:result}.
 
 Esse experimento comprova que, de fato, o algoritmo implementado leva as populações
 geradas inicialmente a convergirem eventualmente, tentando sempre se aproximar do valor
-ótimo de fitness igual a zero. Os valores de fitness foram obtidos da média de 30 execuções.
+ótimo de fitness igual a zero para as bases keijzer (o que indica que a solução ótima
+pode ter sido encontrada).
 
 \begin{figure}[ht]
   \centering
-  \includegraphics[width=1\textwidth]{exp1.png}
+  \includegraphics[width=1\textwidth]{exp1k7.png}
+  \caption{Experimento 1: Geração x Melhor Fitness para base keijzer-7.}
+  \label{fig:exp1k7}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{exp1k10.png}
   \caption{Experimento 1: Geração x Melhor Fitness para base keijzer-10.}
-  \label{fig:exp1}
+  \label{fig:exp1k10}
+\end{figure}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{exp1h.png}
+  \caption{Experimento 1: Geração x Melhor Fitness para base house.}
+  \label{fig:exp1h}
 \end{figure}
   
 Podemos ver que, em um primeiro momento a melhor fitness cai de forma bem acentuada,
-em seguida convergindo a um valor muito próximo de zero.
+em seguida convergindo a um valor específico para cada uma das bases.
 
-\subsection{Experimento 2: }
+\subsection{Experimento 2: Tamanho de população e número de gerações}
 
-\subsection{Experimento 3: }
+A partir do experimento 2 foi possível constatar que o tamanho da população tem grande impacto
+na melhor fitness das primeiras gerações. Isso se deve ao fato de que aumentando o número de
+invivíduos estamos aumentando a diversidade e explorando melhor o espaço de busca. Também
+podemos observar na Figura \ref{fig:exp2h} que, para todos os valores de tamanho de população,
+o programa converge para valores muito próximos, e, além disso, isso ocorre sempre por volta da 
+geração 30. Concluímos então que o custo adicional de avaliar mais indivíduos não compensa muito
+quando vemos que o ponto de convergência é muito próximo para os valores de tamanho de população
+testados.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{exp2h.png}
+  \caption{Experimento 2: População inicial x Melhor fitness para cada número de gerações.
+  Cada uma das cores representa um número de gerações.}
+  \label{fig:exp2h}
+\end{figure}
+
+\subsection{Experimento 3: Operadores Genéticos}
+
+\subsection{Experimento 4: Torneio}
+
+\subsection{Experimento 5: Elitismo}
+
+\subsection{Experimento 6: Indivíduos repetidos}
+
+\subsection{Observações}
+
+Os experimentos realizadas possibilitaram observar diversas características importantes, tanto
+de Programação Genética em geral, quanto da implementação desse trabalho e das bases de dados
+utilizadas.
+
+Vemos que a escolha da probabilidade dos operadores genéticos e tamanho de torneio pode melhorar
+a diversidade dos indivíduos, promovendo uma maior exploração do espaço de busca.
+
+Além disso, à medida que a melhor fitness de uma população converge para um determinado valor,
+é de se esperar que o número de indivíduos repetidos também tenda a aumentar, dada uma taxa 
+de cruzamento alta.
 
 \section{CONCLUSÃO}
 
