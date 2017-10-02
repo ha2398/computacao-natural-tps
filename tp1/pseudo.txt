@@ -1,0 +1,31 @@
+
+
+	Entrada:
+		TamanhoPopulação, Operadores, Terminais, PCruzamento, PMutação,
+		NúmeroGerações
+	Saída:
+		MelhorIndivíduo
+
+	População = GeraPopulaçãoInicial(TamanhoPopulação, Operadores, Terminais)
+	AvaliaPopulação(População)
+	MelhorIndivíduo = ObtemMelhorIndivíduo(População)
+	PReprodução = 1 - (PCruzamento + PMutação)
+
+	Para i de 1..NumeroGerações faça:
+		Filhos = Vazio
+
+		Enquanto Tamanho(Filhos) < TamanhoPopulação faça:
+			OperadorGenético = EscolheOperadorGenético(PCruzamento, 		PMutação, PReprodução)
+
+			Filhos = Filhos + AplicaOperadorGenético(OperadorGenético, 		População)
+		Fim Enquanto
+
+		AvaliaPopulação(Filhos)
+		MelhorIndivíduo = ObtemMelhorIndivíduo(Filhos)
+		População = Filhos
+	Fim Para
+
+	retorne MelhorIndivíduo
+
+
+	

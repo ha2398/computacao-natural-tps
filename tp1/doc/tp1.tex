@@ -356,14 +356,74 @@ Exemplo de estatísticas para uma certa geração:
 
 \section{EXPERIMENTOS}
 
+Nessa seção serão apresentados os experimentos realizados. Todos eles foram executados em
+uma máquina Intel Core i7-5500U, 2.40GHz, 4 cores, 8GB de memória RAM e sistema operacional
+ubuntu 14.04 LTS.
 
 \subsection{Metodologia}
 
-Citar \cite{clalg:11}.
+Muitas instâncias de teste foram executadas para cada uma das bases de teste. Alguns exemplos
+de saídas obtidas estão presentes na pasta \textbf{test}.
 
-\section{RESULTADOS}
+Um script para teste de todas as bases presentes no diretório \textbf{datasets} com todas as
+possíveis configurações de parâmetro e 30 execuções/sementes foi desenvolvido. Para executá-lo,
+basta digitar o comando a seguir no terminal:
+
+\begin{center}
+ ./run\_tests.py
+\end{center}
+
+A metodologia para execução dos testes seguiu muitas das orientações presentes em \cite{clalg:11}.
+
+\subsection{Experimentos}
+
+Abaixo são mostrados os principais experimentos realizados. Os resultados são apresentados
+na Seção \ref{sec:result}.
+
+\begin{itemize}
+ \item \textbf{Experimento 1:} No primeiro experimento, objetivou-se simplesmente a verificação
+ de convergência da melhor indivíduo em relação ao número de gerações. Para isso, foi usada
+ a base de teste \textbf{keijzer-10}. Os parâmetros utilizados estão listados abaixo e o
+ gráfico que representa o experimento pode ser visto na Figura \ref{fig:exp1}.\\
+ 
+ Tamanho da população: 100\\
+ Competidores em torneios: 2\\
+ Número de gerações: 100\\
+ Taxa de cruzamento: 0.8\\
+ Taxa de mutação: 0.1\\
+ Tamanho da elite: 2\\
+ 
+ \item \textbf{Experimento 2:} Figura 7 doc auxiliar house
+ 
+ for i in 50 100 500; do ./tp1.py datasets/house/train.csv datasets/house/test.csv -p \${i} -k 7 -g 50 -c 0.8 -m 0.1 -e 2 -s 0 > exp2/\${i}.out \& done
+ 
+ 
+
+ 
+\end{itemize}
 
 
+\section{RESULTADOS} \label{sec:result}
+
+\subsection{Experimento 1: Convergência de melhor fitness}
+
+Esse experimento comprova que, de fato, o algoritmo implementado leva as populações
+geradas inicialmente a convergirem eventualmente, tentando sempre se aproximar do valor
+ótimo de fitness igual a zero. Os valores de fitness foram obtidos da média de 30 execuções.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{exp1.png}
+  \caption{Experimento 1: Geração x Melhor Fitness para base keijzer-10.}
+  \label{fig:exp1}
+\end{figure}
+  
+Podemos ver que, em um primeiro momento a melhor fitness cai de forma bem acentuada,
+em seguida convergindo a um valor muito próximo de zero.
+
+\subsection{Experimento 2: }
+
+\subsection{Experimento 3: }
 
 \section{CONCLUSÃO}
 

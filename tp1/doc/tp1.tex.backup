@@ -323,14 +323,78 @@ $ x + 1 $ valores de ponto flutuante separados por vírgula, onde $ x $ é o nú
 da função. A última coluna, então, representa a saída $ y $ da função para os valores de entrada
 das colunas anteriores.
 
+Em relação à saída do programa, é impresso, a cada geração, um resumo de estatísticas.
+Primeiramente é impresso o número da geração atual, em seguida o valor da fitness do melhor
+indivíduo da geração, da fitness do pior indivíduo, a fitness média considerando todos
+os indivíduos da geração, o número de indivíduos repetidos, a taxa de melhoria para mutação
+e cruzamento.
+
+As taxas de melhoria são calculadas da seguinte forma:
+
+\begin{center}
+ \begin{math}
+  Imp(op) = \frac{NImp}{NGen}
+ \end{math}
+\end{center}
+
+Sendo Imp(op) a taxa de melhoria para o operador op, NGen representa o número de indivíduos
+criados em determinada geração utilizando-se o operador genético op e NImp o número, dentre
+esses indivíduos gerados, daqueles que apresentaram fitness melhor do que seus pais (indivíduos
+sobre os quais o operador op foi aplicado).
+
+Exemplo de estatísticas para uma certa geração:
+
+\begin{center}
+  Generation 7\\
+  Best fitness: 2.77477679664e-09\\
+  Worst fitness: inf\\
+  Average fitness: 1.70803185868e+17\\
+  Number of repeated individuals: 15\\
+  Mutation improvement rate: 0.0\% \\
+  Crossover improvement rate: 6.25\%
+\end{center}
+
 \section{EXPERIMENTOS}
 
+Nessa seção serão apresentados os experimentos realizados. Todos eles foram executados em
+uma máquina Intel Core i7-5500U, 2.40GHz, 4 cores, 8GB de memória RAM e sistema operacional
+ubuntu 14.04 LTS.
 
 \subsection{Metodologia}
 
-Citar \cite{clalg:11}.
+Muitas instâncias de teste foram executadas para cada uma das bases de teste. Alguns exemplos
+de saídas obtidas estão presentes na pasta \textbf{test}.
 
-\section{RESULTADOS}
+Um script para teste de todas as bases presentes no diretório \textbf{datasets} com todas as
+possíveis configurações de parâmetro e 30 execuções/sementes foi desenvolvido. Para executá-lo,
+basta digitar o comando a seguir no terminal:
+
+\begin{center}
+ ./run\_tests.py
+\end{center}
+
+A metodologia para execução dos testes seguiu muitas das dicas presentes em \cite{clalg:11}.
+
+\subsection{Experimentos}
+
+Abaixo são mostrados os principais experimentos realizados. Os resultados são apresentados
+na Seção \ref{sec:result}.
+
+\begin{itemize}
+ \item \textbf{Experimento 1:}
+ 
+ k10 \\
+ p 100\\
+ k 2\\
+ g 100\\
+ c 0.8\\
+ m 0.1\\
+ e 2
+ 
+\end{itemize}
+
+
+\section{RESULTADOS} \label{sec:result}
 
 
 

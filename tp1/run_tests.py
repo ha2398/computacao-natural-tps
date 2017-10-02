@@ -13,7 +13,7 @@ import subprocess as sp
 
 # Constants
 TEST_FOLDER = 'test_output'
-INPUT_FOLDER = 'datasets/keijzer'
+INPUT_FOLDER = 'datasets'
 
 POP_SIZES = [50, 100, 500] # population sizes
 GENS = [50, 100, 500] # number of generations
