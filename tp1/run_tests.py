@@ -50,7 +50,7 @@ for folder in input_folders:
 			output_file = open(output_name, 'w')
 
 			arg_list = [
-				'./tp1.py',
+				'src/tp1.py',
 				INPUT_FOLDER + '/' + folder + '/train.csv',
 				INPUT_FOLDER + '/' + folder + '/test.csv'] + param.split() + \
 				['-s', str(seed)]

@@ -419,6 +419,7 @@ na Seção \ref{sec:result}. Os valores apresentados foram obtidos da média de 
  dos parâmetros de número de gerações e tamanho de população inicial. Para isso, a base house foi
  utilizada. Os parâmetros são mostrados abaixo.
  
+ Base house \\
  Tamanho da População: \{5, 100, 500\} \\
  Competidores em torneios: 7 \\
  Número de gerações: 50 \\
@@ -431,6 +432,7 @@ na Seção \ref{sec:result}. Os valores apresentados foram obtidos da média de 
  
  Foram testadas duas configurações:
  
+ Base house \\
  Tamanho da População: 50 \\
  Competidores em torneios: 7 \\
  Número de gerações: 50 \\
@@ -441,14 +443,39 @@ na Seção \ref{sec:result}. Os valores apresentados foram obtidos da média de 
  um melhor resultado do programa, é necessário testar os valores de tamanho de torneio. Esse valor
  refere-se ao número de competidores que competem a cada seleção de indivíduos por torneio.
  
+ Base keijzer-7 \\
+ Tamanho da População: 50 \\
+ Competidores em torneios: 3 e 7 \\
+ Número de gerações: 50 \\
+ Taxa de cruzamento: 0.9 \\ 
+ Taxa de mutação: 0.05 \\
+ Tamanho da elite: 2 \\
+ 
  \item \textbf{Experimento 5:} Em seguida, vemos como é o comportamento do melhor indivíduo de
- cada geração, e, consequentemente, da melhor fitness, utilizando ou não de elitismo.
+ cada geração, e, consequentemente, da melhor fitness, utilizando ou não de elitismo. Parâmetros
+ utilizados:
+ 
+ Base house \\
+ Tamanho da População: 50 \\
+ Competidores em torneios: 7 \\
+ Número de gerações: 50 \\
+ Taxa de cruzamento: 0.9 \\ 
+ Taxa de mutação: 0.05 \\
+ Tamanho da elite: 0 e 2 \\
  
  \item \textbf{Experimento 6:} Uma vez que a diversidade dos indivíduos presentes em uma população
  cai muito, a melhor fitness de cada geração tende a permanecer sem grandes modificações. Para este
  trabalho, a única medida, ainda que não muito eficaz, de diversidade, é o número de indivíduos
  repetidos. Um indivíduo é considerado repetido aqui quando já existe na mesma geração um indivíduo
  que apresenta a mesma estrutura (mesma expressão simbólica - genótipo do indivíduo).
+ 
+ Base keijzer-7 \\
+ Tamanho da População: 500 \\
+ Competidores em torneios: 7 \\
+ Número de gerações: 50 \\
+ Taxa de cruzamento: 0.9 \\ 
+ Taxa de mutação: 0.05 \\
+ Tamanho da elite: 2 \\
  
 \end{itemize}
 
@@ -507,11 +534,62 @@ testados.
 
 \subsection{Experimento 3: Operadores Genéticos}
 
+Com esse experimento podemos observar como a velocidade de convergência é afetada diretamente pela
+escolha dos parâmetros relativos às probabilidades de uso de cada um dos operadores genéticos.
+
+Vemos que, ao utilizar uma configuração onde a taxa de cruzamento é muito elevada (garantindo
+que gerações posteriores possam apresentar grandes semelhanças com as os indivíduos de melhor
+fitness das gerações anteriores) e a de mutação é reduzida (somente para garantir que haja uma certa
+diversidade para explorar o espaço de busca) o programa não só converge mais rapidamente, como
+chega a um valor bem melhor de fitness. A Figura \ref{fig:exp3h} mostra os resultados para esse
+experimento.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{exp3h.png}
+  \caption{Experimento 3: Número de gerações x Melhor fitness para duas configurações de probabilidades
+  de operadores genéticos.}
+  \label{fig:exp3h}
+\end{figure}
+
 \subsection{Experimento 4: Torneio}
+
+No experimento 4, ilustrado na Figura \ref{fig:exp4k7}, vemos que é importante selecionar um tamanho de
+torneio que seja grande o suficiente para incluir bons indivíduos, porém não muito grande que sempre 
+selecione aqueles de maior fitness (condição importante para manter diversidade).
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{exp4k7.png}
+  \caption{Experimento 4: Número de gerações x Melhor fitness para dois valores de tamanho de torneio.}
+  \label{fig:exp4k7}
+\end{figure}
 
 \subsection{Experimento 5: Elitismo}
 
+Com esse experimento vemos que o uso do elitismo é importante para garantir que a solução seja sempre
+melhorada ou mantenha-se constante. Sem o uso do mesmo, a melhor fitness pode piorar de uma geração
+para a próxima. A Figura \ref{fig:exp5h} ilustra o experimento.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{exp5h.png}
+  \caption{Experimento 5: Número de gerações x Melhor fitness para dois valores de tamanho de elite.}
+  \label{fig:exp5h}
+\end{figure}
+
 \subsection{Experimento 6: Indivíduos repetidos}
+
+O resultado desse experimento, como indicado na Figura \ref{fig:exp6k7}, mostra que, uma vez que o
+programa encontra uma solução muito boa (próxima da solução ótima), todos os outros indivíduos de
+uma geração tendem ter seus genótipos aproximados a essa solução.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{exp6k7.png}
+  \caption{Experimento 6: Número de gerações x Número de invidivíduos repetidos.}
+  \label{fig:expk7}
+\end{figure}
 
 \subsection{Observações}
 
@@ -525,6 +603,12 @@ a diversidade dos indivíduos, promovendo uma maior exploração do espaço de b
 Além disso, à medida que a melhor fitness de uma população converge para um determinado valor,
 é de se esperar que o número de indivíduos repetidos também tenda a aumentar, dada uma taxa 
 de cruzamento alta.
+
+Um ponto importante sobre os dados coletados diz respeito à discrepância entre os valores de 
+melhor, pior e fitness média das gerações. Mesmo que uma determinada geração possua melhor fitness
+muito baixa, nada impede que a fitness média e pior sejam muito elevadas. De fato, é isso que se
+espera quando utilizamos operadores como multiplicação e exponenciação no conjunto de operadores
+dos indivíduos.
 
 \section{CONCLUSÃO}
 

@@ -1,0 +1,415 @@
+Generation 1
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 2.00408562998e+96
+Number of repeated individuals: 48
+Mutation improvement rate: 18.18%
+Crossover improvement rate: 39.91%
+
+Generation 2
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 3.5422964114e+40
+Number of repeated individuals: 94
+Mutation improvement rate: 26.67%
+Crossover improvement rate: 31.58%
+
+Generation 3
+Best fitness: 2.77477679664e-09
+Worst fitness: 1.77799013313e+35
+Average fitness: 3.54888250126e+32
+Number of repeated individuals: 187
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 26.42%
+
+Generation 4
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 3.10827833835e+52
+Number of repeated individuals: 304
+Mutation improvement rate: 3.12%
+Crossover improvement rate: 12.78%
+
+Generation 5
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.6694604324e+30
+Number of repeated individuals: 412
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 4.32%
+
+Generation 6
+Best fitness: 2.77477679664e-09
+Worst fitness: 8.80165414897e+69
+Average fitness: 1.76033082979e+67
+Number of repeated individuals: 453
+Mutation improvement rate: 2.94%
+Crossover improvement rate: 0.88%
+
+Generation 7
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 12.8909088634
+Number of repeated individuals: 449
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 2.01%
+
+Generation 8
+Best fitness: 2.77477679664e-09
+Worst fitness: 3.5182253899e+18
+Average fitness: 7.03645077979e+15
+Number of repeated individuals: 466
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.65%
+
+Generation 9
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84099242253e+16
+Number of repeated individuals: 481
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.07%
+
+Generation 10
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 13.3583317931
+Number of repeated individuals: 471
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.64%
+
+Generation 11
+Best fitness: 2.77477679664e-09
+Worst fitness: 95.5143700612
+Average fitness: 13.1030247739
+Number of repeated individuals: 477
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.66%
+
+Generation 12
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467440738e+16
+Number of repeated individuals: 467
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.88%
+
+Generation 13
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 15.4829495626
+Number of repeated individuals: 484
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.06%
+
+Generation 14
+Best fitness: 2.77477679664e-09
+Worst fitness: 6.27731369053e+47
+Average fitness: 1.25546273811e+45
+Number of repeated individuals: 477
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.88%
+
+Generation 15
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467441336e+16
+Number of repeated individuals: 476
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.22%
+
+Generation 16
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467440737e+16
+Number of repeated individuals: 481
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.94%
+
+Generation 17
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 4.28890428896e+62
+Number of repeated individuals: 481
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.29%
+
+Generation 18
+Best fitness: 2.77477679664e-09
+Worst fitness: 2.87924662978e+61
+Average fitness: 5.75849325956e+58
+Number of repeated individuals: 477
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.43%
+
+Generation 19
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467440737e+16
+Number of repeated individuals: 469
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.8%
+
+Generation 20
+Best fitness: 2.77477679664e-09
+Worst fitness: 7.54402152335e+105
+Average fitness: 1.50579271923e+103
+Number of repeated individuals: 478
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.52%
+
+Generation 21
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467440737e+16
+Number of repeated individuals: 487
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.21%
+
+Generation 22
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.04229465443e+17
+Number of repeated individuals: 471
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.31%
+
+Generation 23
+Best fitness: 2.77477679664e-09
+Worst fitness: 1.57552750364e+24
+Average fitness: 3.14476547633e+21
+Number of repeated individuals: 477
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.08%
+
+Generation 24
+Best fitness: 2.77477679664e-09
+Worst fitness: 2529.4502787
+Average fitness: 17.5342189961
+Number of repeated individuals: 487
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.64%
+
+Generation 25
+Best fitness: 2.77477679664e-09
+Worst fitness: 589.692389488
+Average fitness: 14.546626241
+Number of repeated individuals: 485
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.42%
+
+Generation 26
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84099242253e+16
+Number of repeated individuals: 473
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.65%
+
+Generation 27
+Best fitness: 2.77477679664e-09
+Worst fitness: 27978271.6138
+Average fitness: 55969.3815869
+Number of repeated individuals: 470
+Mutation improvement rate: 3.33%
+Crossover improvement rate: 0.66%
+
+Generation 28
+Best fitness: 2.77477679664e-09
+Worst fitness: 2.17018213318e+129
+Average fitness: 4.33170086462e+126
+Number of repeated individuals: 467
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.44%
+
+Generation 29
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84099242253e+16
+Number of repeated individuals: 464
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.0%
+
+Generation 30
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84467444602e+16
+Number of repeated individuals: 473
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.87%
+
+Generation 31
+Best fitness: 2.77477679664e-09
+Worst fitness: 66882.5163727
+Average fitness: 146.949964829
+Number of repeated individuals: 479
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.22%
+
+Generation 32
+Best fitness: 2.77477679664e-09
+Worst fitness: 3.17993722758e+152
+Average fitness: 6.34718009498e+149
+Number of repeated individuals: 454
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.23%
+
+Generation 33
+Best fitness: 2.77477679664e-09
+Worst fitness: 2.592898592e+66
+Average fitness: 5.17544643286e+63
+Number of repeated individuals: 483
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.42%
+
+Generation 34
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 9.39698874428e+56
+Number of repeated individuals: 468
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.89%
+
+Generation 35
+Best fitness: 2.77477679664e-09
+Worst fitness: 216.875556037
+Average fitness: 13.5222905942
+Number of repeated individuals: 481
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.29%
+
+Generation 36
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 3.68198484512e+16
+Number of repeated individuals: 475
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.43%
+
+Generation 37
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.47198992098e+38
+Number of repeated individuals: 475
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.66%
+
+Generation 38
+Best fitness: 2.77477679664e-09
+Worst fitness: 1.56785226022e+27
+Average fitness: 3.13570453348e+24
+Number of repeated individuals: 484
+Mutation improvement rate: 10.0%
+Crossover improvement rate: 0.65%
+
+Generation 39
+Best fitness: 2.77477679664e-09
+Worst fitness: 246.061522599
+Average fitness: 14.1381551812
+Number of repeated individuals: 477
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.86%
+
+Generation 40
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84099242253e+16
+Number of repeated individuals: 481
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.22%
+
+Generation 41
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 14.005076765
+Number of repeated individuals: 478
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.44%
+
+Generation 42
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 1.84099249098e+16
+Number of repeated individuals: 472
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.22%
+
+Generation 43
+Best fitness: 2.77477679664e-09
+Worst fitness: 5.54266888535e+71
+Average fitness: 1.1063211348e+69
+Number of repeated individuals: 470
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.22%
+
+Generation 44
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 2.00370772066e+96
+Number of repeated individuals: 482
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.21%
+
+Generation 45
+Best fitness: 2.77477679664e-09
+Worst fitness: inf
+Average fitness: 6.33283347537e+121
+Number of repeated individuals: 477
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.96%
+
+Generation 46
+Best fitness: 2.77477679664e-09
+Worst fitness: 2.93524070842e+76
+Average fitness: 5.87048141685e+73
+Number of repeated individuals: 470
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.88%
+
+Generation 47
+Best fitness: 2.77477679664e-09
+Worst fitness: 54.6117978468
+Average fitness: 12.9188497046
+Number of repeated individuals: 469
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 1.32%
+
+Generation 48
+Best fitness: 2.77477679664e-09
+Worst fitness: 3.4200345918e+97
+Average fitness: 6.8400691836e+94
+Number of repeated individuals: 478
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.21%
+
+Generation 49
+Best fitness: 2.77477679664e-09
+Worst fitness: 112637861.333
+Average fitness: 225383.366232
+Number of repeated individuals: 465
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.44%
+
+Generation 50
+Best fitness: 2.77477679664e-09
+Worst fitness: 4524.86532966
+Average fitness: 25.0399595306
+Number of repeated individuals: 473
+Mutation improvement rate: 0.0%
+Crossover improvement rate: 0.66%
+
+Top 5 individuals for training dataset:
+
+	 (log(x0)) 	Fitness: 2.77477679664e-09
+	 (log(x0)) 	Fitness: 2.77477679664e-09
+	 (log(x0)) 	Fitness: 2.77477679664e-09
+	 (log(x0)) 	Fitness: 2.77477679664e-09
+	 (log(x0)) 	Fitness: 2.77477679664e-09
+
+Top 5 individuals for test dataset:
+
+	 (log(x0)) 	Fitness: 2.77477679664e-09
+	 (log(x0)) 	Fitness: 2.77477679664e-09
+	 (log(x0)) 	Fitness: 2.77477679664e-09
+	 (log(x0)) 	Fitness: 2.77477679664e-09
+	 (log(x0)) 	Fitness: 2.77477679664e-09

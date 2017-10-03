@@ -419,6 +419,7 @@ na Seção \ref{sec:result}. Os valores apresentados foram obtidos da média de 
  dos parâmetros de número de gerações e tamanho de população inicial. Para isso, a base house foi
  utilizada. Os parâmetros são mostrados abaixo.
  
+ Base house \\
  Tamanho da População: \{5, 100, 500\} \\
  Competidores em torneios: 7 \\
  Número de gerações: 50 \\
@@ -431,11 +432,33 @@ na Seção \ref{sec:result}. Os valores apresentados foram obtidos da média de 
  
  Foram testadas duas configurações:
  
+ Base house \\
  Tamanho da População: 50 \\
  Competidores em torneios: 7 \\
  Número de gerações: 50 \\
  Cruzamento, mutação: \{0.9, 0.05\} e \{0.6, 0.3\} \\
  Tamanho da elite: 2 \\
+ 
+ \item \textbf{Experimento 4:} Uma vez estabelecidas as taxas de cruzamento e mutação que promovem
+ um melhor resultado do programa, é necessário testar os valores de tamanho de torneio. Esse valor
+ refere-se ao número de competidores que competem a cada seleção de indivíduos por torneio.
+ 
+ Base keijzer-7 \\
+ Tamanho da População: 50 \\
+ Competidores em torneios: 3 e 7 \\
+ Número de gerações: 50 \\
+ Taxa de cruzamento: 0.9 \\ 
+ Taxa de mutação: 0.05 \\
+ Tamanho da elite: 2 \\
+ 
+ \item \textbf{Experimento 5:} Em seguida, vemos como é o comportamento do melhor indivíduo de
+ cada geração, e, consequentemente, da melhor fitness, utilizando ou não de elitismo.
+ 
+ \item \textbf{Experimento 6:} Uma vez que a diversidade dos indivíduos presentes em uma população
+ cai muito, a melhor fitness de cada geração tende a permanecer sem grandes modificações. Para este
+ trabalho, a única medida, ainda que não muito eficaz, de diversidade, é o número de indivíduos
+ repetidos. Um indivíduo é considerado repetido aqui quando já existe na mesma geração um indivíduo
+ que apresenta a mesma estrutura (mesma expressão simbólica - genótipo do indivíduo).
  
 \end{itemize}
 
@@ -494,6 +517,24 @@ testados.
 
 \subsection{Experimento 3: Operadores Genéticos}
 
+Com esse experimento podemos observar como a velocidade de convergência é afetada diretamente pela
+escolha dos parâmetros relativos às probabilidades de uso de cada um dos operadores genéticos.
+
+Vemos que, ao utilizar uma configuração onde a taxa de cruzamento é muito elevada (garantindo
+que gerações posteriores possam apresentar grandes semelhanças com as os indivíduos de melhor
+fitness das gerações anteriores) e a de mutação é reduzida (somente para garantir que haja uma certa
+diversidade para explorar o espaço de busca) o programa não só converge mais rapidamente, como
+chega a um valor bem melhor de fitness. A Figura \ref{fig:exp3h} mostra os resultados para esse
+experimento.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{exp3h.png}
+  \caption{Experimento 3: Número de gerações x Melhor fitness para duas configurações de probabilidades
+  de operadores genéticos.}
+  \label{fig:exp3h}
+\end{figure}
+
 \subsection{Experimento 4: Torneio}
 
 \subsection{Experimento 5: Elitismo}
@@ -502,7 +543,16 @@ testados.
 
 \subsection{Observações}
 
+Os experimentos realizadas possibilitaram observar diversas características importantes, tanto
+de Programação Genética em geral, quanto da implementação desse trabalho e das bases de dados
+utilizadas.
 
+Vemos que a escolha da probabilidade dos operadores genéticos e tamanho de torneio pode melhorar
+a diversidade dos indivíduos, promovendo uma maior exploração do espaço de busca.
+
+Além disso, à medida que a melhor fitness de uma população converge para um determinado valor,
+é de se esperar que o número de indivíduos repetidos também tenda a aumentar, dada uma taxa 
+de cruzamento alta.
 
 \section{CONCLUSÃO}
 
