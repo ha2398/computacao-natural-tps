@@ -7,11 +7,17 @@ tp2.py
 '''
 
 import argparse
+import point as pt
 
 # Add optional command line arguments to the program
 parser = argparse.ArgumentParser()
 
 parser.add_argument('INPUT_FILE', type=str, help='Name of input file')
+
+parser.add_argument('-a', dest='ANTN', default=4, type=int,
+	help='Number of ants')
+parser.add_argument('-i', dest='MAXIT', default=10, type=int,
+	help='Number of iterations to run the program for')
 
 args = parser.parse_args()
 
@@ -41,13 +47,16 @@ def get_data(filename):
 		c = float(data[2])
 		d = float(data[3])
 
-		points.append((x, y, c, d))
+		points.append(pt.Point(x, y, c, d))
+
+	input_file.close()
 
 	return p, points
 
 
 def main():
 	p, points = get_data(args.INPUT_FILE)
+	dist = pt.build_distance_matrix(points)
 
 
 ################################################################################
