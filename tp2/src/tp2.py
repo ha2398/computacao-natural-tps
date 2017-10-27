@@ -9,6 +9,7 @@ tp2.py: Main program
 import aco
 import argparse
 import client as cli
+import numpy as np
 
 # Add optional command line arguments to the program
 parser = argparse.ArgumentParser()
@@ -40,7 +41,7 @@ def get_data(filename):
 	input_file = open(filename, 'r')
 
 	p = int(input_file.readline().split()[1])
-	clients = []
+	clients = np.array([])
 
 	for line in input_file:
 		data = line.split()
