@@ -17,33 +17,57 @@ class ACO():
 		@type		p:	Integer.
 
 		@attribute 	clients:	Clients.
-		@type 		clients:	List of Client.
+		@type 		clients:	Numpy Array of Client.
 
 		@attribute 	d: 	Matrix of distances.		
-		@type:		d:	List of List of Float.
+		@type:		d:	Numpy Array of Numpy Array of Float.
 
 		@attribute 	n: 	Number of clients.
 		@type:		d:	Integer.
 
 		@attribute 	x: 	Allocation matrix.
-		@type		x:	List of List of Integer.
+		@type		x:	Numpy Array of Numpy Array of Integer.
 
 		@attribute 	y:	Median selection vector.
-		@type 		y: 	List of Integer.
+		@type 		y: 	Numpy Array of Integer.
+
+		@attribute 	pheromone: 	Pheromone vector.
+		@type 		pheromone:	Numpy Array of Float.
 		'''
 
-	def __init__(self, p, clients):
+	def __init__(self, p, clients, maxit, antn, decayr, alpha, beta):
 		''' Initializes an instance of the Ant Colony Optimization Problem.
 		
 			@param	p:	Number of medians.
 			@type	p:	Integer.
 
 			@param	clients:	Clients.
-			@type 	clients:	List of Client.
+			@type 	clients:	Numpy Array of Client.
+
+			@param 	maxit: 	Number of iterations to run the program for.
+			@type 	maxit: 	Integer.
+
+			@param 	antn: 	Number of ants.
+			@type 	antn: 	Integer.
+
+			@param 	decayr: Pheromone decay rate.
+			@type 	decayr: Float.
+
+			@param 	alpha: 	Information heuristic alpha parameter.
+			@type 	alpha: 	Float.
+
+			@param 	beta: 	Information heuristic beta parameter.
+			@type 	beta: 	Float.
 			'''
 
 		self.p = p
 		self.clients = clients
+		self.maxit = maxit
+		self.antn = antn
+		self.decayr = decayr
+		self.alpha = alpha
+		self.beta = beta
+
 		self.d = ACO.build_distance_matrix(clients)
 
 		self.n = len(clients)
@@ -56,18 +80,42 @@ class ACO():
 
 		self.pheromone = np.full(self.n, 0.5)
 
+	def build_solution(self):
+		''' Build a solution to the problem using the current pheromone
+			setting and ants.
+			'''
+
+	def update_pheromone(self):
+		'''	Update pheromone vector based on the paths the ants are using to
+			build solutions. 
+			'''
+
+	def ant_system(self):
+		''' Run the Ant System algorithm.
+
+			@param	iter:	Number of iterations to run the algorithm for.
+			@type	iter:	Integer.
+
+			@param	ants:	Number of ants to use.
+			@type 	ants: 	Integer.
+			'''
+
+		for it in range(self.maxit):
+			for ant in range(self.antn):
+				self.build_solution()
+			
+			self.update_pheromone()
+
 	def build_distance_matrix(clients):
 		''' Build distance matrix D where Dij indicates the distance between
 			client i and j.
 
-			@param	clients:	List with all clients.
-			@type	clients:	List of Client.
+			@param	clients:	Numpy Array with all clients.
+			@type	clients:	Numpy Array of Client.
 
 			@return:		Matrix D of distances.		
-			@rtype:			List of List of Float.
+			@rtype:			Numpy Array of Numpy Array of Float.
 			'''
-
-
 
 		size = len(clients)
 		D = np.zeros((size, size))

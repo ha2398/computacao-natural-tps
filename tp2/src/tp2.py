@@ -16,10 +16,16 @@ parser = argparse.ArgumentParser()
 
 parser.add_argument('INPUT_FILE', type=str, help='Name of input file')
 
-parser.add_argument('-a', dest='ANTN', default=4, type=int,
+parser.add_argument('-n', dest='ANTN', default=4, type=int,
 	help='Number of ants')
 parser.add_argument('-i', dest='MAXIT', default=10, type=int,
 	help='Number of iterations to run the program for')
+parser.add_argument('-d', dest='DECAYR', default=0.25, type=float,
+	help='Pheromone decay rate')
+parser.add_argument('-a', dest='ALPHA', default=3, type=int,
+	help='Information heuristic alpha parameter')
+parser.add_argument('-b', dest='BETA', default=1, type=int,
+	help='Information heuristic beta parameter')
 
 args = parser.parse_args()
 
@@ -46,7 +52,9 @@ def get_data(filename):
 
 def main():
 	p, clients = get_data(args.INPUT_FILE)
-	p_medians = aco.ACO(p, clients)
+	p_medians = aco.ACO(p, clients, args.MAXIT, args.ANTN, args.DECAYR,
+		args.ALPHA, args.BETA)
+	p_medians.ant_system()
 
 
 ################################################################################
