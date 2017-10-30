@@ -40,10 +40,10 @@ class Client():
 			@type	d: Float
 			'''
 
-		self.x = x
-		self.y = y
-		self.capacity = c
-		self.demand = d
+		self.x = float(x)
+		self.y = float(y)
+		self.capacity = float(c)
+		self.demand = float(d)
 
 	def distance(self, client):
 		''' Get euclidean distance between two clients.

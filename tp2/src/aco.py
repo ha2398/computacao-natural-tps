@@ -6,6 +6,8 @@ aco.py: Ant Colony Optimization
 @DCC191
 '''
 
+import numpy as np
+
 class ACO():
 	''' Defines an instance of the Ant Colony Optimization problem.
 		
@@ -47,10 +49,12 @@ class ACO():
 		self.n = len(clients)
 
 		# x_ij = 1 if node i is allocated to median j, 0 otherwise
-		self.x = [[0] * self.n for i in range(self.n)]
+		self.x = np.zeros((self.n, self.n))
 
 		# y_j = 1 if node j is a median, 0 otherwise
-		self.y = [0] * self.n
+		self.y = np.zeros(self.n)
+
+		self.pheromone = np.full(self.n, 0.5)
 
 	def build_distance_matrix(clients):
 		''' Build distance matrix D where Dij indicates the distance between
@@ -63,10 +67,10 @@ class ACO():
 			@rtype:			List of List of Float.
 			'''
 
+
+
 		size = len(clients)
-		D = []
-		for i in range(size):
-			D.append([0] * size)
+		D = np.zeros((size, size))
 
 		for i in range(size):
 			for j in range(i, size):

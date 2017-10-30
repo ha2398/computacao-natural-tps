@@ -38,24 +38,10 @@ def get_data(filename):
 					client's capacity and d its demand.
 		'''
 
-	input_file = open(filename, 'r')
-
-	p = int(input_file.readline().split()[1])
-	clients = np.array([])
-
-	for line in input_file:
-		data = line.split()
-
-		x = float(data[0])
-		y = float(data[1])
-		c = float(data[2])
-		d = float(data[3])
-
-		clients.append(cli.Client(x, y, c, d))
-
-	input_file.close()
-
-	return p, clients
+	with open(filename, 'r') as input_file:
+		p = int(input_file.readline().split()[1])
+		clients = np.array([cli.Client(*(line.split())) for line in input_file])
+		return p, clients
 
 
 def main():
