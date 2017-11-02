@@ -51,6 +51,7 @@ def get_data(filename):
 		clients = []
 		for line in input_file:
 			clients.append(cli.Client(count, *line.split()))
+			count += 1
 
 		return p, clients
 
@@ -59,9 +60,6 @@ def main():
 	p_medians = aco.ACO(p, clients, args.MAXIT, args.ANTN, args.DECAYR,
 		args.ALPHA, args.BETA)
 	p_medians.ant_system()
-
-	a = p_medians.sort_nodes(2)
-	print(a)
 
 
 ################################################################################

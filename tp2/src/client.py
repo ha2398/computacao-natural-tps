@@ -49,6 +49,16 @@ class Client():
 		self.capacity = float(c)
 		self.demand = float(d)
 
+	def __str__(self):
+		''' Return a string representation of a client.
+
+			@return:	String representation of a client.
+			@rtype:		String.
+			'''
+
+		return 	str(self.id) + ' ' + str(self.x) + ' ' + str(self.y) + ' ' + \
+				str(self.capacity) + ' ' + str(self.demand)
+
 	def distance(self, client):
 		''' Get euclidean distance between two clients.
 

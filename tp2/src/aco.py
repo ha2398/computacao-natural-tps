@@ -142,14 +142,16 @@ class ACO():
 		node_i = self.clients[i]
 
 		for node in ordered_nodes:
-			used_capacity += node.d
+			used_capacity += node.demand
 
-			if (used_capacity > node_i.c):
+			if (used_capacity > node_i.capacity):
 				break
 			else:
 				all_nodes += 1
 				sum_distance += self.d[i, node.id]
+				# print(i, node.id)
 
+		# print('allocate', all_nodes, sum_distance)
 		return all_nodes, sum_distance
 
 	def density(self, i):
@@ -167,6 +169,31 @@ class ACO():
 		ordered_nodes = self.sort_nodes(i)
 		all_nodes, sum_distance = self.allocate(i, ordered_nodes)
 		return all_nodes / sum_distance
+
+	def get_nodes_probs(self, chosen):
+		''' Get the probabilities to choose Clients as medians.
+
+			@param 	chosen:	Clients already chosen as medians.
+			@type	chosen:	List of Integer.
+
+			@return:	Probabilities to choose Clients as medians.
+			@rtype:		List of Float.
+			'''
+
+		weights = []
+		for node in self.clients:
+			if (node.id in chosen):
+				weights.append(0)
+			else:
+				p = self.pheromone[node.id] ** self.alpha
+				ni = self.density(node.id) ** self.beta
+				weight = p * ni
+				weights.append(weight)
+
+		w_sum = sum(weights)
+		probs = [(weights[i]/w_sum) if i not in chosen else 0 \
+			for i in range(self.n)]
+		return probs
 
 	def choose_medians(self):
 		''' Using the probabilistic equation, choose a set of p nodes to become
