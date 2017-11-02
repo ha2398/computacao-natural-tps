@@ -199,8 +199,14 @@ class ACO():
 		''' Using the probabilistic equation, choose a set of p nodes to become
 			medians among the n candidate nodes.
 			'''
-		pass
+		
+		clients = list(range(self.n))
+		medians = []
+		while len(medians) != self.p:
+			probs = self.get_nodes_probs(medians)
+			medians.append(np.random.choice(clients, p=probs))
 
+		return medians
 
 	def build_solution(self):
 		''' Build a solution to the problem using the current pheromone

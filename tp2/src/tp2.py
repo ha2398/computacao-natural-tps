@@ -67,6 +67,8 @@ def main():
 		args.ALPHA, args.BETA)
 	p_medians.ant_system()
 
+	print(p_medians.choose_medians())
+
 
 ################################################################################
 
