@@ -80,6 +80,21 @@ class ACO():
 
 		self.pheromone = np.full(self.n, 0.5)
 
+		# For each ant, stores solution cost and medians chosen.
+		self.costs = np.zeros(self.antn)
+		self.medians = np.full((self.antn, 1), np.array([0]))
+
+	def evaluate_solution(self):
+		''' Return the cost of the current solution.
+			'''
+
+		cost = 0
+		for i in range(self.n):
+			for j in range(self.n):
+				cost += self.d[i, j] * self.x[i, j]
+
+		return cost
+
 	def build_solution(self):
 		''' Build a solution to the problem using the current pheromone
 			setting and ants.
@@ -92,12 +107,6 @@ class ACO():
 
 	def ant_system(self):
 		''' Run the Ant System algorithm.
-
-			@param	iter:	Number of iterations to run the algorithm for.
-			@type	iter:	Integer.
-
-			@param	ants:	Number of ants to use.
-			@type 	ants: 	Integer.
 			'''
 
 		for it in range(self.maxit):
