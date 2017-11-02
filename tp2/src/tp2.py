@@ -6,9 +6,7 @@ tp2.py: Main program
 @DCC191
 '''
 
-import aco
 import argparse
-import client as cli
 import numpy as np
 
 # Add optional command line arguments to the program
@@ -27,7 +25,15 @@ parser.add_argument('-a', dest='ALPHA', default=3, type=int,
 parser.add_argument('-b', dest='BETA', default=1, type=int,
 	help='Weight of information heuristic')
 
+parser.add_argument('-s', dest='RSEED', default=0, type=int,
+	help='Numpy random seed')
+
 args = parser.parse_args()
+
+np.random.seed(args.RSEED)
+
+import aco
+import client as cli
 
 ################################################################################
 
