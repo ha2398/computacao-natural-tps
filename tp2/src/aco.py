@@ -17,13 +17,13 @@ class ACO():
 		@type		p:	Integer.
 
 		@attribute 	clients:	Clients.
-		@type 		clients:	Numpy Array of Client.
+		@type 		clients:	List of Client.
 
 		@attribute 	d: 	Matrix of distances.		
 		@type:		d:	Numpy Array of Numpy Array of Float.
 
 		@attribute 	n: 	Number of clients.
-		@type:		d:	Integer.
+		@type:		n:	Integer.
 
 		@attribute 	x: 	Allocation matrix.
 		@type		x:	Numpy Array of Numpy Array of Integer.
@@ -33,6 +33,12 @@ class ACO():
 
 		@attribute 	pheromone: 	Pheromone vector.
 		@type 		pheromone:	Numpy Array of Float.
+
+		@attribute 	costs:	Cost of each solution for each ant.
+		@type		costs:	Numpy Array of Float.
+
+		@attribute 	medians:	Medians chosen for each solution for each ant.
+		@type 		medians:	Numpy Array of Integer.
 		'''
 
 	def __init__(self, p, clients, maxit, antn, decayr, alpha, beta):
@@ -42,7 +48,7 @@ class ACO():
 			@type	p:	Integer.
 
 			@param	clients:	Clients.
-			@type 	clients:	Numpy Array of Client.
+			@type 	clients:	List of Client.
 
 			@param 	maxit: 	Number of iterations to run the program for.
 			@type 	maxit: 	Integer.
@@ -95,15 +101,92 @@ class ACO():
 
 		return cost
 
+	def sort_nodes(self, i):
+		''' Sort all nodes based on their distance to node @i.
+
+			@param 	i: 	Node to be used as reference.
+			@type	i:	Integer.
+
+			@return:	Sorted nodes based on their distance to node @i.
+			@type:		List of Client.
+			'''
+
+		distances = sorted(list(zip(list(range(self.n)), self.d[i])),
+			key=lambda x: x[1])
+		del(distances[0])		
+
+		return [self.clients[i[0]] for i in distances]
+
+	def allocate(self, i, ordered_nodes):
+		''' Assign each node in @ordered_nodes to node @i, until its capacity is
+			reached.
+
+			@param 	i: 	Node to assign nodes to.
+			@type 	i:	Integer.
+
+			@param 	ordered_nodes: 	Sorted nodes based on their distance to node
+									@i.
+			@type 	ordered_nodes:	List of Client.
+
+			@return 	all_nodes: 	Number of allocated nodes.
+			@rtype		all_nodes:	Integer.
+
+			@return 	sum_distance:	The summation of the distance between
+										each allocated node and node @i.
+			@rtype 		sum_distance:	Float.
+			'''
+
+		all_nodes = 0
+		sum_distance = 0
+		used_capacity = 0
+		node_i = self.clients[i]
+
+		for node in ordered_nodes:
+			used_capacity += node.d
+
+			if (used_capacity > node_i.c):
+				break
+			else:
+				all_nodes += 1
+				sum_distance += self.d[i, node.id]
+
+		return all_nodes, sum_distance
+
+	def density(self, i):
+		''' Calculate the optimistic density of a cluster if a given node @i was
+			to be chosen as the median.
+			
+			@param 	i:	Node to be chosen as the median.
+			@type	i:	Integer.
+
+			@return:	Optimistic density of a cluster if a given node @i was
+						to be chosen as the median.
+			@rtype:		Float.
+			'''
+
+		ordered_nodes = self.sort_nodes(i)
+		all_nodes, sum_distance = self.allocate(i, ordered_nodes)
+		return all_nodes / sum_distance
+
+	def choose_medians(self):
+		''' Using the probabilistic equation, choose a set of p nodes to become
+			medians among the n candidate nodes.
+			'''
+		pass
+
+
 	def build_solution(self):
 		''' Build a solution to the problem using the current pheromone
 			setting and ants.
 			'''
+		pass
+
 
 	def update_pheromone(self):
 		'''	Update pheromone vector based on the paths the ants are using to
 			build solutions. 
 			'''
+		pass
 
 	def ant_system(self):
 		''' Run the Ant System algorithm.
@@ -114,6 +197,8 @@ class ACO():
 				self.build_solution()
 			
 			self.update_pheromone()
+
+		# TODO
 
 	def build_distance_matrix(clients):
 		''' Build distance matrix D where Dij indicates the distance between

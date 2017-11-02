@@ -24,22 +24,26 @@ class Client():
 		@type		demand: Float
 		'''
 
-	def __init__(self, x, y, c, d):
+	def __init__(self, id, x, y, c, d):
 		''' Initializes a client.
 
-			@param	x: x coordinate of the client.
-			@type	x: Float.
+			@param 	id:	Client identifier.
+			@type	id:	Integer.
 
-			@param	y: y coordinate of the client.
-			@type	y: Float.
+			@param	x: 	x coordinate of the client.
+			@type	x: 	Float.
 
-			@param	c: Client's capacity.
-			@type 	c: Float.
+			@param	y: 	y coordinate of the client.
+			@type	y: 	Float.
 
-			@param	d: Client's demand.
-			@type	d: Float
+			@param	c: 	Client's capacity.
+			@type 	c: 	Float.
+
+			@param	d: 	Client's demand.
+			@type	d: 	Float.
 			'''
 
+		self.id = int(id)
 		self.x = float(x)
 		self.y = float(y)
 		self.capacity = float(c)

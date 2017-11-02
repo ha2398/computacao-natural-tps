@@ -23,9 +23,9 @@ parser.add_argument('-i', dest='MAXIT', default=10, type=int,
 parser.add_argument('-d', dest='DECAYR', default=0.25, type=float,
 	help='Pheromone decay rate')
 parser.add_argument('-a', dest='ALPHA', default=3, type=int,
-	help='Information heuristic alpha parameter')
+	help='Weight of trail intensity')
 parser.add_argument('-b', dest='BETA', default=1, type=int,
-	help='Information heuristic beta parameter')
+	help='Weight of information heuristic')
 
 args = parser.parse_args()
 
@@ -46,15 +46,22 @@ def get_data(filename):
 
 	with open(filename, 'r') as input_file:
 		p = int(input_file.readline().split()[1])
-		clients = np.array([cli.Client(*(line.split())) for line in input_file])
-		return p, clients
 
+		count = 0
+		clients = []
+		for line in input_file:
+			clients.append(cli.Client(count, *line.split()))
+
+		return p, clients
 
 def main():
 	p, clients = get_data(args.INPUT_FILE)
 	p_medians = aco.ACO(p, clients, args.MAXIT, args.ANTN, args.DECAYR,
 		args.ALPHA, args.BETA)
 	p_medians.ant_system()
+
+	a = p_medians.sort_nodes(2)
+	print(a)
 
 
 ################################################################################
