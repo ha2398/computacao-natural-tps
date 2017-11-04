@@ -65,9 +65,8 @@ def main():
 	p, clients = get_data(args.INPUT_FILE)
 	p_medians = aco.ACO(p, clients, args.MAXIT, args.ANTN, args.DECAYR,
 		args.ALPHA, args.BETA)
-	p_medians.ant_system()
 
-	print(p_medians.choose_medians())
+	p_medians.ant_system()
 
 
 ################################################################################

@@ -208,17 +208,95 @@ class ACO():
 
 		return medians
 
+	def get_nearest_median_dist(self, client, medians):
+		''' Get the distance to nearest median to @client.
+
+			@param 	client:	Id of client referenced.
+			@type	client:	Integer.
+
+			@param 	medians:	Clients chosen as medians.
+			@type	medians:	List of Integer.
+
+			@return:	Distance to nearest median to @client.
+			@rtype:		Integer.
+			'''
+
+		distances = [(i, self.d[client, i]) for i in range(self.n) \
+			if i in medians]
+		distances = sorted(distances, key=lambda x: x[1])
+		return distances[0][1]
+
+	def sort_clients(self, medians):
+		''' Generate a list with all the n clients in increasing order of
+			distance to their corresponding nearest median.
+
+			@param 	medians:	Clients chosen as medians.
+			@type	medians:	List of Integer.
+
+			@return:	List of clients in increasing order of distance to their
+						corresponding nearest median.
+			@rtype:		List of Client.
+			'''
+
+		clients = [(self.clients[i], self.get_nearest_median_dist(i, medians)) \
+			for i in range(self.n)]
+		clients = sorted(clients, key=lambda x: x[1])
+		return [x[0] for x in clients]
+
+	def sort_medians(self, client, medians):
+		''' Generate a list with all the p medians in increasing order of
+			distance to the current client.
+
+			@param 	client:	Current client.
+			@type	client:	Client.
+
+			@param 	medians:	Clients chosen as medians.
+			@type 	medians:	List of Integer.
+
+			@return:	List with all the p medians in increasing order of
+						distance to the current client.
+			@type:		List of Integer.
+			'''
+
+		p_medians = sorted([(i, self.d[client.id, i]) for i in medians],
+			key=lambda x: x[1])
+		return [x[0] for x in p_medians]
+
+	def GAP(self, medians):
+		''' Generalized Assignment Problem heuristic.
+			
+			@param 	medians: 	Clients chosen to be medians.
+			@type	medians:	List of Integer.
+			'''
+
+		self.x = np.zeros((self.n, self.n))
+		ordered_clients = self.sort_clients(medians)
+
+		for i in range(self.n):
+			ordered_medians = self.sort_medians(ordered_clients[i], medians)
+
+			for j in range(self.p):
+				m = self.clients[ordered_medians[j]]
+				c = ordered_clients[i]
+				if (m.capacity - c.demand >= 0):
+					self.x[c.id, m.id] = 1
+
 	def build_solution(self):
 		''' Build a solution to the problem using the current pheromone
 			setting and ants.
 			'''
-		pass
+		
+		medians = self.choose_medians()
+		self.GAP(medians)
 
+		# TODO
 
 	def update_pheromone(self):
 		'''	Update pheromone vector based on the paths the ants are using to
 			build solutions. 
 			'''
+		
+		# TODO
 		pass
 
 	def ant_system(self):
