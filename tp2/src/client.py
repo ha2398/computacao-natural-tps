@@ -49,6 +49,8 @@ class Client():
 		self.capacity = float(c)
 		self.demand = float(d)
 
+		self.used_cpct = 0
+
 	def __str__(self):
 		''' Return a string representation of a client.
 

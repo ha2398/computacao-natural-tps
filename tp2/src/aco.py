@@ -241,10 +241,15 @@ class ACO():
 			@rtype:		Integer.
 			'''
 
-		distances = [(i, self.d[client, i]) for i in range(self.n) \
-			if i in medians]
-		distances = sorted(distances, key=lambda x: x[1])
-		return distances[0][1]
+		best_dist = np.inf
+
+		for median in medians:
+			cur_dist = self.d[client, median]
+
+			if (cur_dist < best_dist):
+				best_dist = cur_dist
+
+		return best_dist
 
 	def sort_clients(self, medians):
 		''' Generate a list with all the n clients in increasing order of
@@ -298,8 +303,15 @@ class ACO():
 			for j in range(self.p):
 				m = self.clients[ordered_medians[j]]
 				c = ordered_clients[i]
-				if (m.capacity - c.demand >= 0):
+				remaining_cpct = m.capacity - m.used_cpct
+
+				if (m.used_cpct < m.capacity and remaining_cpct - c.demand >= 0):
 					self.x[c.id, m.id] = 1
+					m.used_cpct = c.demand
+					break
+
+		for client in self.clients:
+			client.used_cpct = 0
 
 	def build_solution(self):
 		''' Build a solution to the problem using the current pheromone
@@ -346,8 +358,6 @@ class ACO():
 				medians = self.build_solution()
 				cost = self.evaluate_solution()
 
-				print("\tAnt:", (ant+1), "medians:", medians, "cost:", cost)
-
 				if (cost < best_local):
 					best_local = cost
 					best_medians = medians
@@ -362,6 +372,10 @@ class ACO():
 
 			if (updt_phero):
 				self.update_pheromone(best_medians, best_local)
+
+			print("Best global:", self.best_global)
+			print("Best local:", best_local)
+			print()
 
 	def build_distance_matrix(self):
 		''' Build distance matrix D where Dij indicates the distance between
