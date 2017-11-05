@@ -18,7 +18,7 @@ parser.add_argument('-n', dest='ANTN', default=4, type=int,
 	help='Number of ants')
 parser.add_argument('-i', dest='MAXIT', default=10, type=int,
 	help='Number of iterations to run the program for')
-parser.add_argument('-d', dest='DECAYR', default=0.25, type=float,
+parser.add_argument('-d', dest='DECAYR', default=0.8, type=float,
 	help='Pheromone decay rate')
 parser.add_argument('-a', dest='ALPHA', default=3, type=int,
 	help='Weight of trail intensity')
@@ -67,6 +67,7 @@ def main():
 		args.ALPHA, args.BETA)
 
 	p_medians.ant_system()
+	print(p_medians.best_global)
 
 
 ################################################################################

@@ -28,17 +28,18 @@ class ACO():
 		@attribute 	x: 	Allocation matrix.
 		@type		x:	Numpy Array of Numpy Array of Integer.
 
-		@attribute 	y:	Median selection vector.
-		@type 		y: 	Numpy Array of Integer.
-
 		@attribute 	pheromone: 	Pheromone vector.
 		@type 		pheromone:	Numpy Array of Float.
 
-		@attribute 	costs:	Cost of each solution for each ant.
-		@type		costs:	Numpy Array of Float.
+		@attribute 	best_global: 	Best solution cost found.
+		@type 		best_global:	Float.
 
-		@attribute 	medians:	Medians chosen for each solution for each ant.
-		@type 		medians:	Numpy Array of Integer.
+		@attribute 	worst_global: 	Worst solution cost found.
+		@type 		worst_global:	Float.
+
+		@attribute 	solution: 	Best solution, i.e., clients chosen as medians
+								at the end of the program.
+		@type		solution:	List of Integer.
 		'''
 
 	def __init__(self, p, clients, maxit, antn, decayr, alpha, beta):
@@ -73,22 +74,17 @@ class ACO():
 		self.decayr = decayr
 		self.alpha = alpha
 		self.beta = beta
-
 		self.d = ACO.build_distance_matrix(clients)
-
 		self.n = len(clients)
 
 		# x_ij = 1 if node i is allocated to median j, 0 otherwise
 		self.x = np.zeros((self.n, self.n))
 
-		# y_j = 1 if node j is a median, 0 otherwise
-		self.y = np.zeros(self.n)
-
 		self.pheromone = np.full(self.n, 0.5)
+		self.best_global = np.inf
+		self.worst_global = -1 * np.inf
 
-		# For each ant, stores solution cost and medians chosen.
-		self.costs = np.zeros(self.antn)
-		self.medians = np.full((self.antn, 1), np.array([0]))
+		self.solution = []
 
 	def evaluate_solution(self):
 		''' Return the cost of the current solution.
@@ -284,32 +280,59 @@ class ACO():
 	def build_solution(self):
 		''' Build a solution to the problem using the current pheromone
 			setting and ants.
+
+			@return:	Medians used in the solution.
+			@rtype:		List of Integer.
 			'''
 		
 		medians = self.choose_medians()
 		self.GAP(medians)
+		return medians
 
-		# TODO
-
-	def update_pheromone(self):
+	def update_pheromone(self, medians, cost):
 		'''	Update pheromone vector based on the paths the ants are using to
 			build solutions. 
 			'''
 		
-		# TODO
-		pass
+		norm_cost = 1 + ((cost - self.best_global)*(0 - 1))/(self.worst_global \
+			- self.best_global)
+		delta_p = (1 / norm_cost)
+
+		for i in range(self.n):
+			self.pheromone[i] = self.decayr * self.pheromone[i]
+
+			if (i in medians):
+				self.pheromone[i] += delta_p
 
 	def ant_system(self):
 		''' Run the Ant System algorithm.
 			'''
 
 		for it in range(self.maxit):
-			for ant in range(self.antn):
-				self.build_solution()
-			
-			self.update_pheromone()
+			print("Iteration", it+1, ":")
+			best_local = np.inf
+			updt_phero = False
 
-		# TODO
+			for ant in range(self.antn):
+				medians = self.build_solution()
+				cost = self.evaluate_solution()
+
+				print("\tAnt:", (ant+1), "medians:", medians, "cost:", cost)
+
+				if (cost < best_local):
+					best_local = cost
+					best_medians = medians
+					updt_phero = True
+
+				if (cost < self.best_global):
+					self.best_global = cost
+					self.solution = medians
+
+				if (cost > self.worst_global):
+					self.worst_global = cost
+
+			if (updt_phero):
+				self.update_pheromone(best_medians, best_local)
 
 	def build_distance_matrix(clients):
 		''' Build distance matrix D where Dij indicates the distance between
@@ -330,3 +353,6 @@ class ACO():
 				D[i][j] = D[j][i] = clients[i].distance(clients[j])
 
 		return D
+
+		1  -  best_global
+		0  -  worst_global
