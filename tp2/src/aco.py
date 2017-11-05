@@ -31,6 +31,18 @@ class ACO():
 		@attribute 	pheromone: 	Pheromone vector.
 		@type 		pheromone:	Numpy Array of Float.
 
+		@attribute 	pher_max:	Maximum value for pheromone.
+		@type 		pher_max:	Float.
+
+		@attribute 	pher_min:	Minimum value for pheromone.
+		@type 		pher_min:	Float.
+
+		@attribute 	pher_init:	Initial value for pheromone.
+		@type 		pher_init:	Float.
+
+		@attribute 	stag_ctrl_value:	Stagnation control value.
+		@type 		stag_ctrl_value:	Float.
+
 		@attribute 	best_global: 	Best solution cost found.
 		@type 		best_global:	Float.
 
@@ -80,11 +92,23 @@ class ACO():
 		# x_ij = 1 if node i is allocated to median j, 0 otherwise
 		self.x = np.zeros((self.n, self.n))
 
-		self.pheromone = np.full(self.n, 0.5)
+		self.pher_max = 0.999
+		self.pher_min = 0.001
+		self.pher_init = 0.5
+
+		self.restart_pheromone()
 		self.best_global = np.inf
 		self.worst_global = -1 * np.inf
 
+		self.stag_ctrl_value = self.p * self.pher_max + (self.n - self.p) * \
+			self.pher_min
+
 		self.solution = []
+
+	def restart_pheromone(self):
+		''' Restart pheromone trails. '''
+
+		self.pheromone = np.full(self.n, self.pher_init)
 
 	def evaluate_solution(self):
 		''' Return the cost of the current solution.
@@ -304,6 +328,11 @@ class ACO():
 			if (i in medians):
 				self.pheromone[i] += delta_p
 
+		np.clip(self.pheromone, 0.001, 0.999, out=self.pheromone)
+
+		if (abs(sum(self.pheromone) - self.stag_ctrl_value) < 0.1):
+			self.restart_pheromone()
+
 	def ant_system(self):
 		''' Run the Ant System algorithm.
 			'''
@@ -334,25 +363,18 @@ class ACO():
 			if (updt_phero):
 				self.update_pheromone(best_medians, best_local)
 
-	def build_distance_matrix(clients):
+	def build_distance_matrix(self):
 		''' Build distance matrix D where Dij indicates the distance between
 			client i and j.
-
-			@param	clients:	Numpy Array with all clients.
-			@type	clients:	Numpy Array of Client.
 
 			@return:		Matrix D of distances.		
 			@rtype:			Numpy Array of Numpy Array of Float.
 			'''
 
-		size = len(clients)
-		D = np.zeros((size, size))
+		D = np.zeros((self.n, self.n))
 
-		for i in range(size):
-			for j in range(i, size):
-				D[i][j] = D[j][i] = clients[i].distance(clients[j])
+		for i in range(self.n):
+			for j in range(i, self.n):
+				D[i, j] = D[j, i] = self.clients[i].distance(self.clients[j])
 
 		return D
-
-		1  -  best_global
-		0  -  worst_global
