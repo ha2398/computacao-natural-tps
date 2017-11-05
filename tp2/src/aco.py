@@ -86,8 +86,8 @@ class ACO():
 		self.decayr = decayr
 		self.alpha = alpha
 		self.beta = beta
-		self.d = ACO.build_distance_matrix(clients)
 		self.n = len(clients)
+		self.d = self.build_distance_matrix()
 
 		# x_ij = 1 if node i is allocated to median j, 0 otherwise
 		self.x = np.zeros((self.n, self.n))
