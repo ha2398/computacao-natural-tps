@@ -30,7 +30,7 @@
      
 \begin{resumo}
   Este trabalho objetiva o desenvolvimento de conceitos fundamentais na
-  aplicação do Algoritmo de Colônia de Formigas {Ant Colony Optimization - ACO)
+  aplicação do Algoritmo de Colônia de Formigas (Ant Colony Optimization - ACO)
   para resolução do problema da p-Mediana. A estrutura básica do ACO é apresentada
   e adaptada ao problema a ser resolvido. Finalmente, a partir de dados de teste,
   são realizados experimentos e a análise dos resultados obtidos.
@@ -38,25 +38,39 @@
 
 \section{INTRODUÇÃO}
 
-Como definido por \cite{plmgp:08}, Programação Genética é um conjunto de técnicas
-de Computação Evolucionária que permite resolver problemas de forma automática.
-Dessa forma, o usuário não precisa, de antemão, determinar a forma ou estrutura 
-que a solução para um determinado problema terá.
+Como definido por \cite{clalg:11}, o Algoritmo de Colônia de Formigas é um método
+dos campos de Inteligência de Enxames, Metaheurísticas e Inteligência Computacional.
+Nesse método, o comportamento de formigas na natureza, em particular a comunicação
+baseada em feromônio que elas realizam para encontrar bons caminhos na busca por comida
+em um ambiente, é inspiração para encontrar potenciais soluções para um problema.
 
-Em Programação Genética, cada possível solução para um problema é definida como um
-indivíduo. Inicialmente, é criado um grupo aleatório desses indivíduos, chamado de
-população. Cada um desses indivíduos é avaliado para determinar o quão próximos da
-solução ótima do problema eles estão. Baseado nessa proximidade, esses indivíduos
-são "evoluídos", criando assim novas gerações de indivíduos que passam pelo mesmo
-processo por um número determinado de vezes. Finalmente, o melhor indivíduo obtido
-ao final dessas gerações é retornado ao usuário como a solução do problema em questão.
+Na busca por comida, formigas se espalham inicialmente aleatoriamente em seu ambiente.
+Uma vez que uma fonte de comida é localizada, as formigas que a encontraram começam a
+depositar feromônio nesse ambiente, marcando assim o caminho que as levaram até a fonte.
+Quando várias um mesmo caminho é percorrido várias vezes e por várias formigas, a quantidade
+de feromônio nesse caminho se torna notavelmente maior do que em outras partes do ambiente,
+enquanto caminhos pouco percorridos perdem feromônio à medida que o tempo passa, devido à
+evaporação do mesmo.A comunicação das formigas, e ponto fundamental para o algoritmo,
+ocorre através do feromônio depositado, uma vez que elas tendem a seguir por caminhos com
+maior quantidade de feromônio.
 
-Um dos problemas que podemos resolver com Programação Genética é o de Regressão Simbólica.
-Nele, o usuário possui um conjunto de m amostras provenientes de uma função desconhecida
-que recebe n valores reais e retorna um único valor real. O objetivo então é encontrar a
-expressão simbólica dessa função que melhor se ajusta às amostras fornecidas.
+Usando esse comportamento como inspiração, surge o Algoritmo de Colônia de Formigas, cuja 
+estratégia geral é a de construir soluções candidatas para um problema de forma estocástica.
+Essas soluções são construídas, então, de forma probabilística e têm suas qualidades avaliadas.
+A partir dessas medidas de qualidade, 'feromônio' é depositado nos caminhos que geraram soluções
+de maior qualidade e, dessa forma, novas soluções criadas tendem a seguir pelos mesmos caminhos.
+
+Nesse trabalho, o Algoritmo de Colônia de Formigas será utilizado para resolver o problema da p-Mediana
+com restrições de capacidade. Esse problema consiste em decidir onde localizar \textit{p} centros em uma
+rede (composta por vértices e arestas) de forma a minimizar a soma de todas as distãncias de cada vértice
+ao centro mais próximo. Nesse problema também existem restrições de capacidade de atendimento dos centros.
+Esse problema é um problema de otimização combinatória NP-difícil.
 
 \section{MODELAGEM} \label{sec:model}
+
+Para utilizar o Algoritmo de Colônia de Formiga para o problema da p-Mediana, é necessário realizar uma
+modelagem relativa à construção de soluções, comportamento de formigas, depósito de feromônio, entre outros
+aspectos. No trabalho em questão, a modelagem seguiu em grande parte \cite{DBLP:journals/informaticaSI/FrancaZC05}.
 
 \subsection{Indivíduos} \label{sec:ind}
 
