@@ -82,7 +82,7 @@ Esse problema é um problema de otimização combinatória NP-difícil.
 
 Para utilizar o Algoritmo de Colônia de Formiga para o problema da p-Mediana, é necessário realizar uma
 modelagem relativa à construção de soluções, comportamento de formigas, depósito de feromônio, entre outros
-aspectos. No trabalho em questão, a modelagem seguiu em grande parte \cite{dblp:fr}.
+aspectos. No trabalho em questão, a modelagem seguiu em grande parte \cite{DBLP:journals/informaticaSI/FrancaZC05}.
 
 Mais formalmente, podemos definir o problema da seguinte forma:
 
@@ -130,7 +130,7 @@ de qualidade de cada solução construída e atualiza as quantidades de feromôn
 
 \subsection{Feromônio}
 
-Na implementação desse trabalho, como sugerido em \cite{dblp:fr}, os níveis
+Na implementação desse trabalho, como sugerido em \cite{DBLP:journals/informaticaSI/FrancaZC05}, os níveis
 de feromônio são referentes aos centros. Dessa forma, um vetor $ \tau $ armazena a quantidade de feromônio
 depositada em cada centro.
 
@@ -169,7 +169,7 @@ se $ i \in J^k $, onde $ J^k $ é a lista de centros ainda não escolhidos pela 
 do feromônio e da heurística, definidos pelo usuário. Caso $ i \notin J^k $, $ p_i^k(t) = 0 $.
 
 Após a seleção de $ p $ centros para serem medianas, cada um dos $ n - p $ centros restantes devem ser alocados
-a precisamente uma mediana. Para isso, uma heurística definida em \cite{dblp:fr}
+a precisamente uma mediana. Para isso, uma heurística definida em \cite{DBLP:journals/informaticaSI/FrancaZC05}
 é utilizada, sendo uma instância do Problema de Alocação Generalizada (tradução livre de Generalized Assignment
 Problem - GAP). O Pseudocódigo que descreve a heurística é apresentado na Listagem 2.\\
 
@@ -186,7 +186,7 @@ Problem - GAP). O Pseudocódigo que descreve a heurística é apresentado na Lis
 
 \subsection{Heurística de Informação} \label{sec:infheur}
 
-Para melhorar as soluções construídas pelas formigas, \cite{dblp:fr} sugere
+Para melhorar as soluções construídas pelas formigas, \cite{DBLP:journals/informaticaSI/FrancaZC05} sugere
 a implementação de uma heurística que considera a qualidade da escolha de cada centro como parte da solução.
 
 Nessa heurística, a informação de distância entre o centro sendo analisado e o restante é necessária. Aqui,
@@ -234,10 +234,10 @@ Algumas decisões de implementação importantes são apresentadas a seguir:
  e o máximo é $ 0.999 $.
  
  \item O valor inicial de feromônio presente em todos os centros é definido como $ 0.5 $, seguindo
- \cite{dblp:fr}.
+ \cite{DBLP:journals/informaticaSI/FrancaZC05}.
  
  \item Uma política para evitar que o algoritmo fique estagnado é implementada, também tendo como 
- referência o que é feito em \cite{dblp:fr}. Para isso, uma fórmula
+ referência o que é feito em \cite{DBLP:journals/informaticaSI/FrancaZC05}. Para isso, uma fórmula
  que depende do valor máximo de feromônio, número de medianas, número de centros e valor mínimo de
  feromônio é utilizada. Quando a soma do valores de feromônio presentes no vetor de feromônio atinge
  o valor retornado pela fórmula, o vetor de feromônio é reinicializado.
@@ -389,13 +389,6 @@ logo, para melhor desempenho em tempo, escolhemos o valor de 30 formigas.
   \label{fig:exp1s3}
 \end{figure}
 
-\subsection{Experimento 2: Iterações}
-
-Uma vez definido o número de formigas a ser utilizado para cada um dos arquivos teste, é necessário
-determinar por quantas iterações o programa deve executar para cada arquivo, uma vez que valores próximos
-do ótimo podem ser encontrados em uma iteração $ i $, não sendo necessário executar o programa por mais
-que $ i $ iterações.
-
 \subsection{Observações}
 
 Os experimentos realizados possibilitaram observar diversas características importantes, tanto
@@ -404,7 +397,7 @@ Vimos aqui que a escolha do número de formigas, por exemplo, determina o nível
 do espaço de busca. Sendo cada uma das formigas responsável por seguir por um 'caminho' ao procurar
 soluções para o problema.
 
-Importante notar que o trabalho seguiu o que foi feito em \cite{dblp:fr},
+Importante notar que o trabalho seguiu o que foi feito em \cite{DBLP:journals/informaticaSI/FrancaZC05},
 sendo assim, interessante em trabalhos relacionados que utilizem o algoritmo de colõnia de formigas a
 utilização de outros trabalhos de referência, para fins de comparação em algum projeto futuro.
 
