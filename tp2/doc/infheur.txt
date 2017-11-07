@@ -1,0 +1,7 @@
+Procedimento InfHeur(centro):
+	centros_ordenados = ordena_centros(centro)
+	todos_centros, soma_distância = aloca(centro, centros_ordenados)
+	densidade = (todos_centros) / (soma_distância)
+
+	Retorna densidade
+Fim

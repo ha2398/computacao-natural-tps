@@ -1,0 +1,8 @@
+Procedimento ACF():
+	Enquanto iter < max_it Faça:
+		Para cada formiga Faça:
+			constroi_solução()
+			atualiza_feromõnio()
+		Fim Para
+	Fim Enquanto
+Fim

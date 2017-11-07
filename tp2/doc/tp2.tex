@@ -9,6 +9,9 @@
 \usepackage[utf8]{inputenc}  
 % UTF-8 encoding is recommended by ShareLaTex
 
+\usepackage{mdframed}
+\usepackage{minted}
+
 \usepackage{amssymb}
      
 \sloppy
@@ -29,7 +32,7 @@
 \maketitle
      
 \begin{resumo}
-  Este trabalho objetiva o desenvolvimento de conceitos fundamentais na
+  Este trabalho tem como objetivo o desenvolvimento de conceitos fundamentais na
   aplicação do Algoritmo de Colônia de Formigas (Ant Colony Optimization - ACO)
   para resolução do problema da p-Mediana. A estrutura básica do ACO é apresentada
   e adaptada ao problema a ser resolvido. Finalmente, a partir de dados de teste,
@@ -62,9 +65,18 @@ de maior qualidade e, dessa forma, novas soluções criadas tendem a seguir pelo
 
 Nesse trabalho, o Algoritmo de Colônia de Formigas será utilizado para resolver o problema da p-Mediana
 com restrições de capacidade. Esse problema consiste em decidir onde localizar \textit{p} centros em uma
-rede (composta por vértices e arestas) de forma a minimizar a soma de todas as distãncias de cada vértice
+rede (composta por vértices e arestas) de forma a minimizar a soma de todas as distâncias de cada vértice
 ao centro mais próximo. Nesse problema também existem restrições de capacidade de atendimento dos centros.
 Esse problema é um problema de otimização combinatória NP-difícil.
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{pmedian.png}
+  \caption{Ilustração do problema da p-Mediana. Na imagem, vemos os centros (círculos)
+  sendo atendidos pelas medianas (centros em preto). A relação de atendimento entre um centro
+  e uma mediana é representada pelas linhas tracejadas.}
+  \label{fig:pmedian}
+\end{figure}
 
 \section{MODELAGEM} \label{sec:model}
 
@@ -72,285 +84,227 @@ Para utilizar o Algoritmo de Colônia de Formiga para o problema da p-Mediana, �
 modelagem relativa à construção de soluções, comportamento de formigas, depósito de feromônio, entre outros
 aspectos. No trabalho em questão, a modelagem seguiu em grande parte \cite{DBLP:journals/informaticaSI/FrancaZC05}.
 
-\subsection{Indivíduos} \label{sec:ind}
+Mais formalmente, podemos definir o problema da seguinte forma:
 
-A primeira decisão de implementação em Programação Genética é a de como representar
-os indivíduos que representarão soluções para o problema a ser resolvido. Para o
-problema de Regressão Simbólica, uma solução é uma função do tipo
-$ f:\mathbb{R}^{m} \rightarrow \mathbb{R} $. Dessa forma, a representação escolhida
-para representar uma função que resolva o problema é a de uma árvore onde os nós
-internos representam operadores e os nós folha são formados por terminais, isto é,
-variáveis da função ou constantes. Para os nós que representam operadores, os nós filhos
-serão os operandos. A Figura \ref{fig:gp_ind} mostra um exemplo de indivíduo com essa
-configuração.
-
-Para este trabalho, o conjunto de terminais e operadores escolhidos é mostrado a seguir:
-
-\begin{itemize}
- \item \textbf{Operadores:}
- \begin{itemize}
-  \item \textbf{Binários:}
-   \begin{itemize}
-    \item \textbf{+}: Operador de adição.
-    \item \textbf{-}: Operador de subtração.
-    \item \textbf{*}: Operador de multiplicação.
-    \item \textbf{/}: Operador de divisão.
-    \item \textbf{\^}: Operador de exponenciação.
-   \end{itemize}
-   
-   \item \textbf{Unários:}
-   \begin{itemize}
-    \item \textbf{log}: Função logaritmo (base e).
-    \item \textbf{sin}: Função seno.
-    \item \textbf{cos}: Função cosseno.
-    \item \textbf{sqrt}: Função raiz quadrada.
-   \end{itemize}
-
- \end{itemize}
+\begin{enumerate}
+ \item Seja \textbf{n} o número de centros.
+ \item Seja \textbf{p} o número de medianas a serem selecionadas.
+ \item Seja $ a_i $ a demanda do centro $ i $.
+ \item Seja $ c_j $ a capacidade da mediana $ j $.
  
- \item \textbf{Terminais:}
- \begin{itemize}
-  \item \textbf{Constantes}: Valores reais aleatoriamente gerados.
-  \item \textbf{Variáveis}: Representam variáveis da função a ser aproximada.
-  O número de variáveis aleatoriamente geradas é igual ao número de variáveis
-  de entrada da função que o usuário deseja aproximar.
- \end{itemize}
+ \item Seja \textbf{d} a matriz de dimensão $ n $ x $ n $ onde $ d_{ij} $ representa a distância entre
+ os centros $ i $ e $ j $.
  
-\end{itemize}
+ \item Seja \textbf{x} a matriz de dimensão $ n $ x $ n $ onde $ x_{ij} = 1 $ se o centro $ i $ é atendido
+ pela mediana $ j $ e $ 0 $ caso contrário.
+ 
+ \item Dessa forma, o problema da p-Mediana trata-se do problema de minimizar
+ $ \sum_{i=1}^{n} \sum_{j=1}^{n} d_{ij}x_{ij} $, considerando algumas restrições:
+ 
+ \begin{enumerate}
+  \item $ \sum_{i=1}^{p} x_{ij} = 1, j~=~1,...,p. $
+  \item $ \sum_{i=1}^{n} x_{ij}a_i \leq c_j,j~=~1,...,p. $
+ \end{enumerate}
 
-\subsection{Fitness}
+\end{enumerate}
 
-Como dito anteriormente, cada indivíduo presente em uma determinada geração
-deverá ser avaliado para obter uma medida de quão bem esse indivíduo aproxima
-a função cujos valores de entrada e saída são fornecidos pelo usuário. O critério
-de avaliação da qualidade do indivíduo, também conhecido como fitness, para este
-trabalho, será dado pela raiz quadrada do erro quadrático médio (RMSE).
+\subsection{Algoritmo}
+
+A estrutura geral do Algoritmo de Colônia de Formigas é apresentada na listagem a seguir. Percebemos
+que trata-se de um algoritmo simples a alto nível, sendo cada um de seus procedimentos internos variados
+de acordo com o problema em questão.\\
+
+\begin{mdframed}[linecolor=black, leftline=false, rightline=false]
+    \inputminted[linenos, fontsize=\footnotesize]{text}{pseudo.txt}
+\end{mdframed}
 
 \begin{center}
- \begin{math}
-  f(Ind) = \sqrt{\frac{1}{N}\sum_{n=1}^{N}(Eval(Ind, x) - y)^2}
-  \end{math}
+ \textbf{Listagem 1: Pseudocódigo para o Algoritmo de Colônia de Formigas. iter se refere a iteração atual e
+ max\_it ao número total de iterações a serem executadas.}
 \end{center}
 
-onde Ind é o indivíduo sendo avaliado, $ Eval(Ind, x) $ avalia o indivíduo Ind
-no conjunto de entrada fornecido $ x $, $ y $ é a saída correta da função para 
-a entrada $ x $ e $ N $ é o número de exemplos fornecidos.
+Na Listagem 1, o procedimento \textbf{constrói\_solução()} constrói uma solução para o problema tendo
+como base as quantidades de feromônio e outras heurísticas opcionais. Cada formiga passa por um centro
+a cada passo de uma iteração. Já o procedimento \textbf{atualiza\_feromônio()} utiliza a informação 
+de qualidade de cada solução construída e atualiza as quantidades de feromônio depositadas.
 
-Dessa forma, a função $ Eval(Ind, x) $ vai atribuir os valores em $ x $ às
-variáveis presentes em Ind, e retornar o valor $ y $ correspondente à saida
-da expressão simbólica que Ind representa para $ x $.
+\subsection{Feromônio}
 
-\subsection{Geração de População Inicial}
+Na implementação desse trabalho, como sugerido em \cite{DBLP:journals/informaticaSI/FrancaZC05}, os níveis
+de feromônio são referentes aos centros. Dessa forma, um vetor $ \tau $ armazena a quantidade de feromônio
+depositada em cada centro.
 
-Existem vários métodos para geração da população inicial de indivíduos que serão
-evoluídos ao longo das gerações em que o programa executará. Neste trabalho é usada
-uma combinação de dois deles:
+Dessa forma, durante a etapa de construção de soluções, as formigas escolhem probabilisticamente os centros
+que servirão de mediana com base na quantidade de feromônio presente em cada um. Como decisão de implementação,
+os níveis de feromônio só são atualizados por formigas que geraram soluções ótimas locais ou globais. A fórmula
+que determina como é feita a atualização dos níveis de feromônio com base em uma solução $ S $ é:
 
-\begin{itemize}
- \item \textbf{Full:} Gera indivíduos cuja expressão simbólica é dada por uma árvore
- completa, i.e., todas as folhas estão na mesma profundidade.
- \item \textbf{Grow:} Gera indivíduos com formas e tamanhos variados, uma vez que
- os nós são selecionados tanto dos operadores quanto dos terminais até que a profundidade
- limite é atingida. Quando isso acontece, somente terminais são selecionados para compor
- nós.
-\end{itemize}
+\begin{displaymath}
+ \tau_i = \rho * \tau_i + \Delta\tau_i
+\end{displaymath}
 
-Para garantir uma diversidade elevada de indivíduos na população inicial, é usado o
-método \textbf{Ramped Half-and-Half}, que combina os métodos Full e Grow, gerando
-metade da população com o primeiro e metade com o segundo.
+Onde $ \rho $ representa a taxa de evaporação do feromônio $ \tau_i $ já presente em um centro $ i $ e
+$ \Delta\tau_i $ é dado por:
 
-\subsection{Evolução}
+\begin{displaymath}
+ \Delta\tau_i = \frac{1}{f(S)} 
+\end{displaymath}
 
-Uma vez gerada a população de indivíduos, o algoritmo de Programação Genética entra
-em um laço de repetição, evoluindo indivíduos e gerando populações cada vez melhores.
-A evolução dos indivíduos presentes em uma população se dá através de seleção e aplicação
-de operadores genéticos.
+se $ i \in S $, $ 0 $ caso contrário. $ f(S) $ é uma função que retorna a qualidade da solução $ S $.
+Para isso, o custo da solução $ S $ é normalizado no intervalo entre o custo da melhor solução encontrada
+até o momento e o custo da pior, sendo o primeiro equivalente a $ 1 $ e o segundo a $ 0 $.
 
-\subsubsection{Seleção}
+\subsection{Construção de Soluções}
 
-É desejável que, a cada geração, sejam mantidas as características dos indivíduos que
-apresentam melhor fitness (menor, no caso da regressão simbólica). Logo, é necessário
-incluir um mecanismo que permita selecionar, dada uma certa população, indivíduos que
-se destacam.
+Para construir soluções, as formigas consideram o nível de feromônio presente nos centros. Com esses níveis,
+existe uma probabilidade associada à escolha de cada centro pelas formigas, que escolhem os $ p $ centros
+que serão medianas um por um, considerando a probabilidade dada por:
 
-Nesse trabalho, o mecanismo de seleção implementado foi o de \textbf{Seleção por Torneio}.
-Esse tipo de seleção escolhe um grupo aleatório de tamanho $ k $ dentre os indivíduos
-de uma população e retorna aquele, dentre os $ k $ escolhidos, que tenha a melhor fitness.
+\begin{displaymath}
+ p_i^k(t) = \frac{\tau_i(t)^\alpha * \eta_i ^ \beta}{\sum_{i \in J^k}^{} \tau_i(t)^\alpha * \eta_i^\beta}
+\end{displaymath}
 
-Além disso, foi adicionado ao projeto a possibilidade de se utilizar o conceito de 
-\textbf{elitismo}. Com esse conceito, os $ n $ melhores indivíduos de cada geração são
-simplesmente passados para a geração seguinte, onde $ n $ é um parâmetro definido pelo
-usuário.
+se $ i \in J^k $, onde $ J^k $ é a lista de centros ainda não escolhidos pela formiga $ k $, $ \eta_i $
+é uma função heurística descrita na Seção \ref{sec:infheur} e $ \alpha $ e $ \beta $ são parâmetros de peso
+do feromônio e da heurística, definidos pelo usuário. Caso $ i \notin J^k $, $ p_i^k(t) = 0 $.
 
-\subsubsection{Operadores Genéticos}
+Após a seleção de $ p $ centros para serem medianas, cada um dos $ n - p $ centros restantes devem ser alocados
+a precisamente uma mediana. Para isso, uma heurística definida em \cite{DBLP:journals/informaticaSI/FrancaZC05}
+é utilizada, sendo uma instância do Problema de Alocação Generalizada (tradução livre de Generalized Assignment
+Problem - GAP). O Pseudocódigo que descreve a heurística é apresentado na Listagem 2.\\
 
-A partir dos indivíduos selecionados em cada geração, aplica-se um conjunto de operadores
-genéticos sobre os mesmos, a fim de garantir que novos indivíduos (baseados nesses que
-se destacaram em cada geração) possam surgir. Cada um desses operadores genéticos contribui
-de uma forma para o algoritmo e é aplicado seguindo uma certa probabilidade pré-definida.
+\begin{mdframed}[linecolor=black, leftline=false, rightline=false]
+    \inputminted[linenos, fontsize=\footnotesize]{text}{gap.txt}
+\end{mdframed}
 
-Os operadores genéticos implementados nesse trabalho são apresentados a seguir.
+\begin{center}
+ \textbf{Listagem 2: Pseudocódigo para a heurística do GAP. O procedimento centros\_ordenados() gera uma lista
+ com todos os n centros em ordem crescente de distância a suas correspondentes medianas mais próximas. O procedimento
+ ordena\_medianas() gera uma lista com todas as p medianas em ordem crescente de distância ao centro passado
+ como parâmetro.}
+\end{center}
 
-\begin{itemize}
- \item \textbf{Cruzamento:} Dois indivíduos são selecionados e partes desses indivíduos
- (subárvores) são trocadas de lugar, gerando dois novos indivíduos. Os indivíduos pais
- não são alterados nesse processo.
- 
- \item \textbf{Mutação:} Uma parte aleatória de um indivíduo selecionado é alterada.
- Essa parte pode ser removida, expandida, simplesmente ter seu conteúdo trocado, etc.
- Para o trabaho, foi implementada mutação de subárvore, onde um nó é escolhido para
- ser expandido, sendo criada uma nova subárvore a partir do mesmo.
- 
- \item \textbf{Reprodução:} Um indivíduo selecionado é simplesmente passado adiante para
- a próxima geração.
-\end{itemize}
+\subsection{Heurística de Informação} \label{sec:infheur}
 
+Para melhorar as soluções construídas pelas formigas, \cite{DBLP:journals/informaticaSI/FrancaZC05} sugere
+a implementação de uma heurística que considera a qualidade da escolha de cada centro como parte da solução.
+
+Nessa heurística, a informação de distância entre o centro sendo analisado e o restante é necessária. Aqui,
+a ideia é calcular a densidade otimista dos centros se um dado centro fosse escolhido como mediana. O algoritmo
+da heurística é mostrado na Listagem 2.\\
+
+\begin{mdframed}[linecolor=black, leftline=false, rightline=false]
+    \inputminted[linenos, fontsize=\footnotesize]{text}{infheur.txt}
+\end{mdframed}
+
+\begin{center}
+ \textbf{Listagem 3: Pseudocódigo para a Heurística de Informação implementada. O procedimento
+ ordena\_centros(centro) ordena todos os centros com base na distância entre eles e o centro passado
+ como parâmetro. O procedimento aloca(centro, centros\_ordenados) associa cada centro em centros\_ordenados
+ ao centro passado como parâmetro, até que sua capacidade seja atingida, retornando dois valores: (i) todos\_centros:
+ o número de centros alocados com sucesso; e (ii) soma\_distância: a soma de todas as distâncias entre os centros
+ alocados e o centro passado como parâmetro.}
+\end{center}
 
 \section{IMPLEMENTAÇÃO}
 
-Dada a modelagem do problema mostrada na Seção \ref{sec:model} o algoritmo principal
-segue o pseudocódigo mostrado na Figura \ref{fig:gp_code}.
-
-Para o trabalho, o algoritmo então foi implementado usando a linguagem Python 3.
-
-A classe \textbf{Individual} representa um indivíduo conforme descrito na Seção
-\ref{sec:ind}, e é a principal do projeto. Nela estão presentes todos os métodos 
-para construção de indivíduos, populações, avaliação de indivíduos, etc.
-
-Algumas decisões de implementação importantes são discutidas a seguir:
+Seguindo a modelagem do problema mostrada na Seção \ref{sec:model}, o programa foi implementado
+utilizando a linguagem Python 3\footnote{https://www.python.org/download/releases/3.0/}. O programa
+utiliza intensivamente a módulo NumPy\footnote{http://www.numpy.org/} da linguagem,
+principalmente para a geração de números aleatórios. As classes desenvolvidas
+e a estrutura do código fonte são apresentadas a seguir.
 
 \begin{itemize}
- \item Biblioteca Numpy utilizada no projeto intensivamente. É com ela que toda a geração
- de números aleatórios é feita e as operações dos nós são feitas.
+ \item Classe \textbf{Client}, arquivo client.py. Define um centro presente no espaço. Para isso,
+ armazena as informações de coordenadas, demanda e capacidade (para centros escolhidos como medianas).
  
- \item As constantes geradas para nós terminais são números reais no intervalo
- $ [-10, 10] $.
+ \item Arquivo \textbf{tp2.py}. Define o programa principal com os parâmetros de linha de comando e
+ entrada e saída.
  
- \item A fim de otimizar a cópia dos indivíduos pais durante a etapa de cruzamento,
- foi criada uma função copy, mais específica do que a alternativa deepcopy da linguagem.
- 
- \item No método de criação de indivíduos Grow, os tipos dos nós são gerados aleatoriamente
- com probabilidades $ 0.8, 0.1 $ e $ 0.1 $ para nós de operadores, variáveis e constantes,
- respectivamente.
- 
- \item Para evitar que os indivíduos gerados cresçam indefinidamente, existe uma penalidade
- para indivíduos que excedam um tamanho limite. Esse tamanho (número de nós) máximo é dado
- por $ 2^(D) - 1 $, onde $ D $ é a profundidade máxima das árvores geradas. Indivíduos que
- ultrapassem esse tamanho recebem fitness infinita.
- 
- \item A produndidade máxima dos indivíduos não é variada, tendo valor $ 7 $.
+ \item Classe \textbf{ACO}, arquivo aco.py. Define uma instância do problema de p-Mediana como otimização
+ por colônia de formigas. Armazena todas as informações como número de centros, medianas, vetor de feromônio,
+ valores máximos e mínimos para feromônio, melhor solução global, etc.
 \end{itemize}
 
+Algumas decisões de implementação importantes são apresentadas a seguir:
+
+\begin{itemize}
+ \item A fim de evitar que os valores de feromônio tendam a se tornarem arbitrariamente grandes 
+ (ou pequenos), foram definidos valores de feromônio mínimo e máximo. O valor mínimo é $ 0.001 $
+ e o máximo é $ 0.999 $.
+ 
+ \item O valor inicial de feromônio presente em todos os centros é definido como $ 0.5 $, seguindo
+ \cite{DBLP:journals/informaticaSI/FrancaZC05}.
+ 
+ \item Uma política para evitar que o algoritmo fique estagnado é implementada, também tendo como 
+ referência o que é feito em \cite{DBLP:journals/informaticaSI/FrancaZC05}. Para isso, uma fórmula
+ que depende do valor máximo de feromônio, número de medianas, número de centros e valor mínimo de
+ feromônio é utilizada. Quando a soma do valores de feromônio presentes no vetor de feromônio atinge
+ o valor retornado pela fórmula, o vetor de feromônio é reinicializado.
+ 
+ \item Somente formigas que geram ótimos locais ou globais atualizam o vetor de feromônio.
+ 
+\end{itemize}
 
 \section{ESTRUTURA DO PROJETO E EXECUÇÃO}
 
-Os arquivos de código-fonte do projeto se encontram na pasta \textbf{src}. Nela, o
-código-fonte é dividido da seguinte forma:
+Os arquivos de código-fonte do projeto se encontram na pasta \textbf{src}. 
 
-\begin{itemize}
- \item \textbf{individual.py:} Define a classe Individual e todos os métodos necessários
- para criação e avaliação de indivíduos e criação de populações.
- 
- \item \textbf{gp.py:} Métodos auxiliares para Programação Genética, tais como seleção
- por torneio, avaliação de população e operadores genéticos.
- 
- \item \textbf{tp1.py:} Programa principal. Nele está implementado o algoritmo principal
- de Programação Genética, além de todos os métodos de manipulação de entrada e saída.
-\end{itemize}
-
-\subsection{Execução e Parâmetros}
+\subsection{Parâmetros}
 
 A fim de facilitar a execução do programa, foram definidos parâmetros para alterar 
 alguns pontos chave para Programação Dinâmica. São eles:
 
 \begin{itemize}
+ \item \textbf{Arquivo de entrada:} Arquivo com os dados de entrada a serem usados pelo programa.
+ 
  \item \textbf{Semente:} Número inteiro usado na geração de números aleatórios durante a 
  execução do programa. Note que, mantendo todos os outros parâmetros fixos, a saída
- do programa para uma mesma entrada e valor de seed será sempre igual. A semente
+ do programa para uma mesma entrada e valor de semente será sempre igual. A semente
  da execução pode ser definida com a flag \textbf{-s} e tem valor padrão $ 0 $.
  
- \item \textbf{Tamanho da população:} Número inteiro que determina o tamanho de indivíduos
- presente em cada geração. Pode ser definido com a flag \textbf{-p} e tem valor padrão
- $ 54 $.
+ \item \textbf{Número de formigas:} Número inteiro que determina o número total de formigas
+ que serão utilizadas para gerar soluções do problema. Pode ser definido com a flag \textbf{-n}
+ e tem valor padrão $ 4 $.
+  
+ \item \textbf{Número de iterações:} Define o número de iterações pelo qual o programa
+ deve executar. Definido com a flag \textbf{-i} e tem valor padrão $ 10 $.
  
- \item \textbf{Tamanho do torneio:} Número de indivíduos que competem em cada seleção
- por torneio. Definido com a flag \textbf{-k} e tem valor padrão $ 7 $.
+ \item \textbf{Taxa de evaporação de feromônio:} Taxa segundo a qual os valores de feromônio
+ depositado nos centros desaparecem com o tempo. Definida com a flag \textbf{-d} e tem valor
+ padrão $ 0.8 $.
  
- \item \textbf{Número de gerações:} Define o número de gerações pelo qual o programa
- deve executar. Definido com a flag \textbf{-g} e tem valor padrão $ 10 $.
+ \item \textbf{Peso para feromônio (alpha):} Peso do feromônio no cálculo de probabilidade de escolher 
+ um centro. Definido com a flag \textbf{-a} e tem valor padrão $ 3 $.
  
- \item \textbf{Taxa de cruzamento:} Probabilidade de usar o operador de cruzamento para
- gerar filhos em cada geração. Definida com a flag \textbf{-c}, valor padrão $ 0.9 $.
- 
- \item \textbf{Taxa de mutação:} Probabilidade de usar o operador de mutação para
- gerar filhos em cada geração. Definida com a flag \textbf{-m}, valor padrão $ 0.05 $.
- 
- \item \textbf{Tamanho da elite:} Tamanho da elite a ser transferida automaticamente para
- a próxima geração, a cada geração. Definido com a flag \textbf{-e}, valor padrão $ 2 $.
- Note que para desativar o elitismo, basta usar \textbf{-e 0}.
- 
+ \item \textbf{Peso para heurística de informação (beta):} Peso da heurística de informação no cálculo
+ de probabilidade de escolher um centro. Definido com a flag \textbf{-b} e tem valor padrão $ 1 $.
 \end{itemize}
-
-Note que a taxa de reprodução não é definida pelo usuário, mas calculada em função das 
-taxas de cruzamento e mutação, como mostrado na Figura \ref{fig:gp_code}.
 
 Para executar o programa, o comando abaixo é usado:
 
 \begin{center}
- tp1.py [\-h] [\-s RSEED] [\-p POP\_SIZE] [\-k KTOUR] [\-g NGEN] [\-c CROSSR]
-              [\-m MUTR] [\-e ELIT]
-              train\_file test\_file
+tp2.py [-h] [-n ANTN] [-i MAXIT] [-d DECAYR] [-a ALPHA] [-b BETA]
+              [-s RSEED]
+              INPUT\_FILE
 \end{center}
 
-Onde RSEED indica a semente, POP\_SIZE o tamanho da população, KTOUR o número de competidores
-em torneios, NGEN o número de gerações, CROSSR a probabilidade de cruzamento, MUTR a probabilidade
-de mutação, ELIT o tamanho da elite em cada geração, train\_file o nome do arquivo com as
-entradas de treino e test\_file o nome do arquivo com as entradas de teste.
+Onde RSEED indica a semente, ANTN o número de formigas, MXIT o número de iterações do algoritmo,
+DECAYR a taxa de evaporação do feromônio, ALPHA e BETA os pesos de feromônio e heurística de informação, 
+respectivamente), INPUT\_FILE o nome do arquivo de entrada.
 
 Todos os parâmetros entre colchetes acima são opcionais.
 
 \subsection{Entrada e Saída}
 
-Os arquivos de entrada, tanto de treino quanto de teste, devem possuir a mesma estrutura.
-O arquivo de treino é usado para evoluir as soluções do programa até o número máximo de
-gerações ser alcançado. Quando essa etapa é finalizada, as melhores soluções encontradas
-são avaliadas com o arquivo de teste.
+Os arquivos de entrada devem possuir a mesma estrutura. Neles, a primeira linha deve conter
+os valores de $ n $ e $ p $, separados por um espaço. Nas $ n $ linhas seguintes, são listados
+os dados dos centros, i.e., $ x $, $ y $, $ c $ e $ d $, que são a coordenada $ x $, coordenada
+$ y $, capacidade $ c $ do centro e demanda $ d $, respectivamente.
 
-Em ambos os arquivos, cada linha representa uma amostra da função a se aproximar. Sendo
-$ x + 1 $ valores de ponto flutuante separados por vírgula, onde $ x $ é o número de variáveis
-da função. A última coluna, então, representa a saída $ y $ da função para os valores de entrada
-das colunas anteriores.
-
-Em relação à saída do programa, é impresso, a cada geração, um resumo de estatísticas.
-Primeiramente é impresso o número da geração atual, em seguida o valor da fitness do melhor
-indivíduo da geração, da fitness do pior indivíduo, a fitness média considerando todos
-os indivíduos da geração, o número de indivíduos repetidos, a taxa de melhoria para mutação
-e cruzamento.
-
-As taxas de melhoria são calculadas da seguinte forma:
-
-\begin{center}
- \begin{math}
-  Imp(op) = \frac{NImp}{NGen}
- \end{math}
-\end{center}
-
-Sendo Imp(op) a taxa de melhoria para o operador op, NGen representa o número de indivíduos
-criados em determinada geração utilizando-se o operador genético op e NImp o número, dentre
-esses indivíduos gerados, daqueles que apresentaram fitness melhor do que seus pais (indivíduos
-sobre os quais o operador op foi aplicado).
-
-Exemplo de estatísticas para uma certa geração:
-
-\begin{center}
-  Generation 7\\
-  Best fitness: 2.77477679664e-09\\
-  Worst fitness: inf\\
-  Average fitness: 1.70803185868e+17\\
-  Number of repeated individuals: 15\\
-  Mutation improvement rate: 0.0\% \\
-  Crossover improvement rate: 6.25\%
-\end{center}
+Em relação à saída do programa, é impresso, a cada iteração, o número da mesma e os valores
+de melhor solução global e local. Ao final é impresso o custo da melhor solução achada para o
+programa.
 
 \section{EXPERIMENTOS}
 
@@ -360,18 +314,13 @@ ubuntu 14.04 LTS.
 
 \subsection{Metodologia}
 
-Muitas instâncias de teste foram executadas para cada uma das bases de teste. Alguns exemplos
-de saídas obtidas estão presentes na pasta \textbf{test}.
+Muitas instâncias de teste foram executadas para cada uma das bases de teste. A metodologia
+utilizada foi um processo iterativo de determinação de parâmetros ótimos para cada um dos
+três arquivos de entrada fornecidos com o trabalho. A cada etapa, um dos parâmetros era o 
+foco do experimento, que procurava identificar configurações ótimas ou próximas disso.
 
-Um script para teste de todas as bases presentes no diretório \textbf{datasets} com todas as
-possíveis configurações de parâmetro e 30 execuções/sementes foi desenvolvido. Para executá-lo,
-basta digitar o comando a seguir no terminal:
-
-\begin{center}
- ./run\_tests.py
-\end{center}
-
-A metodologia para execução dos testes seguiu muitas das orientações presentes em \cite{clalg:11}.
+Uma vez determinados esses parâmetros ótimos, seguia-se para o próximo parâmetro a determinar,
+fixando-se aqueles já determinados anteriormente.
 
 \subsection{Experimentos}
 
@@ -380,199 +329,49 @@ na Seção \ref{sec:result}. Os valores apresentados foram obtidos da média de 
 
 \begin{itemize}
  \item \textbf{Experimento 1:} No primeiro experimento, objetivou-se simplesmente a verificação
- de convergência da melhor indivíduo em relação ao número de gerações.Os parâmetros utilizados
- estão listados abaixo. \\
+ de qual número de formigas utilizado é mais interessante para cada arquivo de teste. Para os
+ três, os parâmetros de execução foram:
  
- \begin{itemize}
-  \item Base keijzer-7:
-  
-  Tamanho da população: \\
-  Competidores em torneios: \\
-  Número de gerações: \\
-  Taxa de cruzamento: \\
-  Taxa de mutação: \\
-  Tamanho da elite: \\
- 
-  \item Base keijzer-10:
-  
-  Tamanho da população: 100\\
-  Competidores em torneios: 2\\
-  Número de gerações: 100\\
-  Taxa de cruzamento: 0.8\\
-  Taxa de mutação: 0.1\\
-  Tamanho da elite: 2\\
-  
-  \item Base house:
-  
-  Tamanho da população: 100\\
-  Competidores em torneios: 7\\
-  Número de gerações: 50\\
-  Taxa de cruzamento: 0.9\\
-  Taxa de mutação: 0.05\\
-  Tamanho da elite: 2\\
-  
- \end{itemize}
- 
- \item \textbf{Experimento 2:} Com o experimento 2, procurava-se determinar a melhor configuração,
- dos parâmetros de número de gerações e tamanho de população inicial. Para isso, a base house foi
- utilizada. Os parâmetros são mostrados abaixo.
- 
- Base house \\
- Tamanho da População: \{5, 100, 500\} \\
- Competidores em torneios: 7 \\
- Número de gerações: 50 \\
- Taxa de cruzamento: 0.8 \\
- Taxa de mutação: 0.1 \\
- Tamanho da elite: 2 \\
- 
- \item \textbf{Experimento 3:} Já com valores de tamanho de população e número de gerações fixados,
- o próximo passo foi determinar os parâmetros de probabilidade de aplicação dos operadores genéticos.
- 
- Foram testadas duas configurações:
- 
- Base house \\
- Tamanho da População: 50 \\
- Competidores em torneios: 7 \\
- Número de gerações: 50 \\
- Cruzamento, mutação: \{0.9, 0.05\} e \{0.6, 0.3\} \\
- Tamanho da elite: 2 \\
- 
- \item \textbf{Experimento 4:} Uma vez estabelecidas as taxas de cruzamento e mutação que promovem
- um melhor resultado do programa, é necessário testar os valores de tamanho de torneio. Esse valor
- refere-se ao número de competidores que competem a cada seleção de indivíduos por torneio.
- 
- Base keijzer-7 \\
- Tamanho da População: 50 \\
- Competidores em torneios: 3 e 7 \\
- Número de gerações: 50 \\
- Taxa de cruzamento: 0.9 \\ 
- Taxa de mutação: 0.05 \\
- Tamanho da elite: 2 \\
- 
- \item \textbf{Experimento 5:} Em seguida, vemos como é o comportamento do melhor indivíduo de
- cada geração, e, consequentemente, da melhor fitness, utilizando ou não de elitismo. Parâmetros
- utilizados:
- 
- Base house \\
- Tamanho da População: 50 \\
- Competidores em torneios: 7 \\
- Número de gerações: 50 \\
- Taxa de cruzamento: 0.9 \\ 
- Taxa de mutação: 0.05 \\
- Tamanho da elite: 0 e 2 \\
- 
- \item \textbf{Experimento 6:} Uma vez que a diversidade dos indivíduos presentes em uma população
- cai muito, a melhor fitness de cada geração tende a permanecer sem grandes modificações. Para este
- trabalho, a única medida, ainda que não muito eficaz, de diversidade, é o número de indivíduos
- repetidos. Um indivíduo é considerado repetido aqui quando já existe na mesma geração um indivíduo
- que apresenta a mesma estrutura (mesma expressão simbólica - genótipo do indivíduo).
- 
- Base keijzer-7 \\
- Tamanho da População: 500 \\
- Competidores em torneios: 7 \\
- Número de gerações: 50 \\
- Taxa de cruzamento: 0.9 \\ 
- Taxa de mutação: 0.05 \\
- Tamanho da elite: 2 \\
+ Número de formigas: [10, 30, 60, 90] \\
+ Número de iterações: 50 \\
+ Taxa de evaporação: 0.8 \\
+ Alpha: 3 \\
+ Beta: 1
  
 \end{itemize}
 
-
 \section{RESULTADOS} \label{sec:result}
 
-\subsection{Experimento 1: Convergência de melhor fitness}
-
-Esse experimento comprova que, de fato, o algoritmo implementado leva as populações
-geradas inicialmente a convergirem eventualmente, tentando sempre se aproximar do valor
-ótimo de fitness igual a zero para as bases keijzer (o que indica que a solução ótima
-pode ter sido encontrada).
-  
-Podemos ver que, em um primeiro momento a melhor fitness cai de forma bem acentuada,
-em seguida convergindo a um valor específico para cada uma das bases.
-
-\subsection{Experimento 2: Tamanho de população e número de gerações}
-
-A partir do experimento 2 foi possível constatar que o tamanho da população tem grande impacto
-na melhor fitness das primeiras gerações. Isso se deve ao fato de que aumentando o número de
-invivíduos estamos aumentando a diversidade e explorando melhor o espaço de busca. Também
-podemos observar na Figura \ref{fig:exp2h} que, para todos os valores de tamanho de população,
-o programa converge para valores muito próximos, e, além disso, isso ocorre sempre por volta da 
-geração 30. Concluímos então que o custo adicional de avaliar mais indivíduos não compensa muito
-quando vemos que o ponto de convergência é muito próximo para os valores de tamanho de população
-testados.
-
-\subsection{Experimento 3: Operadores Genéticos}
-
-Com esse experimento podemos observar como a velocidade de convergência é afetada diretamente pela
-escolha dos parâmetros relativos às probabilidades de uso de cada um dos operadores genéticos.
-
-Vemos que, ao utilizar uma configuração onde a taxa de cruzamento é muito elevada (garantindo
-que gerações posteriores possam apresentar grandes semelhanças com as os indivíduos de melhor
-fitness das gerações anteriores) e a de mutação é reduzida (somente para garantir que haja uma certa
-diversidade para explorar o espaço de busca) o programa não só converge mais rapidamente, como
-chega a um valor bem melhor de fitness. A Figura \ref{fig:exp3h} mostra os resultados para esse
-experimento.
-
-\subsection{Experimento 4: Torneio}
-
-No experimento 4, ilustrado na Figura \ref{fig:exp4k7}, vemos que é importante selecionar um tamanho de
-torneio que seja grande o suficiente para incluir bons indivíduos, porém não muito grande que sempre 
-selecione aqueles de maior fitness (condição importante para manter diversidade).
-
-
-\subsection{Experimento 5: Elitismo}
-
-Com esse experimento vemos que o uso do elitismo é importante para garantir que a solução seja sempre
-melhorada ou mantenha-se constante. Sem o uso do mesmo, a melhor fitness pode piorar de uma geração
-para a próxima. A Figura \ref{fig:exp5h} ilustra o experimento.
-
-\subsection{Experimento 6: Indivíduos repetidos}
-
-O resultado desse experimento, como indicado na Figura \ref{fig:exp6k7}, mostra que, uma vez que o
-programa encontra uma solução muito boa (próxima da solução ótima), todos os outros indivíduos de
-uma geração tendem ter seus genótipos aproximados a essa solução.
+\subsection{Experimento 1: Número de formigas}
 
 \subsection{Observações}
 
-Os experimentos realizadas possibilitaram observar diversas características importantes, tanto
-de Programação Genética em geral, quanto da implementação desse trabalho e das bases de dados
-utilizadas.
+Os experimentos realizados possibilitaram observar diversas características importantes, tanto
+de otimização por colônia de formigas em geral quanto a respeito dos arquivos de entrada utilizados.
+Vimos aqui que a escolha do número de formigas, por exemplo, determina o nível de exploração
+do espaço de busca. Sendo cada uma das formigas responsável por seguir por um 'caminho' ao procurar
+soluções para o problema.
 
-Vemos que a escolha da probabilidade dos operadores genéticos e tamanho de torneio pode melhorar
-a diversidade dos indivíduos, promovendo uma maior exploração do espaço de busca.
-
-Além disso, à medida que a melhor fitness de uma população converge para um determinado valor,
-é de se esperar que o número de indivíduos repetidos também tenda a aumentar, dada uma taxa 
-de cruzamento alta.
-
-Um ponto importante sobre os dados coletados diz respeito à discrepância entre os valores de 
-melhor, pior e fitness média das gerações. Mesmo que uma determinada geração possua melhor fitness
-muito baixa, nada impede que a fitness média e pior sejam muito elevadas. De fato, é isso que se
-espera quando utilizamos operadores como multiplicação e exponenciação no conjunto de operadores
-dos indivíduos.
+Importante notar que o trabalho seguiu o que foi feito em \cite{DBLP:journals/informaticaSI/FrancaZC05},
+sendo assim, interessante em trabalhos relacionados que utilizem o algoritmo de colõnia de formigas a
+utilização de outros trabalhos de referência, para fins de comparação em algum projeto futuro.
 
 \section{CONCLUSÃO}
 
-O trabalho aqui apresentado foi de grande utilidade para fixar vários conceitos vistos em aula
-na disciplina de Computação Natural. Creio que a habilidade de modelar um problema como uma
-instância de Programação Genética foi reforçada e poderá ser aplicada com maior facilidade
-no futuro.
+Com esse trabalho, os conceitos fundamentais de Otimização por Colônia de Formigas puderam ser
+fixados. A estrutura geral do algoritmo é muito simples e podemos perceber que os detalhes de
+implementação na verdade são muito dependentes do problema a ser resolvido. Também é importante
+notar que a modelagem do problema, mais uma vez, exerce papel fundamental tanto na performance
+quanto em complexidade de código e outros fatores.
 
-Pontos chave de aprendizado devem ser ressaltados. Na Programação Genética é importante
-definir como representar os indivíduos que representam soluções, e, para isso, é importante
-identificar como mapear soluções já conhecidas para soluções genéricas.
+Assim como no trabalho prático 1, a maior dificuldade foi a de lidar com o tempo demandado pela
+execução de experimentos. Cada instância do algoritmo, isto é, configuração de parâmetros a ser
+executada demora uma quantidade muito grande de tempo.
 
-Além disso, pode ser constatado que a escolha dos parâmetros do algoritmo afetam significativamente
-os resultados obtidos. Sendo o processo de teste algo iterativo, é importante definir a cada
-momento a configuração de parâmetros que afeta de maneira mais positiva a saída do programa.
-
-A maior dificuldade encontrada foi lidar com a grande quantidade de testes necessária para
-avaliar o projeto. Visto que cada geração pode demorar muito tempo para executar (cada indivíduo
-deve ser avaliado e o tamanho da entrada afeta a performance diretamente), foi necessário começar
-o processo de testes assim que possível para obter dados e poder analisá-los.
-
-De maneira geral, o aprendizado obtido tem grande apelo, não só para conceitos de Programação Genética,
-mas também de Computação Evolucionária em geral.
+De maneira geral vemos que os valores de custo obtidos ao final do trabalho são muito bons quando
+comparados com os valores de ótimo fornecidos com as bases de teste. Logo, o algoritmo de colônia 
+de formigas é realmente muito competitivo, principalmente tendo em mente que o problema da 
+p-Mediana é NP-difícil.
 
 \section{REFERÊNCIAS}
 

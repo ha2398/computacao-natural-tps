@@ -1,0 +1,14 @@
+Procedimento GAP(centros, medianas, n, p):
+ x = Matriz (n x n) inicializada com 0
+ centros_ordenados = ordena_centros()
+
+ Para i de 1 até n Faça:
+  medianas_ordenadas = ordena_medianas(centros_ordenados[i])
+
+  Para j de 1 até p Faça:
+   Se (capacidade(medianas_ordenadas[j]) - demanda(centros_ordenados[i]) >= 0) Faça
+    x[centros_ordenados[i]][medianas_ordenadas[j]] = 1
+   Fim Se
+  Fim Para
+ Fim Para
+Fim
