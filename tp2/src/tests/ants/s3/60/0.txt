@@ -1,0 +1,201 @@
+Iteration 1 :
+Best global: 53266.7950066
+Best local: 53266.7950066
+
+Iteration 2 :
+Best global: 52293.1184495
+Best local: 52293.1184495
+
+Iteration 3 :
+Best global: 51835.4783752
+Best local: 51835.4783752
+
+Iteration 4 :
+Best global: 48335.9845596
+Best local: 48335.9845596
+
+Iteration 5 :
+Best global: 48335.9845596
+Best local: 49090.7681396
+
+Iteration 6 :
+Best global: 48335.9845596
+Best local: 49047.0875912
+
+Iteration 7 :
+Best global: 48335.9845596
+Best local: 49059.4027088
+
+Iteration 8 :
+Best global: 48112.5839097
+Best local: 48112.5839097
+
+Iteration 9 :
+Best global: 47972.0906756
+Best local: 47972.0906756
+
+Iteration 10 :
+Best global: 47799.6063942
+Best local: 47799.6063942
+
+Iteration 11 :
+Best global: 46343.8820517
+Best local: 46343.8820517
+
+Iteration 12 :
+Best global: 45834.1987739
+Best local: 45834.1987739
+
+Iteration 13 :
+Best global: 45834.1987739
+Best local: 46292.9338081
+
+Iteration 14 :
+Best global: 45834.1987739
+Best local: 46141.9406189
+
+Iteration 15 :
+Best global: 45834.1987739
+Best local: 46572.6292908
+
+Iteration 16 :
+Best global: 45834.1987739
+Best local: 46141.9406189
+
+Iteration 17 :
+Best global: 45348.718818
+Best local: 45348.718818
+
+Iteration 18 :
+Best global: 45348.718818
+Best local: 45348.718818
+
+Iteration 19 :
+Best global: 45348.718818
+Best local: 45348.718818
+
+Iteration 20 :
+Best global: 45148.2645381
+Best local: 45148.2645381
+
+Iteration 21 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 22 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 23 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 24 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 25 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 26 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 27 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 28 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 29 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 30 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 31 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 32 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 33 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 34 :
+Best global: 44842.6737716
+Best local: 44842.6737716
+
+Iteration 35 :
+Best global: 44842.6737716
+Best local: 51323.7230415
+
+Iteration 36 :
+Best global: 44842.6737716
+Best local: 51468.0050389
+
+Iteration 37 :
+Best global: 44842.6737716
+Best local: 50775.5977211
+
+Iteration 38 :
+Best global: 44842.6737716
+Best local: 50502.5328617
+
+Iteration 39 :
+Best global: 44842.6737716
+Best local: 49322.2735354
+
+Iteration 40 :
+Best global: 44842.6737716
+Best local: 49511.3720287
+
+Iteration 41 :
+Best global: 44842.6737716
+Best local: 47762.1182146
+
+Iteration 42 :
+Best global: 44842.6737716
+Best local: 48622.0590461
+
+Iteration 43 :
+Best global: 44842.6737716
+Best local: 48504.3968572
+
+Iteration 44 :
+Best global: 44842.6737716
+Best local: 48504.3968572
+
+Iteration 45 :
+Best global: 44842.6737716
+Best local: 47998.3976201
+
+Iteration 46 :
+Best global: 44842.6737716
+Best local: 47743.6584671
+
+Iteration 47 :
+Best global: 44842.6737716
+Best local: 47472.6523769
+
+Iteration 48 :
+Best global: 44842.6737716
+Best local: 47052.3030521
+
+Iteration 49 :
+Best global: 44842.6737716
+Best local: 47290.5706829
+
+Iteration 50 :
+Best global: 44842.6737716
+Best local: 47279.0588033
+
+44842.6737716
