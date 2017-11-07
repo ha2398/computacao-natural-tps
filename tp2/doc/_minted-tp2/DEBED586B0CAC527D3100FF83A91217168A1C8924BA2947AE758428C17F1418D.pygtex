@@ -1,0 +1,16 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+Procedimento GAP(centros, medianas, n, p):
+ x = Matriz (n x n) inicializada com 0
+ centros\PYGZus{}ordenados = ordena\PYGZus{}centros()
+
+ Para i de 1 até n Faça:
+  medianas\PYGZus{}ordenadas = ordena\PYGZus{}medianas(centros\PYGZus{}ordenados[i])
+
+  Para j de 1 até p Faça:
+   Se (capacidade(medianas\PYGZus{}ordenadas[j]) \PYGZhy{} demanda(centros\PYGZus{}ordenados[i]) \PYGZgt{}= 0) Faça
+    x[centros\PYGZus{}ordenados[i]][medianas\PYGZus{}ordenadas[j]] = 1
+   Fim Se
+  Fim Para
+ Fim Para
+Fim
+\end{Verbatim}

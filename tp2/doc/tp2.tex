@@ -69,7 +69,7 @@ rede (composta por vértices e arestas) de forma a minimizar a soma de todas as 
 ao centro mais próximo. Nesse problema também existem restrições de capacidade de atendimento dos centros.
 Esse problema é um problema de otimização combinatória NP-difícil.
 
-\begin{figure}[ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1\textwidth]{pmedian.png}
   \caption{Ilustração do problema da p-Mediana. Na imagem, vemos os centros (círculos)
@@ -181,7 +181,8 @@ Problem - GAP). O Pseudocódigo que descreve a heurística é apresentado na Lis
  \textbf{Listagem 2: Pseudocódigo para a heurística do GAP. O procedimento centros\_ordenados() gera uma lista
  com todos os n centros em ordem crescente de distância a suas correspondentes medianas mais próximas. O procedimento
  ordena\_medianas() gera uma lista com todas as p medianas em ordem crescente de distância ao centro passado
- como parâmetro.}
+ como parâmetro. Importante notar que à medida que os centros vão sendo alocados às medianas, a capacidade das mesmas
+ vai diminuindo. Além disso, uma vez que um centro é alocado, o algoritmo sai do loop mais interno.}
 \end{center}
 
 \subsection{Heurística de Informação} \label{sec:infheur}
@@ -339,7 +340,7 @@ na Seção \ref{sec:result}. Os valores apresentados foram obtidos da média de 
  Beta: 1
  
  \item \textbf{Experimento 2:} Nesse segundo experimento, o objetivo foi verificar por quantas
- iterações o programa deveria ser executado par cada arquivo de teste. Os parâmetros utlizados
+ iterações o programa deveria ser executado par cada arquivo de teste. Os parâmetros utilizados
  para a execução foram os seguintes:
  
  Número de formigas: Definido em Experimento 1. \\
@@ -347,6 +348,25 @@ na Seção \ref{sec:result}. Os valores apresentados foram obtidos da média de 
  Taxa de evaporação: 0.8 \\
  Alpha: 3 \\
  Beta: 1
+ 
+ \item \textbf{Experimento 3:} O próximo passo foi determinar a taxa de evaporação de feromônio
+ ideal para os arquivos de teste. Dessa forma, o programa foi executado para cada um
+ dos arquivos com a seguinte configuração:
+ 
+ Número de formigas: Definido em Experimento 1. \\
+ Número de iterações: Definido em Experimento 2. \\
+ Taxa de evaporação: [0.3, 0.6, 0.8, 0.9] \\
+ Alpha: 3 \\
+ Beta: 1
+ 
+ \item \textbf{Experimento 4:} Finalmente, tentamos determinar os parâmetros $\alpha$ e $\beta$
+ (ver Seção \ref{sec:infheur}). Para isso, três configurações são propostas, uma que prioriza $\alpha$,
+ outra que prioriza $\beta$ e outra que dá pesos iguais para os dois parâmetros.
+ 
+ Número de formigas: Definido em Experimento 1. \\
+ Número de iterações: Definido em Experimento 2. \\
+ Taxa de evaporação: Definido em Experimento 3. \\
+ (Alpha, Beta): [(1, 3), (2, 2), (3, 1)]
  
 \end{itemize}
 
@@ -359,7 +379,7 @@ de teste. Mais apropriado aqui refere-se ao valor do parâmetro que mais compens
 resultado obtido. Vemos por exemplo que, para o arquivo SJC1.dat, a variação no número de formigas
 causou também uma grande variação no resultado obtido, sendo, portanto, melhor o uso de 90 formigas.
 
-\begin{figure}[ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1\textwidth]{exp1s1.png}
   \caption{Experimento 1 - SJC1.dat: Número de iterações x Ótimo global para quantidades variáveis
@@ -370,7 +390,7 @@ causou também uma grande variação no resultado obtido, sendo, portanto, melho
 Para o arquivo SJC2.dat, vemos que os valores de 60 e 90 formigas alcançam resultados muito similares,
 não sendo justificável o uso de 90 formigas, que acarreta em perda de desempenho.
 
-\begin{figure}[ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1\textwidth]{exp1s2.png}
   \caption{Experimento 1 - SJC2.dat: Número de iterações x Ótimo global para quantidades variáveis
@@ -378,16 +398,18 @@ não sendo justificável o uso de 90 formigas, que acarreta em perda de desempen
   \label{fig:exp1s2}
 \end{figure}
 
-Finalmente, para o arquivo SJC3.dat, os resultados obtidos para 30, 60 e 90 formigas são muito próximos,
+Finalmente, para o arquivo SJC3.dat, os resultados obtidos para 30. 60 e 90 formigas são muito próximos,
 logo, para melhor desempenho em tempo, escolhemos o valor de 30 formigas.
 
-\begin{figure}[ht]
+\begin{figure}[!htbp]
   \centering
   \includegraphics[width=1\textwidth]{exp1s3.png}
   \caption{Experimento 1 - SJC3b.dat: Número de iterações x Ótimo global para quantidades variáveis
   de formigas. Cada cor representa uma quantidade de formigas utilizada.}
   \label{fig:exp1s3}
 \end{figure}
+
+As Figuras de \ref{fig:exp1s1} a \ref{fig:exp1s3} mostram os resultados do Experimento 1.
 
 \subsection{Experimento 2: Iterações}
 
@@ -396,7 +418,96 @@ determinar por quantas iterações o programa deve executar para cada arquivo, u
 do ótimo podem ser encontrados em uma iteração $ i $, não sendo necessário executar o programa por mais
 que $ i $ iterações.
 
-\subsection{Observações}
+Podemos ver na Figura \ref{fig:exp2s1} que para o arquivo de entrada SJC1.dat, o algoritmo não
+consegue melhor a solução após meados de 50 iterações. O mesmo acontece para os arquivos
+SJC2.dat e SJC3b.dat com os valores de 25 e 30 iterações, respectivamente, como visto nas
+Figuras \ref{fig:exp2s2} e \ref{fig:exp2s3}. Logo, não
+precisamos rodar o programa para valores de iterações acima desses valores.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{exp2s1.png}
+  \caption{Experimento 2 - SJC1.dat: Número de iterações x Custo da melhor solução global e local.}
+  \label{fig:exp2s1}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{exp2s2.png}
+  \caption{Experimento 2 - SJC2.dat: Número de iterações x Custo da melhor solução global e local.}
+  \label{fig:exp2s2}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{exp2s3.png}
+  \caption{Experimento 2 - SJC3b.dat: Número de iterações x Custo da melhor solução global e local.}
+  \label{fig:exp2s3}
+\end{figure}
+
+\subsection{Experimento 3: Taxa de Evaporação}
+
+Continuando com o processo iterativo de determinação dos parâmetros ótimos, precisamos determinar a taxa de
+evaporação de feromônio depositado nos centros. Para isso, foram propostos quadro valores para esse parâmetro,
+um muito baixo, outro médio e dois altos ($0.3$, $0.6$, $0.8$ e $0.9$). Podemos ver nas Figuras de \ref{fig:exp3s1}
+a \ref{fig:exp3s3} que, para todos os arquivos teste, a taxa de evaporação de feromônio com melhores resultados
+é $ 0.8 $.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{exp3s1.png}
+  \caption{Experimento 3 - SJC1.dat: Número de iterações x Custo da melhor solução com taxas
+  de evaporação de feromônio variáveis.}
+  \label{fig:exp3s1}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{exp3s2.png}
+  \caption{Experimento 3 - SJC2.dat: Número de iterações x Custo da melhor solução com taxas
+  de evaporação de feromônio variáveis.}
+  \label{fig:exp3s2}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{exp3s3.png}
+  \caption{Experimento 3 - SJC3b.dat: Número de iterações x Custo da melhor solução com taxas
+  de evaporação de feromônio variáveis.}
+  \label{fig:exp3s3}
+\end{figure}
+
+\subsection{Experimento 4: $\alpha$ e $\beta$}
+
+Com o Experimento 4, cujos resultados são ilustrados nas Figuras de \ref{fig:exp4s1} a \ref{exp4s3}, vemos
+que esses parâmetros são muito relativos ao arquivo de entrada utilizado, uma vez que para SCJ1.dat e SJC2.dat
+a melhor configuração foi $\alpha = 2, \beta = 2$ e para SJC3b.dat foi $\alpha = 3, \beta = 1$.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{exp4s1.png}
+  \caption{Experimento 4 - SJC1.dat: Número de iterações x Custo da melhor solução com parâmetros $\alpha$ 
+  e $\beta$ variáveis.}
+  \label{fig:exp4s1}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{exp4s2.png}
+  \caption{Experimento 4 - SJC2.dat: Número de iterações x Custo da melhor solução com parâmetros $\alpha$ 
+  e $\beta$ variáveis.}
+  \label{fig:exp4s2}
+\end{figure}
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{exp4s3.png}
+  \caption{Experimento 4 - SJC3b.dat: Número de iterações x Custo da melhor solução com parâmetros $\alpha$ 
+  e $\beta$ variáveis.}
+  \label{fig:exp4s3}
+\end{figure}
+
+\subsection{Análise}
 
 Os experimentos realizados possibilitaram observar diversas características importantes, tanto
 de otimização por colônia de formigas em geral quanto a respeito dos arquivos de entrada utilizados.
@@ -405,8 +516,17 @@ do espaço de busca. Sendo cada uma das formigas responsável por seguir por um 
 soluções para o problema.
 
 Importante notar que o trabalho seguiu o que foi feito em \cite{dblp:fr},
-sendo assim, interessante em trabalhos relacionados que utilizem o algoritmo de colõnia de formigas a
+sendo assim, interessante em trabalhos relacionados que utilizem o algoritmo de colônia de formigas a
 utilização de outros trabalhos de referência, para fins de comparação em algum projeto futuro.
+
+\begin{center}
+ \begin{tabular}{|c|c|c|c|c|} \hline
+ Arquivo & Nós & P & Ótimo & Obtido \\ \hline
+ SJC1.dat & $ 100 $ & $ 10 $ & $ 17246,53 $ & $ 17287,54 $ \\ \hline
+ SJC2.dat & $ 200 $ & $ 15 $ & $ 33225,88 $ & $ 35401,82 $ \\ \hline
+ SJC3b.dat & $ 300 $ & $ 30 $ & $ 40635,80 $ & $ 47561,58 $ \\ \hline
+ \end{tabular} 
+\end{center}
 
 \section{CONCLUSÃO}
 

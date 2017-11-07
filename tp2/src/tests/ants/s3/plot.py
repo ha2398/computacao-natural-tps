@@ -4,7 +4,7 @@ import os
 import subprocess as sp
 
 X = 'Iteração'
-Y = 'Ótimo Global'
+Y = 'Custo da Melhor Solução'
 TITLE = 'SJC3b.dat: ' + X + ' x ' + Y
 
 try:

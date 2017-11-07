@@ -1,0 +1,10 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+Procedimento ACF():
+	Enquanto iter \PYGZlt{} max\PYGZus{}it Faça:
+		Para cada formiga Faça:
+			constroi\PYGZus{}solução()
+			atualiza\PYGZus{}feromõnio()
+		Fim Para
+	Fim Enquanto
+Fim
+\end{Verbatim}

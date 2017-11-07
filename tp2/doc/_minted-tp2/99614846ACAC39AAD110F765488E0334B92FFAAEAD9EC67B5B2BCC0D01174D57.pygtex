@@ -1,0 +1,9 @@
+\begin{Verbatim}[commandchars=\\\{\}]
+Procedimento InfHeur(centro):
+	centros\PYGZus{}ordenados = ordena\PYGZus{}centros(centro)
+	todos\PYGZus{}centros, soma\PYGZus{}distância = aloca(centro, centros\PYGZus{}ordenados)
+	densidade = (todos\PYGZus{}centros) / (soma\PYGZus{}distância)
+
+	Retorna densidade
+Fim
+\end{Verbatim}
