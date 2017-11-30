@@ -7,25 +7,27 @@ tp3.py: Artificial Neural Networks
 '''
 
 
+from keras.layers import Dense
+from keras.models import Sequential
+from keras.utils import np_utils
+from sklearn.preprocessing import LabelEncoder
+
 import argparse as ap
 import numpy as np
-
+import pandas as pan
 
 # Global variables
-parts = ['CYT', 'MIT', 'ME1', 'ME2', 'ME3', 'EXC', 'NUC']
-CELL_PARTS = {parts[i]: i for i in range(len(parts))} 
+parser = ap.ArgumentParser()
 
+parser.add_argument('input_filename', type=str, help='Name of input file')
+parser.add_argument('-s', dest='RSEED', default=0, type=int,
+	help='Numpy random seed')
 
-def parse_arguments():
-	''' Add command line arguments to the program.
+args = parser.parse_args()
+np.random.seed(args.RSEED)
 
-		@return:	Command line arguments.
-		@rtype:		argparse.Namespace.
-		'''
-
-	parser = ap.ArgumentParser()
-	parser.add_argument('input_filename', type=str, help='Name of input file')
-	return parser.parse_args()
+class_code = {}
+code_class = {}
 
 
 def read_input(input_filename):
@@ -38,21 +40,37 @@ def read_input(input_filename):
 		@rtype:		Numpy array, Numpy array.
 		'''
 
-	data = []
-	target = []
-	with open(input_filename, 'r') as input_file:
-		for line in input_file:
-			line_data = line.strip().split(';')
+	dataframe = pan.read_csv(input_filename, header=None, sep=';')
+	dataset = dataframe.values
+	input_dim = len(dataset[0]) - 1
+	X = dataset[:,:input_dim].astype(float)
+	Y = dataset[:,input_dim]
 
-			data.append([float(x) for x in line_data[:-1]])
-			target.append(CELL_PARTS[line_data[-1]])
-
-	return np.array(data), np.array(target)
+	return X, Y
 
 
 def main():
 
-	args = parse_arguments()
-	data, target = read_input(args.input_filename)
+	global input_dim
+
+	X, Y = read_input(args.input_filename)
+
+	encoder = LabelEncoder()
+	encoder.fit(Y)
+	encoded_Y = encoder.transform(Y)
+	categorical_Y = np_utils.to_categorical(encoded_Y)
+
+	num_features = len(X[0])
+	num_classes = len(set(encoded_Y))
+
+	model = Sequential()
+	model.add(Dense(64, input_dim=num_features, activation='relu'))
+	model.add(Dense(64, activation='relu'))
+	model.add(Dense(num_classes, activation='softmax'))
+	model.compile(loss='categorical_crossentropy', optimizer='adam',
+		metrics=['accuracy'])
+
+	model.fit(X, categorical_Y, epochs=200, batch_size=100)
+
 
 main()
