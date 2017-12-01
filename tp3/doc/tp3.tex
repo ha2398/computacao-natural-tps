@@ -11,7 +11,7 @@
 
 \usepackage{mdframed}
 \usepackage{minted}
-
+\usepackage{hyperref}
 \usepackage{amssymb}
      
 \sloppy
@@ -32,14 +32,50 @@
 \maketitle
      
 \begin{resumo}
-  
+  Nesse trabalho são explorados conceitos relacionados a redes neurais,
+  colocando-os em prática através da utilização da biblioteca Keras com Tensorflow, 
+  que nos permite abordar um problema de classificação.
 \end{resumo}
 
 \section{INTRODUÇÃO}
 
+Dentro da área de Computação Natural, o campo de Redes Neurais Artificiais
+tem como objetivo a criação de modelos computacionais inspirados pelo
+conhecimento que temos sobre como funciona o sistema nervoso, mais
+especificamente, na estrutura e função dos neurônios no cérebro
+\cite{clevalg}.
 
+No trabalho em questão, usaremos a biblioteca Keras 
+\footnote{\url{https://keras.io/}} com Tensorflow
+\footnote{\url{https://www.tensorflow.org/}}, que juntas fornecem
+implementações de redes neurais já prontas para uso. A partir dessas 
+duas bibliotecas, o problema a ser resolvido será o de classificação
+de um conjunto de dados específico.
 
-\section{MODELAGEM} \label{sec:model}
+Esse conjunto de dados reúne informações de 1429 proteínas, descritas
+por 8 atributos (números reais). Para cada uma dessas proteínas, a sua
+classe se refere à parte da célula em que a proteína se encontra.
+Ao todo, existem 7 classes possíveis, descritas na Tabela
+\ref{tab:classes}.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Classe} & \textbf{Descrição} \\ \hline
+		\textbf{CYT} & Citoplasma \\ \hline
+		\textbf{MIT} & Mitocôndria \\ \hline
+		\textbf{ME1} & Uma membrana específica da célula \\ \hline
+		\textbf{ME2} & Uma membrana específica da célula \\ \hline
+		\textbf{ME3} & Uma membrana específica da célula \\ \hline
+		\textbf{EXC} & Exterior da célula \\ \hline
+		\textbf{NUC} & Núcleo da célula \\ \hline
+	\end{tabular}
+	\caption{\label{tab:classes} Classes que descrevem a posição
+	das proteínas em uma célula.}
+\end{table}
+
+\section{MODELAGEM}
 
 
 
