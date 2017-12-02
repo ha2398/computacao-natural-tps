@@ -7,39 +7,38 @@ tp3.py: Artificial Neural Networks
 '''
 
 
-from keras.layers import Dense
-from keras.models import Sequential
-from keras.utils import np_utils
-
 import argparse as ap
 import numpy as np
 
+# Add comand line arguments
+parser = ap.ArgumentParser()
 
-def parse_arguments():
-	''' Add command line arguments to the program.
+parser.add_argument('input_filename', type=str, help='Name of input file')
+parser.add_argument('-e', dest='EPOCHS', default = 100, type=int,
+	help='Number of epochs to run the program for')
+parser.add_argument('-l', dest='HLAYERS', default = 1, type=int,
+	help='Number of hidden layers in the network')
+parser.add_argument('-n', dest='NEURONS', default = 10, type=int,
+	help='Number of neurons on each hidden layer')
+parser.add_argument('-b', dest='BATCHSIZE', default = 10, type=int,
+	help='Size of the batches fed into the network')
+parser.add_argument('-s', dest='RSEED', default=0, type=int,
+	help='Numpy random seed')
+parser.add_argument('-r', dest='LRATE', default=0.1, type=float,
+	help='Learning rate')
+parser.add_argument('-d', dest='LRDECAY', default=0., type=float,
+	help='Learning rate decay')
 
-		@return:	Command line arguments.
-		@rtype:		argparse.Namespace.
-		'''
+args = parser.parse_args()
 
-	parser = ap.ArgumentParser()
+# Set random generator seed
+np.random.seed(args.RSEED)
 
-	parser.add_argument('input_filename', type=str, help='Name of input file')
-	parser.add_argument('-e', dest='EPOCHS', default = 100, type=int,
-		help='Number of epochs to run the program for')
-	parser.add_argument('-l', dest='HLAYERS', default = 1, type=int,
-		help='Number of hidden layers in the network')
-	parser.add_argument('-n', dest='NEURONS', default = 10, type=int,
-		help='Number of neurons on each hidden layer')
-	parser.add_argument('-b', dest='BATCHSIZE', default = 10, type=int,
-		help='Size of the batches fed into the network')
-	parser.add_argument('-k', dest='KFOLD', default = 200, type=int,
-		help='K fold size to use in cross validation')
-	parser.add_argument('-s', dest='RSEED', default=0, type=int,
-		help='Numpy random seed')
-
-	args = parser.parse_args()
-	return args
+# Keras modules
+from keras import optimizers
+from keras.layers import Dense
+from keras.models import Sequential
+from keras.utils import np_utils
 
 
 def read_input(input_filename):
@@ -117,7 +116,7 @@ def encode_classes(Y):
 	return np.array(encoded)
 
 
-def create_network(n_features, n_classes, n_layers, n_neurons):
+def create_network(n_features, n_classes, lrate, lrdecay, n_layers, n_neurons):
 	''' Create a new neural network. 
 
 		@param 	n_features:	Number of features in input data.
@@ -125,6 +124,12 @@ def create_network(n_features, n_classes, n_layers, n_neurons):
 
 		@param 	n_classes:	Number of classes in output data.
 		@type 	n_classes:	Integer.
+
+		@param 	lrate:	Learning rate.
+		@type 	lrate:	Float.
+
+		@param 	lrdecay:	Learning rate decay.
+		@type 	lrdecay:	Float.
 
 		@param 	n_layers:	Number of hidden layers on the network.
 		@type 	n_layers:	Integer.
@@ -138,13 +143,20 @@ def create_network(n_features, n_classes, n_layers, n_neurons):
 
 	model = Sequential()
 
-	model.add(Dense(n_neurons, input_dim=n_features, activation='relu'))
+	# Input layer
+	model.add(Dense(n_neurons, input_dim=n_features, activation='sigmoid'))
 
+	# Hidden layers
 	for i in range(n_layers):
-		model.add(Dense(n_neurons, activation='relu'))
+		model.add(Dense(n_neurons, activation='sigmoid'))
 
-	model.add(Dense(n_classes, activation='softmax'))
-	model.compile(loss='categorical_crossentropy', optimizer='sgd',
+	# Output layer
+	model.add(Dense(n_classes, activation='sigmoid'))
+
+	# Optimizer
+	sgd = optimizers.SGD(lr=lrate, decay=lrdecay)
+
+	model.compile(loss='categorical_crossentropy', optimizer=sgd,
 		metrics=['accuracy'])
 
 	return model
@@ -152,21 +164,21 @@ def create_network(n_features, n_classes, n_layers, n_neurons):
 
 def main():
 
-	args = parse_arguments()
-	np.random.seed(args.RSEED)
 	X, Y = read_input(args.input_filename)
 
+	# Encode classes
 	encoded_Y = encode_classes(Y)
 	categorical_Y = np_utils.to_categorical(encoded_Y)
 
 	num_features = len(X[0])
 	num_classes = len(categorical_Y[0])
 
-	network = create_network(num_features, num_classes, args.HLAYERS,
-		args.NEURONS)
+	network = create_network(num_features, num_classes, args.LRATE,
+		args.LRDECAY, args.HLAYERS, args.NEURONS)
 
+	# Training and evalutation
 	indices = np.arange(len(X))
-	for training, test in k_fold_cross_validation(indices, K=args.KFOLD):
+	for training, test in k_fold_cross_validation(indices, K=3):
 		mfit = network.fit(X[training], categorical_Y[training],
 			epochs=args.EPOCHS, batch_size=args.BATCHSIZE)
 		meval = network.evaluate(X[test], categorical_Y[test])
