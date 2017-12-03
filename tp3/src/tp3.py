@@ -14,6 +14,8 @@ import numpy as np
 parser = ap.ArgumentParser()
 
 parser.add_argument('input_filename', type=str, help='Name of input file')
+parser.add_argument('output_filename', type=str, help='Name of output file')
+
 parser.add_argument('-e', dest='EPOCHS', default = 100, type=int,
 	help='Number of epochs to run the program for')
 parser.add_argument('-l', dest='HLAYERS', default = 1, type=int,
@@ -36,6 +38,7 @@ np.random.seed(args.RSEED)
 
 # Keras modules
 from keras import optimizers
+from keras import initializers
 from keras.layers import Dense
 from keras.models import Sequential
 from keras.utils import np_utils
@@ -116,7 +119,7 @@ def encode_classes(Y):
 	return np.array(encoded)
 
 
-def create_network(n_features, n_classes, lrate, lrdecay, n_layers, n_neurons):
+def create_network(n_features, n_classes):
 	''' Create a new neural network. 
 
 		@param 	n_features:	Number of features in input data.
@@ -125,36 +128,28 @@ def create_network(n_features, n_classes, lrate, lrdecay, n_layers, n_neurons):
 		@param 	n_classes:	Number of classes in output data.
 		@type 	n_classes:	Integer.
 
-		@param 	lrate:	Learning rate.
-		@type 	lrate:	Float.
-
-		@param 	lrdecay:	Learning rate decay.
-		@type 	lrdecay:	Float.
-
-		@param 	n_layers:	Number of hidden layers on the network.
-		@type 	n_layers:	Integer.
-
-		@param 	n_neurons:	Number of neurons on each hidden layer.
-		@type 	n_neurons:	Integer.
-
 		@return:	New neural network.
 		@rtype: 	keras.models.Sequential
 		'''
 
 	model = Sequential()
 
+	init = 'lecun_uniform'
+
 	# Input layer
-	model.add(Dense(n_neurons, input_dim=n_features, activation='sigmoid'))
+	model.add(Dense(args.NEURONS, kernel_initializer=init, input_dim=n_features,
+	 activation='relu'))
 
 	# Hidden layers
-	for i in range(n_layers):
-		model.add(Dense(n_neurons, activation='sigmoid'))
+	for i in range(args.HLAYERS):
+		model.add(Dense(args.NEURONS, kernel_initializer=init,
+			activation='relu'))
 
 	# Output layer
-	model.add(Dense(n_classes, activation='sigmoid'))
+	model.add(Dense(n_classes, kernel_initializer=init, activation='softmax'))
 
 	# Optimizer
-	sgd = optimizers.SGD(lr=lrate, decay=lrdecay)
+	sgd = optimizers.SGD(lr=args.LRATE, decay=args.LRDECAY)
 
 	model.compile(loss='categorical_crossentropy', optimizer=sgd,
 		metrics=['accuracy'])
@@ -166,6 +161,8 @@ def main():
 
 	X, Y = read_input(args.input_filename)
 
+	output = open(args.output_filename, 'w')
+
 	# Encode classes
 	encoded_Y = encode_classes(Y)
 	categorical_Y = np_utils.to_categorical(encoded_Y)
@@ -173,16 +170,22 @@ def main():
 	num_features = len(X[0])
 	num_classes = len(categorical_Y[0])
 
-	network = create_network(num_features, num_classes, args.LRATE,
-		args.LRDECAY, args.HLAYERS, args.NEURONS)
-
 	# Training and evalutation
 	indices = np.arange(len(X))
+	cur_K = 1
 	for training, test in k_fold_cross_validation(indices, K=3):
+		output.write('[+] Fold ' + str(cur_K) + '\n')
+		network = create_network(num_features, num_classes)
 		mfit = network.fit(X[training], categorical_Y[training],
-			epochs=args.EPOCHS, batch_size=args.BATCHSIZE)
+			epochs=args.EPOCHS, batch_size=args.BATCHSIZE, verbose=0)
 		meval = network.evaluate(X[test], categorical_Y[test])
-		print(meval)
 
+		output.write('acc: ' + str(mfit.history['acc']) + '\n')
+		output.write('loss: ' + str(mfit.history['loss']) + '\n')
+		output.write('test: ' + str(meval) + '\n')
+		output.write('\n')
+		cur_K += 1 
+
+	output.close()
 
 main()

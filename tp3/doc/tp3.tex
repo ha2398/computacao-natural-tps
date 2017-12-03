@@ -45,6 +45,16 @@ conhecimento que temos sobre como funciona o sistema nervoso, mais
 especificamente, na estrutura e função dos neurônios no cérebro
 \cite{clevalg}.
 
+Dessa forma, uma Rede Neural Artificial é uma coleção de neurônios
+artificiais que são conectados a fim de se realizar alguma computação
+em padrões de entrada para gerar padrões de saída. Esses neurônios,
+então, se adaptam, modificando sua estrutura interna ao longo do tempo.
+Geralmente, essa modificação se dá através da atualização dos pesos
+das conexões entre os neurônios da rede. Esse processo define o
+aprendizado da rede neural, que então se torna, com o tempo, cada
+vez mais adaptada na tarefa de gerar o padrão de saída correto de 
+acordo com a entrada.
+
 No trabalho em questão, usaremos a biblioteca Keras 
 \footnote{\url{https://keras.io/}} com Tensorflow
 \footnote{\url{https://www.tensorflow.org/}}, que juntas fornecem
@@ -75,9 +85,36 @@ Ao todo, existem 7 classes possíveis, descritas na Tabela
 	das proteínas em uma célula.}
 \end{table}
 
+Portanto, a rede neural criada será alimentada com os dados dessa base e,
+ao longo do tempo, tentará aprender os padrões que determinam a saída
+da mesma, isto é, dado um conjunto de 8 atributos de uma proteína, a
+rede deve dizer qual é a posição que essa proteína ocupa na célula (
+representada pela classe, dentre as 7 descritas acima).
+
 \section{MODELAGEM}
 
+Para modelar esse problema, o primeiro passo é determinar qual o tipo
+da rede neural a ser construída - existem vários tipos de arquitetura
+de redes neurais diferentes.
 
+Para o trabalho em questão, optou-se por simplicidade em termos de
+representação, o que, por sua vez, acarreta em maior controle sobre 
+a estrutura da rede e de seu funcionamento. Dessa forma, a arquitetura
+escolhida foi a \textit{Multilayer Perceptron - MLP} (Perceptron de
+múltiplas camadas), que é uma versão da rede \textit{Perceptron} 
+generalizada para conter múltiplas camadas escondidas de neurônios.
+A Figura \ref{fig:mlp} mostra a estrutura da rede MLP.
+
+\begin{figure}[!htbp]
+  \centering
+  \includegraphics[width=1\textwidth]{mlp.jpg}
+  \caption{Estrutura da rede \textit{Multilayer Perceptron}. Vemos
+  que, além das camadas de entrada e saída, a rede também pode
+  apresentar um número arbitrário de camadas escondidas de neurÕnios.
+  O número de neurônios em cada camada também pode ser escolhido
+  arbitrariamente.}
+  \label{fig:mlp}
+\end{figure}
 
 \section{IMPLEMENTAÇÃO}
 
