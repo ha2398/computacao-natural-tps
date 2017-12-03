@@ -1,0 +1,10 @@
+Test 2 - Number of hidden layers
+
+Arguments:
+e:	200
+l:	{1, 2, 4, 6, 8}
+n:	32
+b:	10
+r:	0.05
+d:	0
+s:	10 for each n

@@ -93,6 +93,12 @@ representada pela classe, dentre as 7 descritas acima).
 
 \section{MODELAGEM}
 
+A modelagem do problema de classificação em questão, utilizando redes
+neurais implementadas através da biblioteca Keras com Tensorflow é 
+mostrada nessa seção.
+
+\subsection{Arquitetura}
+
 Para modelar esse problema, o primeiro passo é determinar qual o tipo
 da rede neural a ser construída - existem vários tipos de arquitetura
 de redes neurais diferentes.
@@ -101,7 +107,7 @@ Para o trabalho em questão, optou-se por simplicidade em termos de
 representação, o que, por sua vez, acarreta em maior controle sobre 
 a estrutura da rede e de seu funcionamento. Dessa forma, a arquitetura
 escolhida foi a \textit{Multilayer Perceptron - MLP} (Perceptron de
-múltiplas camadas), que é uma versão da rede \textit{Perceptron} 
+múltiplas camadas) -, que é uma versão da rede \textit{Perceptron} 
 generalizada para conter múltiplas camadas escondidas de neurônios.
 A Figura \ref{fig:mlp} mostra a estrutura da rede MLP.
 
@@ -110,11 +116,48 @@ A Figura \ref{fig:mlp} mostra a estrutura da rede MLP.
   \includegraphics[width=1\textwidth]{mlp.jpg}
   \caption{Estrutura da rede \textit{Multilayer Perceptron}. Vemos
   que, além das camadas de entrada e saída, a rede também pode
-  apresentar um número arbitrário de camadas escondidas de neurÕnios.
+  apresentar um número arbitrário de camadas escondidas de neurônios.
   O número de neurônios em cada camada também pode ser escolhido
   arbitrariamente.}
   \label{fig:mlp}
 \end{figure}
+
+O número de camadas escondidas e número de neurônios em cada camada
+utilizados no trabalho foram definidos experimentalmente, como mostrado
+na Seção \ref{sec:exp}.
+
+De forma geral, temos que a saída que um neurônio produz consiste na
+soma ponderada (pelos pesos) de suas entradas, além de um valor de
+\textit{bias}.
+
+\begin{displaymath}
+	Saida = \sum_{} (Pesos * Entradas) + Bias
+\end{displaymath}
+
+Além disso, essa saída passa por uma função de ativação antes de 
+servir como entrada para os neurônios da camada seguinte. Essa
+função de ativação determina se e quanto um neurônio deve contribuir
+na rede, de acordo com os valores que gera.
+
+\subsection{Inicialização de Pesos}
+
+Uma decisão importante é a de como inicializar os pesos na rede. Sabemos
+que se uma camada escondida tem um grande número de entradas, pequenas
+mudanças nos pesos podem causar grandes alterações nas saídas dessa
+camada. Uma forma de contornar isso é tornar os pesos iniciais da rede
+proporcionais ao número de entradas. Para esse trabalho, optou-se por
+inicializar os pesos proporcionalmente à raiz quadrada do número de
+entradas nas camadas. Na biblioteca Keras, pode-se fazer isso adicionando
+o argumento \textit{kernel\_initializer='lecun\_uniform'} ao construtor
+de uma nova camada.
+
+\subsection{Funções de Ativação}
+
+
+
+\subsection{Validação Cruzada}
+
+\subsection{Codificação da Saída}
 
 \section{IMPLEMENTAÇÃO}
 
@@ -124,7 +167,7 @@ A Figura \ref{fig:mlp} mostra a estrutura da rede MLP.
 
 
 
-\section{EXPERIMENTOS}
+\section{EXPERIMENTOS} \label{sec:exp}
 
 
 
