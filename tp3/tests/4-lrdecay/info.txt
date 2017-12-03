@@ -1,0 +1,10 @@
+Test 4 - Learning rate
+
+Arguments:
+e:	200
+l:	4
+n:	32
+b:	10
+r:	0.05
+d:	{0.01, 0.02, 0.04, 0.08, 0.1}
+s:	10 for each n

@@ -209,13 +209,61 @@ Essas strings que representam as classes foram codificadas utilizando
 o sistema de variáveis categóricas distribuídas. Dessa forma, cada uma
 delas foi transformada em um vetor de zeros e uns.
 
-\section{IMPLEMENTAÇÃO}
-
-
-
 \section{ESTRUTURA DO PROJETO E EXECUÇÃO}
 
+O trabalho foi implementado utilizando-se a linguagem Python 3. Como já
+mencionado, as redes neurais artificiais foram criadas através da
+biblioteca Keras com Tensorflow.
 
+O projeto está estruturado em $ 4 $ diretórios, como definidos abaixo:
+
+\begin{itemize}
+	\item \textbf{doc:} Contém a documentação do trabalho.
+	\item \textbf{src:} Arquivo executável que lê os dados de entrada
+	e cria a rede neural artificial com base nos argumentos passados
+	na linha de comando para resolver o problema de classificação.
+	\item \textbf{input:} Base de dados de entrada.
+	\item \textbf{tests:} Contém os resultados dos testes executados
+	durante a fase de experimentação.
+\end{itemize}
+
+Para executar o programa, basta executar o seguinte comando no
+diretório raiz do projeto:
+
+\begin{center}
+	tp3.py [-h] [-e EPOCHS] [-l HLAYERS] [-n NEURONS] [-b BATCHSIZE]
+	              [-s RSEED] [-r LRATE] [-d LRDECAY]
+	              arquivo\_entrada arquivo\_saida
+\end{center}
+
+\begin{itemize}
+	\item \textbf{Argumentos posicionais:}
+
+	\begin{itemize}
+		\item input\_filename: Nome do arquivo de entrada.
+	 	\item output\_filename: Nome do arquivo de saída.
+	\end{itemize}
+
+	\item \textbf{Argumentos opcionais:}
+
+	\begin{itemize}
+		\item -h, --help: Mostra uma mensagem de ajuda e termina
+		execução.
+		\item -e EPOCHS: Executa o aprendizado da rede neural artificial
+		por um número EPOCHS de épocas.
+		\item -l HLAYERS: Define o número de camadas escondidas como 
+		HLAYERS.
+		\item -n NEURONS: Faz com que cada camada escondida tenha
+		um número NEURONS de neurônios.
+		\item -b BATCHSIZE: Define BATCHSIZE como o tamanho dos
+		batches usados no treinamento da rede.
+		\item -r LRATE: Define a taxa de aprendizado da rede como LRATE.
+		\item -d LRDECAY: Define a taxa de decaimento da taxa de
+		aprendizado como LRDECAY.
+		\item -s RSEED: Define RSEED como a semente para geração de 
+		números aleatórios durante a execução do programa.
+	\end{itemize}
+\end{itemize}
 
 \section{EXPERIMENTOS} \label{sec:exp}
 
