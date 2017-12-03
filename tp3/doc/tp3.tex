@@ -13,6 +13,7 @@
 \usepackage{minted}
 \usepackage{hyperref}
 \usepackage{amssymb}
+\usepackage{amsmath}
      
 \sloppy
 
@@ -153,11 +154,60 @@ de uma nova camada.
 
 \subsection{Funções de Ativação}
 
+Como mencionado, o processo de ativar um neurônio é fundamental para o
+funcionamento correto da rede neural artificial. Dessa forma, é uma
+decisão importante escolher qual função de ativação utilizar nas camadas
+da rede. Existem muitas opções e a escolha deve levar em consideração
+o tipo de problema a ser resolvido, além dos conhecimentos sobre os 
+padrões de entrada\cite{principe2000neural}. Para o trabalho em questão, duas funções foram escolhidas, uma para as camadas escondidas e uma
+para a camada de saída.
 
+Para camadas escondidas, a função ReLU foi escolhida, uma vez que
+preserva algumas propriedades interessantes de funções lineares e
+faz com que a otimização com descida do gradiente seja fácil
+\cite{Goodfellow-et-al-2016}.
+
+\begin{equation}
+	RELU(x) = 
+	\begin{cases}
+		0, & \text{if} ~ x < 0 \\
+		1, & \text{if} ~ x \geq 0
+	\end{cases}
+\end{equation}
+
+Já para a camada de saída, a função escolhida foi a Sotfmax, que 
+apresenta resultados geralmente bons para problemas de classificação
+multi classe. Essa função transforma as saídas de cada neurônio
+para um valor entre $ 0 $ e $ 1 $, como uma função sigmoide. Além
+disso, ela também faz com que a soma total das saídas seja igual a 
+$ 1 $.
+
+\subsection{Função de Custo}
+
+A rede implementada no trabalho utiliza o conceito de
+\textit{back-propagation}, com o qual os erros da saída da camada
+de saída são passados de volta para os neurônios internos, que usam
+esses erros para calcular seus próprios erros e atualizar seus pesos.
+Esse algoritmo é baseado na otimização de uma função de custo através
+do método de descida do gradiente. Dessa forma, é também uma decisão
+de implementação escolher a função de custo do algoritmo. Para esse
+trabalho, a função escolhida foi a \textit{cross-entropy}
 
 \subsection{Validação Cruzada}
 
+A fim de garantir que os resultados de generalização da rede não estejam
+sendo obtidos ao acaso, foi implementado um sistema de validação cruzada
+de 3 partições. Nesse sistema, o conjunto de dados de entrada é separado
+em 3 partes, sendo que, a cada momento, duas delas são usadas para
+treino e a parte restante para teste.
+
 \subsection{Codificação da Saída}
+
+Tendo em vista que os dados de entrada apresentam as classes de saída
+como strings, foi necessário transformá-las para alimentar a rede neural.
+Essas strings que representam as classes foram codificadas utilizando
+o sistema de variáveis categóricas distribuídas. Dessa forma, cada uma
+delas foi transformada em um vetor de zeros e uns.
 
 \section{IMPLEMENTAÇÃO}
 
@@ -176,8 +226,6 @@ de uma nova camada.
 
 
 \section{REFERÊNCIAS}
-
-
 
 \bibliographystyle{sbc}
 \bibliography{sbc-template}
