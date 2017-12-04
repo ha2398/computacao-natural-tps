@@ -6,7 +6,7 @@ from subprocess import call
 
 X = 'Época'
 Y = 'Acurácia'
-TITLE = X + ' x ' + Y + ' (por taxa de aprendizado)'
+TITLE = X + ' x ' + Y + ' (por decaimento de taxa de aprendizado)'
 
 try:
 	call(['rm', '-rf', 'plot_commands.gp'])

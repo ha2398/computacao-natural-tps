@@ -112,7 +112,7 @@ múltiplas camadas) -, que é uma versão da rede \textit{Perceptron}
 generalizada para conter múltiplas camadas escondidas de neurônios.
 A Figura \ref{fig:mlp} mostra a estrutura da rede MLP.
 
-\begin{figure}[!htbp]
+\begin{figure}[h]
   \centering
   \includegraphics[width=1\textwidth]{mlp.jpg}
   \caption{Estrutura da rede \textit{Multilayer Perceptron}. Vemos
@@ -266,6 +266,178 @@ diretório raiz do projeto:
 \end{itemize}
 
 \section{EXPERIMENTOS} \label{sec:exp}
+
+A fim de verificar o comportamento da rede de acordo com os diversos
+parâmetros do programa, uma série de experimentos foi realizada. Para
+cada um deles, um parâmetro foi variável (aquele que buscava-se 
+determinar), enquanto os outros foram mantidos fixos.
+Além disso, para cada configuração de parâmetros, o programa foi
+executado com $ 10 $ sementes diferentes, obtendo-se assim, ao final
+de cada experimento, a média dos valores de cada execução.
+Todos os testes foram executados em um computador i7-5500U CPU @ 
+$ 2.40 $ GHz x 4, com Ubuntu 14.04 e $ 7.7 $ GB de memória RAM.
+
+\subsection{Experimento 1 - Número de neurônios}
+
+O primeiro experimento serviu para determinar o número de neurônios a ser
+utilizado em cada camada escondida da rede. Para isso, os parâmetros
+foram utilizados como descrito na Tabela \ref{tab:exp1} e o resultado
+do experimento é mostrado na Figura \ref{fig:exp1}.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Parâmetro} & \textbf{Valor(es)} \\ \hline
+		e & 100 \\ \hline
+		l & 1 \\ \hline
+		n & 8, 16, 32, 64, 128 \\ \hline
+		b & 10 \\ \hline
+		r & 0.05 \\ \hline
+		d & 0 \\ \hline
+		s & 10 para cada n \\ \hline
+	\end{tabular}
+	\caption{\label{tab:exp1} Valores de parâmetros para o Experimento
+	1.}
+\end{table}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{../tests/1-neurons/graph.png}
+  \caption{Experimento 1 - Época x Acurácia da rede para diferentes
+  números de neurônios na camada escondida.}
+  \label{fig:exp1}
+\end{figure}
+
+Vemos então que o aumento no número de neurônios sempre acarreta em uma
+convergência mais rápida, além da rede conseguir alcançar valores mais
+altos de acurácia para o mesmo número de épocas. Nessa configuração,
+uma boa escolha para número de neurônios é então o valor $ 32 $ que,
+quando comparado com os outros valores, possui uma velocidade de
+convergência razoável, além de não perder muito em acurácia em relação
+aos valores de $ 64 $ e $ 128 $ neurônios.
+
+\subsection{Experimento 2 - Número de camadas escondidas}
+
+Uma vez determinado o número de neurônios a utilizar, precisamos
+determinar quantas camadas escondidas usar na rede. De forma análoga
+ao Experimento 1, os parâmetros utilizados nesse teste são mostrados
+na Tabela \ref{tab:exp2} e o resultado do experimento é apresentado
+na Figura \ref{fig:exp2}.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Parâmetro} & \textbf{Valor(es)} \\ \hline
+		e & 200 \\ \hline
+		l & 1, 2, 4, 6, 8 \\ \hline
+		n & 32 \\ \hline
+		b & 10 \\ \hline
+		r & 0.05 \\ \hline
+		d & 0 \\ \hline
+		s & 10 para cada l \\ \hline
+	\end{tabular}
+	\caption{\label{tab:exp2} Valores de parâmetros para o Experimento
+	2.}
+\end{table}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{../tests/2-layers/graph.png}
+  \caption{Experimento 2 - Época x Acurácia da rede para diferentes
+  números de camadas escondidas.}
+  \label{fig:exp2}
+\end{figure}
+
+Para esse experimento podemos verificar que com $ 4 $ camadas escondidas,
+a rede consegue o maior valor de acurácia ao final das épocas, além 
+de não apresentar convergência imatura, quando comparada com os valores
+de $ 1 $ e $ 2 $ camadas.
+
+\subsection{Experimento 3 - Taxa de aprendizado}
+
+Com o número de camadas escondidas e número de neurônios em cada camada
+determinados, o próximo parâmetro a definir é a taxa de aprendizado
+da rede. Os parâmetros do experimento são mostrados na Tabela
+\ref{tab:exp3} e os resultados do mesmo são apresentados na Figura
+\ref{fig:exp3}.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Parâmetro} & \textbf{Valor(es)} \\ \hline
+		e & 200 \\ \hline
+		l & 4 \\ \hline
+		n & 32 \\ \hline
+		b & 10 \\ \hline
+		r & 0.05, 0.1, 0.2, 0.4, 0.6, 0.9 \\ \hline
+		d & 0 \\ \hline
+		s & 10 para cada r \\ \hline
+	\end{tabular}
+	\caption{\label{tab:exp3} Valores de parâmetros para o Experimento
+	3.}
+\end{table}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{../tests/3-lrate/graph.png}
+  \caption{Experimento 3 - Época x Acurácia da rede para diferentes
+  valores de taxa de aprendizado.}
+  \label{fig:exp3}
+\end{figure}
+
+Com o resultado desse teste podemos verificar uma curiosa anomalia:
+para valores a partir de $ 0.4 $ o desempenho da rede se torna 
+extremamente ruim, sendo a mesma incapaz de aprender. A escolha fica
+então entre os valores de $ 0.05 $ e $ 0.1 $, que atingem valores
+muito próximos de acurácia. O desempate fica então pelo fator de
+convergência, escolhendo-se assim o valor $ 0.05 $, para o qual a
+convergência não ocorre tão rapidamente quanto com taxa de
+aprendizado igual a $ 0.1 $.
+
+\subsection{Experimento 4 - Taxa de decaimento da taxa de aprendizado}
+
+Além de fixar a taxa de aprendizado, podemos verificar o que acontece
+quando a fazemos variar com o tempo. Para isso, é possível
+especificar uma taxa de decaimento para a taxa de aprendizado, que é
+então reduzida automaticamente ao longo das épocas de treino.
+No experimento 4 isso foi feito com os parâmetros mostrados na Tabela
+\ref{tab:exp4}, obtendo os resultados mostrado na Figura 
+\ref{fig:exp4}.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Parâmetro} & \textbf{Valor(es)} \\ \hline
+		e & 200 \\ \hline
+		l & 4 \\ \hline
+		n & 32 \\ \hline
+		b & 10 \\ \hline
+		r & 0.05 \\ \hline
+		d & 0.01, 0.02, 0.04, 0.08, 0.1 \\ \hline
+		s & 10 para cada d \\ \hline
+	\end{tabular}
+	\caption{\label{tab:exp4} Valores de parâmetros para o Experimento
+	4.}
+\end{table}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{../tests/4-lrdecay/graph.png}
+  \caption{Experimento 4 - Época x Acurácia da rede para diferentes
+  valores de decaimento taxa de aprendizado.}
+  \label{fig:exp4}
+\end{figure}
+
+Aqui percebemos que, com uma taxa de decaimento para a taxa de
+aprendizado, somente retardamos a convergência da rede. Nessa situação
+optou-se por não utilizar uma taxa de decaimento, isto é, usar
+$ d = 0 $.
+
+\subsection{Experimento 5 - Tamanho de batch}
 
 
 

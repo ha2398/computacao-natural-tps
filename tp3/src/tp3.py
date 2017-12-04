@@ -9,6 +9,7 @@ tp3.py: Artificial Neural Networks
 
 import argparse as ap
 import numpy as np
+from time import time
 
 # Add comand line arguments
 parser = ap.ArgumentParser()
@@ -176,13 +177,18 @@ def main():
 	for training, test in k_fold_cross_validation(indices, K=3):
 		output.write('[+] Fold ' + str(cur_K) + '\n')
 		network = create_network(num_features, num_classes)
+		t_init = time()
 		mfit = network.fit(X[training], categorical_Y[training],
 			epochs=args.EPOCHS, batch_size=args.BATCHSIZE, verbose=0)
+		t_final = time()
 		meval = network.evaluate(X[test], categorical_Y[test])
+
+		train_time = t_final - t_init
 
 		output.write('acc: ' + str(mfit.history['acc']) + '\n')
 		output.write('loss: ' + str(mfit.history['loss']) + '\n')
 		output.write('test: ' + str(meval) + '\n')
+		output.write('time: ' + str(train_time) + '\n')
 		output.write('\n')
 		cur_K += 1 
 
