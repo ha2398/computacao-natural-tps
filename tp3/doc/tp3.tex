@@ -458,7 +458,7 @@ resultados do mesmo são ilustrados nas Figuras \ref{fig:exp51} e
 		e & 200 \\ \hline
 		l & 4 \\ \hline
 		n & 32 \\ \hline
-		b & {1, 1, 25, 50, 100} \\ \hline
+		b & {1, 10, 25, 50, 100} \\ \hline
 		r & 0.05 \\ \hline
 		d & 0 \\ \hline
 		s & 10 para cada b \\ \hline
@@ -496,11 +496,61 @@ comparamos acurácia obtida e tempo de treinamento.
 
 \subsection{Experimento 6 - Overfitting}
 
+Após os experimentos anteriores, todos os parâmetros já foram determinados.
+Resta agora determinar se a rede está sofrendo de overfitting ou não, isto é,
+se sua capacidade de generalização é baixa. Para verificar isso, basta
+observarmos a diferença entre os valores de acurácia ao fim de cada treino
+e para cada teste. Os parâmetros utilizados no experimento são mostrados
+na Tabela \ref{tab:exp6} e os resultados podem ser verificados na Figura
+\ref{fig:exp6}.
 
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Parâmetro} & \textbf{Valor(es)} \\ \hline
+		e & 200 \\ \hline
+		l & 4 \\ \hline
+		n & 32 \\ \hline
+		b & 10 \\ \hline
+		r & 0.05 \\ \hline
+		d & 0 \\ \hline
+		s & 10 para cada execução \\ \hline
+	\end{tabular}
+	\caption{\label{tab:exp6} Valores de parâmetros para o Experimento
+	6.}
+\end{table}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{../tests/6-overfit/graph.png}
+  \caption{Experimento 6 - Diferença entre acurácia de treino e teste
+  para as 3 partições de validação cruzada.}
+  \label{fig:exp6}
+\end{figure}
+
+Podemos perceber que há sim uma leve diferença entre a acurácia de treino
+e a de testo, o que indica a existência de overfitting. Para evitar tal situação,
+podemos simplificar a rede o máximo possível, tanto na arquitetura quando nos 
+parâmetros que utilizamos para treiná-la, pois assim a rede dará maior
+importância às maiores regularidades nos dados e as menores não terão grande
+foco, o que é interessante pois essas podem ser resultados de ruídos nos dados
+de entrada \cite{Theodoridis:2008:PRF:1457541}.
 
 \section{CONCLUSÃO}
 
+O trabalho em questão foi de grande importância para fixar os conceitos vistos
+durante a disciplina Computação Natural na área de redes neurais artificiais.
+Além de fornecer um arcabouço prático através da utilização de bibliotecas
+que implementam redes neurais artificiais, o conhecimento também veio em
+grande parte dos experimentos realizados, determinando parâmetros para a
+rede, vendo como estes afetam o desempenho da mesma e observando e estudando
+cada uma das decisões de implementação que tiveram impacto direto na
+arquitetura da rede criada.
 
+De maneira geral, o trabalho se deu sem maiores problemas, sendo o principal
+deles o tempo necessário para configurar as bibliotecas e aprender o mínimo
+necessário para utilizá-las.
 
 \section{REFERÊNCIAS}
 
