@@ -1,0 +1,10 @@
+Test 5 - Batch size
+
+Arguments:
+e:	200
+l:	4
+n:	32
+b:	{1, 10, 25, 50, 100}
+r:	0.05
+d:	0
+s:	10 for each b

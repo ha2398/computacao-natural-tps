@@ -1,0 +1,10 @@
+Test 6 - Overfitting
+
+Arguments:
+e:	200
+l:	4
+n:	32
+b:	10
+r:	0.05
+d:	0
+s:	10 for each run

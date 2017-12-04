@@ -439,6 +439,63 @@ $ d = 0 $.
 
 \subsection{Experimento 5 - Tamanho de batch}
 
+Em seguida, o objetivo foi comparar o treinamento da rede com o método
+de descida de gradiente estocástico com o uso de mini-batches. Com
+o uso de mini-batches de tamanho $ b $, os pesos da rede só são atualizados
+após $ b $ exemplos serem alimentados à mesma, ao contrário da abordagem
+tradicional onde cada exemplo atualiza os pesos ($ b = 1 $). Dessa forma,
+o experimento procurou verificar o ganho a acurácia da rede para diferentes
+valores de $ b $ e como o tempo computacional é afetado por esse parâmetro.
+Os parâmetros do experimento são mostrados na Tabela \ref{tab:exp5} e os
+resultados do mesmo são ilustrados nas Figuras \ref{fig:exp51} e
+\ref{fig:exp52}.
+
+\begin{table}[h]
+	\centering
+	\begin{tabular}{|c|c|}
+		\hline
+		\textbf{Parâmetro} & \textbf{Valor(es)} \\ \hline
+		e & 200 \\ \hline
+		l & 4 \\ \hline
+		n & 32 \\ \hline
+		b & {1, 1, 25, 50, 100} \\ \hline
+		r & 0.05 \\ \hline
+		d & 0 \\ \hline
+		s & 10 para cada b \\ \hline
+	\end{tabular}
+	\caption{\label{tab:exp5} Valores de parâmetros para o Experimento
+	5.}
+\end{table}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{../tests/5-batch/graph1.png}
+  \caption{Experimento 5 - Época x Acurácia da rede para diferentes
+  valores de tamanho de mini-batch.}
+  \label{fig:exp51}
+\end{figure}
+
+\begin{figure}[h]
+  \centering
+  \includegraphics[width=1\textwidth]{../tests/5-batch/graph2.png}
+  \caption{Experimento 5 - Tempo de treinamento x tamanho de mini-batch
+  utilizado.}
+  \label{fig:exp52}
+\end{figure}
+
+Na Figura \ref{fig:exp51} vemos que a convergência da acurácia da rede
+se torna gradativamente mais lenta, quando variamos o tamanho do mini-batch
+de $ 10 $ até $ 100 $. Além disso, vemos que com tamanho igual a $ 1 $
+para mini-batch, a rede sofre uma anomalia que a impede de aprender ao longo
+do tempo.
+
+Em relação ao tempo de treinamento, vemos que esse decai de forma exponencial
+com o aumento do tamanho do mini-batch. Sendo assim, o tamanho de mini-batch
+escolhido é $ 10 $, uma vez que apresenta melhor custo benefício quando
+comparamos acurácia obtida e tempo de treinamento.
+
+\subsection{Experimento 6 - Overfitting}
+
 
 
 \section{CONCLUSÃO}
